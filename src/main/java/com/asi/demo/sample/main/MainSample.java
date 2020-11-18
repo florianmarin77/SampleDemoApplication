@@ -87,12 +87,20 @@ public class MainSample {
 
         System.out.println("============================================================> CONTROLLER BY HIBERNATE");
 
-        // save by faker
+        // save all by faker
         System.out.println(sampleController.saveAllByFaker());
         System.out.println();
 
-        // save by loader
+        // save all by loader
         System.out.println(sampleController.saveAllByLoader());
+        System.out.println();
+
+        // save one by faker
+        System.out.println(sampleController.saveOneByFaker());
+        System.out.println();
+
+        // save one by loader
+        System.out.println(sampleController.saveOneByLoader());
         System.out.println();
 
         // create by save
@@ -188,12 +196,20 @@ public class MainSample {
 
         System.out.println("============================================================> CONTROLLER BY JDBC");
 
-        // save by faker
+        // save all by faker
         System.out.println(sampleController.saveAllByFaker());
         System.out.println();
 
-        // save by loader
+        // save all by loader
         System.out.println(sampleController.saveAllByLoader());
+        System.out.println();
+
+        // save one by faker
+        System.out.println(sampleController.saveOneByFaker());
+        System.out.println();
+
+        // save one by loader
+        System.out.println(sampleController.saveOneByLoader());
         System.out.println();
 
         // create by save
@@ -289,12 +305,20 @@ public class MainSample {
 
         System.out.println("============================================================> CONTROLLER BY JPA");
 
-        // save by faker
+        // save all by faker
         System.out.println(sampleController.saveAllByFaker());
         System.out.println();
 
-        // save by loader
+        // save all by loader
         System.out.println(sampleController.saveAllByLoader());
+        System.out.println();
+
+        // save one by faker
+        System.out.println(sampleController.saveOneByFaker());
+        System.out.println();
+
+        // save one by loader
+        System.out.println(sampleController.saveOneByLoader());
         System.out.println();
 
         // create by save
