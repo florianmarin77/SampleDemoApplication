@@ -18,9 +18,11 @@ public class SampleFaker {
         return dummies;
     }
 
-    public static SampleRequestDto createDummy() {
+    public static List<SampleRequestDto> createDummy() {
+        List<SampleRequestDto> dummies = new ArrayList<>();
         SampleRequestDto dummy = new SampleRequestDto();
-        dummy.setText(new RandomString().nextString());
-        return dummy;
+        dummy.setText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        dummies.add(dummy);
+        return dummies;
     }
 }

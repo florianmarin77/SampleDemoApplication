@@ -16,30 +16,30 @@ public class ConsoleMenu {
                 }
                 break;
                 case 1: {
-                    boolean exitUserMenu = false;
+                    boolean exitSampleMenu = false;
                     do {
-                        displayUserMenu();
-                        int selectedUserOperation = SCANNER.nextInt();
-                        switch (selectedUserOperation) {
+                        displaySampleMenu();
+                        int selectedSampleOperation = SCANNER.nextInt();
+                        switch (selectedSampleOperation) {
                             case 0: {
-                                exitUserMenu = true;
+                                exitSampleMenu = true;
                                 System.out.println("#0 MAIN MENU exit");
                             }
                             break;
                             case 1: {
-                                System.out.println("#1 USER MENU create");
+                                System.out.println("#1 SAMPLE MENU create");
                             }
                             break;
                             case 2: {
-                                System.out.println("#2 USER MENU read");
+                                System.out.println("#2 SAMPLE MENU read");
                             }
                             break;
                             case 3: {
-                                System.out.println("#3 USER MENU update");
+                                System.out.println("#3 SAMPLE MENU update");
                             }
                             break;
                             case 4: {
-                                System.out.println("#4 USER MENU delete");
+                                System.out.println("#4 SAMPLE MENU delete");
                             }
                             break;
                             default: {
@@ -47,42 +47,7 @@ public class ConsoleMenu {
                             }
                             break;
                         }
-                    } while (!exitUserMenu);
-                }
-                break;
-                case 2: {
-                    boolean exitBookMenu = false;
-                    do {
-                        displayBookMenu();
-                        int selectedBookOperation = SCANNER.nextInt();
-                        switch (selectedBookOperation) {
-                            case 0: {
-                                exitBookMenu = true;
-                                System.out.println("#0 MAIN MENU exit");
-                            }
-                            break;
-                            case 1: {
-                                System.out.println("#1 BOOK MENU create");
-                            }
-                            break;
-                            case 2: {
-                                System.out.println("#2 BOOK MENU read");
-                            }
-                            break;
-                            case 3: {
-                                System.out.println("#3 BOOK MENU update");
-                            }
-                            break;
-                            case 4: {
-                                System.out.println("#4 BOOK MENU delete");
-                            }
-                            break;
-                            default: {
-                                System.out.println("Please enter a valid operation!");
-                            }
-                            break;
-                        }
-                    } while (!exitBookMenu);
+                    } while (!exitSampleMenu);
                 }
                 break;
                 default: {
@@ -94,25 +59,14 @@ public class ConsoleMenu {
         System.out.println("Thank you!");
     }
 
-    private static void displayBookMenu() {
-        System.out.println("BOOK MENU");
-        System.out.println("----------");
-        System.out.println("0. Main menu");
-        System.out.println("1. Save book");
-        System.out.println("2. Find book");
-        System.out.println("3. Update book");
-        System.out.println("4. Delete book");
-        System.out.println("Please select an operation:");
-    }
-
-    private static void displayUserMenu() {
-        System.out.println("USER MENU");
+    private static void displaySampleMenu() {
+        System.out.println("SAMPLE MENU");
         System.out.println("---------");
         System.out.println("0. Main menu");
-        System.out.println("1. Save user");
-        System.out.println("2. Find user");
-        System.out.println("3. Update user");
-        System.out.println("4. Delete user");
+        System.out.println("1. Save sample");
+        System.out.println("2. Find sample");
+        System.out.println("3. Update sample");
+        System.out.println("4. Delete sample");
         System.out.println("Please select an operation:");
     }
 
@@ -120,8 +74,7 @@ public class ConsoleMenu {
         System.out.println("MAIN MENU");
         System.out.println("---------");
         System.out.println("0. Exit");
-        System.out.println("1. Users");
-        System.out.println("2. Books");
+        System.out.println("1. Samples");
         System.out.println("Please make your choice:");
     }
 }

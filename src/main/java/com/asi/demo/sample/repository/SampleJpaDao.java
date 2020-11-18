@@ -21,7 +21,7 @@ public class SampleJpaDao implements SampleRepository {
         List<Sample> entities = SampleDatabase.displayDataTable(samples);
 
         if (isDone) {
-            System.out.println(entities);
+            System.out.println("Return dao data: " + entities);
             System.out.println(SOURCE + "CREATE=TRUE/SIZE=" + entities.size() + "/all");
         } else {
             System.out.println(SOURCE + "CREATE=FALSE/SIZE=" + 0 + "/all");
@@ -43,7 +43,7 @@ public class SampleJpaDao implements SampleRepository {
             entity.setId(fakeId);
             entity.setText(sample.getText());
 
-            System.out.println(entity);
+            System.out.println("Return dao data: " + entity);
             System.out.println(SOURCE + "CREATE=TRUE/ID=" + entity.getId());
         } else {
             entity = null;
@@ -74,7 +74,7 @@ public class SampleJpaDao implements SampleRepository {
                 entity.setText(fakeText);
                 entities.add(entity);
             }
-            System.out.println(entities);
+            System.out.println("Return dao data: " + entities);
             System.out.println(SOURCE + "FIND=TRUE/SIZE=" + entities.size() + "/all");
         } else {
             System.out.println(SOURCE + "FIND=FALSE/SIZE=" + 0 + "/all");
@@ -99,7 +99,7 @@ public class SampleJpaDao implements SampleRepository {
                 entity.setText(text);
                 entities.add(entity);
             }
-            System.out.println(entities);
+            System.out.println("Return dao data: " + entities);
             System.out.println(SOURCE + "FIND=TRUE/SIZE=" + entities.size() + "/" + text);
         } else {
             System.out.println(SOURCE + "FIND=FALSE/SIZE=" + 0 + "/" + text);
@@ -121,7 +121,7 @@ public class SampleJpaDao implements SampleRepository {
             entity.setId(id);
             entity.setText(fakeText);
 
-            System.out.println(entity);
+            System.out.println("Return dao data: " + entity);
             System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
         } else {
             entity = null;
@@ -142,7 +142,7 @@ public class SampleJpaDao implements SampleRepository {
         if (isDone) {
             entity.setId(id);
             entity.setText(sampleData.getText());
-            System.out.println(entity);
+            System.out.println("Return dao data: " + entity);
             System.out.println(SOURCE + "UPDATE=TRUE/ID=" + id);
         } else {
             entity = null;

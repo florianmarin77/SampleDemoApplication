@@ -27,8 +27,8 @@ public class MainSample {
         SampleService sampleHibernateService = new SampleHibernateServiceImpl(sampleHibernateDao);
         SampleController sampleController = new SampleController(sampleHibernateService);
 
-        Sample sample1 = new Sample("#0123456789");
-        Sample sample2 = new Sample("@0123456789");
+        Sample sample1 = new Sample("0123456789");
+        Sample sample2 = new Sample("9876543210");
         List<Sample> samples = new ArrayList<>();
         samples.add(sample1);
         samples.add(sample2);
@@ -88,23 +88,24 @@ public class MainSample {
         System.out.println("============================================================> CONTROLLER BY HIBERNATE");
 
         // save all by faker
-        System.out.println(sampleController.saveAllByFaker());
+        System.out.println("Return service data: " + sampleController.saveAllByFaker());
         System.out.println();
 
         // save all by loader
-        System.out.println(sampleController.saveAllByLoader());
+        System.out.println("Return service data: " + sampleController.saveAllByLoader());
         System.out.println();
 
         // save one by faker
-        System.out.println(sampleController.saveOneByFaker());
+        System.out.println("Return service data: " + sampleController.saveOneByFaker());
         System.out.println();
 
         // save one by loader
-        System.out.println(sampleController.saveOneByLoader());
+        System.out.println("Return service data: " + sampleController.saveOneByLoader());
         System.out.println();
 
         // create by save
         System.out.println(sampleController.save(SampleMapper.toRequestDto(new Sample("controller create"))));
+        System.out.println();
 
         // find by id
         System.out.println(sampleController.getById(5));
@@ -197,23 +198,24 @@ public class MainSample {
         System.out.println("============================================================> CONTROLLER BY JDBC");
 
         // save all by faker
-        System.out.println(sampleController.saveAllByFaker());
+        System.out.println("Return service data: " + sampleController.saveAllByFaker());
         System.out.println();
 
         // save all by loader
-        System.out.println(sampleController.saveAllByLoader());
+        System.out.println("Return service data: " + sampleController.saveAllByLoader());
         System.out.println();
 
         // save one by faker
-        System.out.println(sampleController.saveOneByFaker());
+        System.out.println("Return service data: " + sampleController.saveOneByFaker());
         System.out.println();
 
         // save one by loader
-        System.out.println(sampleController.saveOneByLoader());
+        System.out.println("Return service data: " + sampleController.saveOneByLoader());
         System.out.println();
 
         // create by save
         System.out.println(sampleController.save(SampleMapper.toRequestDto(new Sample("controller create"))));
+        System.out.println();
 
         // find by id
         System.out.println(sampleController.getById(5));
@@ -306,23 +308,24 @@ public class MainSample {
         System.out.println("============================================================> CONTROLLER BY JPA");
 
         // save all by faker
-        System.out.println(sampleController.saveAllByFaker());
+        System.out.println("Return service data: " + sampleController.saveAllByFaker());
         System.out.println();
 
         // save all by loader
-        System.out.println(sampleController.saveAllByLoader());
+        System.out.println("Return service data: " + sampleController.saveAllByLoader());
         System.out.println();
 
         // save one by faker
-        System.out.println(sampleController.saveOneByFaker());
+        System.out.println("Return service data: " + sampleController.saveOneByFaker());
         System.out.println();
 
         // save one by loader
-        System.out.println(sampleController.saveOneByLoader());
+        System.out.println("Return service data: " + sampleController.saveOneByLoader());
         System.out.println();
 
         // create by save
         System.out.println(sampleController.save(SampleMapper.toRequestDto(new Sample("controller create"))));
+        System.out.println();
 
         // find by id
         System.out.println(sampleController.getById(5));

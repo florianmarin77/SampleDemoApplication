@@ -35,17 +35,17 @@ public class SampleController {
     }
 
     // POST => "/samples/fake/save/one"
-    public SampleResponseDto saveOneByFaker() {
+    public List<SampleResponseDto> saveOneByFaker() {
         System.out.println(SOURCE + "POST/samples/fake/save/one");
-        SampleRequestDto request = SampleFaker.createDummy();
-        return sampleService.create(request);
+        List<SampleRequestDto> requests = SampleFaker.createDummy();
+        return sampleService.createAll(requests);
     }
 
     // POST => "/samples/load/save/one"
-    public SampleResponseDto saveOneByLoader() {
+    public List<SampleResponseDto> saveOneByLoader() {
         System.out.println(SOURCE + "POST/samples/load/save/one");
-        SampleRequestDto request = SampleLoader.generateItem();
-        return sampleService.create(request);
+        List<SampleRequestDto> requests = SampleLoader.generateItem();
+        return sampleService.createAll(requests);
     }
 
     // POST => "samples/save"

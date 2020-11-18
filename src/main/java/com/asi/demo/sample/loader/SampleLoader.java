@@ -17,9 +17,11 @@ public class SampleLoader {
         return items;
     }
 
-    public static SampleRequestDto generateItem() {
+    public static List<SampleRequestDto> generateItem() {
+        List<SampleRequestDto> items = new ArrayList<>();
         SampleRequestDto item = new SampleRequestDto();
         item.setText("0123456789");
-        return item;
+        items.add(item);
+        return items;
     }
 }

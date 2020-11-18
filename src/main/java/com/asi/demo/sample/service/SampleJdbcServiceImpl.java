@@ -13,7 +13,7 @@ public class SampleJdbcServiceImpl implements SampleService {
     private static final String SOURCE = "JDBC-SERVICE => ";
 
     private final SampleRepository sampleRepository;
-    
+
     // =================> constructor
 
     public SampleJdbcServiceImpl(SampleRepository sampleRepository) {
