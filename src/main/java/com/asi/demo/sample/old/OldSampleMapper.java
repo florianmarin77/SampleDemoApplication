@@ -12,23 +12,19 @@ public class OldSampleMapper {
 
     public OldSampleDto convertToDto(Sample entity) {
         OldSampleDto dto = new OldSampleDto();
-
         dto.setId(entity.getId());
         dto.setText(entity.getText());
-
         return dto;
     }
 
     public List<OldSampleDto> convertToDto(List<Sample> entities) {
         List<OldSampleDto> dtos = new ArrayList<>();
-
         for (Sample item : entities) {
             OldSampleDto dto = new OldSampleDto();
             dto.setId(item.getId());
             dto.setText(item.getText());
             dtos.add(dto);
         }
-
         return dtos;
     }
 
@@ -42,23 +38,19 @@ public class OldSampleMapper {
 
     public Sample convertToEntity(OldSampleDto dto) {
         Sample entity = new Sample();
-
         entity.setId(dto.getId());
         entity.setText(dto.getText());
-
         return entity;
     }
 
     public List<Sample> convertToEntity(List<OldSampleDto> dtos) {
         List<Sample> entities = new ArrayList<>();
-
         for (OldSampleDto item : dtos) {
             Sample entity = new Sample();
             entity.setId(item.getId());
             entity.setText(item.getText());
             entities.add(entity);
         }
-
         return entities;
     }
 

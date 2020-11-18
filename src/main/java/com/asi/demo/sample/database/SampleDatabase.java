@@ -27,10 +27,10 @@ public class SampleDatabase {
         }
         displayOutsideLine(textLength);
         System.out.println();
-        return entities; // never used, display only
+        return entities;
     }
 
-    public static void displayOutsideLine(int textLength) {
+    private static void displayOutsideLine(int textLength) {
         System.out.print("+------");
         for (int k = 0; k < textLength; k++) {
             System.out.print("-");
@@ -39,7 +39,7 @@ public class SampleDatabase {
         System.out.println();
     }
 
-    public static void displayInsideLine(int textLength) {
+    private static void displayInsideLine(int textLength) {
         System.out.print("-------");
         for (int k = 0; k < textLength; k++) {
             System.out.print("-");
@@ -48,7 +48,7 @@ public class SampleDatabase {
         System.out.println();
     }
 
-    public static void displayDataLine(int id, String text) {
+    private static void displayDataLine(int id, String text) {
         System.out.print("| ");
         if (id < 10) {
             System.out.print("0");

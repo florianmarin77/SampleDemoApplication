@@ -15,7 +15,7 @@ public interface SampleRepository {
      * @param samples a list of samples to be saved
      * @return true if all samples are created
      */
-    boolean createAll(List<Sample> samples);
+    List<Sample> createAll(List<Sample> samples);
 
     /**
      * Inserts a complete sample in the database.

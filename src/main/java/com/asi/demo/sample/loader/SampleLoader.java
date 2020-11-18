@@ -1,19 +1,25 @@
 package com.asi.demo.sample.loader;
 
-import com.asi.demo.sample.Sample;
+import com.asi.demo.sample.SampleRequestDto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SampleLoader {
-    public List<Sample> generateList() {
-        List<Sample> samples = new ArrayList<>();
+    public static List<SampleRequestDto> generateItemList() {
+        List<SampleRequestDto> items = new ArrayList<>();
         String numText = "0123456789";
         for (char k = 'A'; k <= 'Z'; k++) {
-            Sample sample = new Sample();
-            sample.setText(k + numText);
-            samples.add(sample);
+            SampleRequestDto item = new SampleRequestDto();
+            item.setText(k + numText);
+            items.add(item);
         }
-        return samples;
+        return items;
+    }
+
+    public static SampleRequestDto generateItem() {
+        SampleRequestDto item = new SampleRequestDto();
+        item.setText("0123456789");
+        return item;
     }
 }

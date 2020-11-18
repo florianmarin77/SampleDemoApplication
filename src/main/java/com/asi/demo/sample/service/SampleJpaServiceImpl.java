@@ -23,20 +23,18 @@ public class SampleJpaServiceImpl implements SampleService {
     // -------------------------------------------- CRUD => CREATE
 
     @Override
-    public boolean createAll(List<SampleRequestDto> requestDtos) {
+    public List<SampleResponseDto> createAll(List<SampleRequestDto> requests) {
         System.out.println(SOURCE + "CREATE/all");
 
-        List<Sample> samples = SampleMapper.toEntity(requestDtos);
-
-        return sampleRepository.createAll(samples);
+        List<Sample> samples = SampleMapper.toEntity(requests);
+        return SampleMapper.toResponseDto(sampleRepository.createAll(samples));
     }
 
     @Override
-    public SampleResponseDto create(SampleRequestDto requestDto) {
+    public SampleResponseDto create(SampleRequestDto request) {
         System.out.println(SOURCE + "CREATE");
 
-        Sample sample = SampleMapper.toEntity(requestDto);
-
+        Sample sample = SampleMapper.toEntity(request);
         Optional<Sample> optional = sampleRepository.create(sample);
 
         if (optional.isPresent()) {

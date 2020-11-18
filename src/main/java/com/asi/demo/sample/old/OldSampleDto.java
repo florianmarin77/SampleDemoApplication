@@ -5,7 +5,6 @@ import java.util.Objects;
 public class OldSampleDto {
 
     private int id;
-
     private String text;
 
     // =================> getters & setters

@@ -1,6 +1,7 @@
 package com.asi.demo.sample.repository;
 
 import com.asi.demo.sample.Sample;
+import com.asi.demo.sample.database.SampleDatabase;
 import net.bytebuddy.utility.RandomString;
 
 import java.util.ArrayList;
@@ -14,32 +15,19 @@ public class SampleJpaDao implements SampleRepository {
     // -------------------------------------------- CRUD => CREATE
 
     @Override
-    public boolean createAll(List<Sample> samples) {
+    public List<Sample> createAll(List<Sample> samples) {
         boolean isDone = true; // scenario setup
 
-        if (samples.isEmpty()) {
-            System.out.println("ERROR: SAMPLES LIST IS EMPTY!");
-            return false;
-        }
-
-        List<Sample> entities = new ArrayList<>();
+        List<Sample> entities = SampleDatabase.displayDataTable(samples);
 
         if (isDone) {
-            int k = 0;
-            for (Sample item : samples) {
-                k++;
-                Sample entity = new Sample();
-                entity.setId(k);
-                entity.setText(item.getText());
-                entities.add(entity);
-            }
             System.out.println(entities);
             System.out.println(SOURCE + "CREATE=TRUE/SIZE=" + entities.size() + "/all");
         } else {
             System.out.println(SOURCE + "CREATE=FALSE/SIZE=" + 0 + "/all");
         }
 
-        return isDone;
+        return entities;
     }
 
     @Override

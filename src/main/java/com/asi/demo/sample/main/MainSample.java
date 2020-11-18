@@ -87,16 +87,16 @@ public class MainSample {
 
         System.out.println("============================================================> CONTROLLER BY HIBERNATE");
 
+        // save by faker
+        System.out.println(sampleController.saveAllByFaker());
+        System.out.println();
+
+        // save by loader
+        System.out.println(sampleController.saveAllByLoader());
+        System.out.println();
+
         // create by save
-        System.out.println(sampleController.saveItem(SampleMapper.toRequestDto(new Sample("controller create"))));
-
-        // populate by faker
-        System.out.println("Samples created by faker: " + sampleController.populateByFaker());
-        System.out.println();
-
-        // populate by loader
-        System.out.println("Samples created by loader: " + sampleController.populateByLoader());
-        System.out.println();
+        System.out.println(sampleController.save(SampleMapper.toRequestDto(new Sample("controller create"))));
 
         // find by id
         System.out.println(sampleController.getById(5));
@@ -124,7 +124,6 @@ public class MainSample {
     }
 
     private static void testJdbcImplementation() {
-        SampleMapper SampleMapper = new SampleMapper();
         SampleRepository sampleJdbcDao = new SampleJdbcDao();
         SampleService sampleJdbcService = new SampleJdbcServiceImpl(sampleJdbcDao);
         SampleController sampleController = new SampleController(sampleJdbcService);
@@ -189,16 +188,16 @@ public class MainSample {
 
         System.out.println("============================================================> CONTROLLER BY JDBC");
 
+        // save by faker
+        System.out.println(sampleController.saveAllByFaker());
+        System.out.println();
+
+        // save by loader
+        System.out.println(sampleController.saveAllByLoader());
+        System.out.println();
+
         // create by save
-        System.out.println(sampleController.saveItem(SampleMapper.toRequestDto(new Sample("controller create"))));
-
-        // populate by faker
-        System.out.println("Samples created by faker: " + sampleController.populateByFaker());
-        System.out.println();
-
-        // populate by loader
-        System.out.println("Samples created by loader: " + sampleController.populateByLoader());
-        System.out.println();
+        System.out.println(sampleController.save(SampleMapper.toRequestDto(new Sample("controller create"))));
 
         // find by id
         System.out.println(sampleController.getById(5));
@@ -226,7 +225,6 @@ public class MainSample {
     }
 
     private static void testJpaImplementation() {
-        SampleMapper SampleMapper = new SampleMapper();
         SampleRepository sampleJpaDao = new SampleJpaDao();
         SampleService sampleJpaService = new SampleJpaServiceImpl(sampleJpaDao);
         SampleController sampleController = new SampleController(sampleJpaService);
@@ -291,16 +289,16 @@ public class MainSample {
 
         System.out.println("============================================================> CONTROLLER BY JPA");
 
+        // save by faker
+        System.out.println(sampleController.saveAllByFaker());
+        System.out.println();
+
+        // save by loader
+        System.out.println(sampleController.saveAllByLoader());
+        System.out.println();
+
         // create by save
-        System.out.println(sampleController.saveItem(SampleMapper.toRequestDto(new Sample("controller create"))));
-
-        // populate by faker
-        System.out.println("Samples created by faker: " + sampleController.populateByFaker());
-        System.out.println();
-
-        // populate by loader
-        System.out.println("Samples created by loader: " + sampleController.populateByLoader());
-        System.out.println();
+        System.out.println(sampleController.save(SampleMapper.toRequestDto(new Sample("controller create"))));
 
         // find by id
         System.out.println(sampleController.getById(5));

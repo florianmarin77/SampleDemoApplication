@@ -13,18 +13,18 @@ public interface SampleService {
     /**
      * Inserts all samples in the database.
      *
-     * @param requestDtos a list of samples to be saved
+     * @param requests a list of samples to be saved
      * @return true if all samples were created
      */
-    boolean createAll(List<SampleRequestDto> requestDtos);
+    List<SampleResponseDto> createAll(List<SampleRequestDto> requests);
 
     /**
      * Inserts a complete sample in the database.
      *
-     * @param requestDto the sample to be saved
+     * @param request the sample to be saved
      * @return the created sample as data transfer object
      */
-    SampleResponseDto create(SampleRequestDto requestDto);
+    SampleResponseDto create(SampleRequestDto request);
 
     // -------------------------------------------- CRUD => READ
 

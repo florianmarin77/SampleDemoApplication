@@ -1,10 +1,8 @@
 package com.asi.demo.sample.controller;
 
 import com.asi.demo.sample.Sample;
-import com.asi.demo.sample.SampleMapper;
 import com.asi.demo.sample.SampleRequestDto;
 import com.asi.demo.sample.SampleResponseDto;
-import com.asi.demo.sample.database.SampleDatabase;
 import com.asi.demo.sample.faker.SampleFaker;
 import com.asi.demo.sample.loader.SampleLoader;
 import com.asi.demo.sample.service.SampleService;
@@ -21,67 +19,67 @@ public class SampleController {
 
     // -------------------------------------------- CRUD => CREATE
 
-    // POST => "samples/create/save/item=data"
-    public SampleResponseDto saveItem(SampleRequestDto requestDto) {
-        return sampleService.create(requestDto);
+    // POST => "/samples/fake/save/all"
+    public List<SampleResponseDto> saveAllByFaker() {
+        List<SampleRequestDto> requests = SampleFaker.createDummyList();
+        return sampleService.createAll(requests);
     }
 
-    // GET + POST => "/samples/populate/fake/create/all"
-    public boolean populateByFaker() {
-        SampleFaker sampleFaker = new SampleFaker();
-        SampleMapper sampleMapper = new SampleMapper();
-
-        List<Sample> samples = sampleFaker.generateList(); // list by data faker
-
-        SampleDatabase.displayDataTable(samples); // convert and display table by database
-
-        return sampleService.createAll(sampleMapper.toRequestDto(samples));
+    // POST => "/samples/load/save/all"
+    public List<SampleResponseDto> saveAllByLoader() {
+        List<SampleRequestDto> requests = SampleLoader.generateItemList();
+        return sampleService.createAll(requests);
     }
 
-    // GET + POST => "/samples/populate/load/create/all"
-    public boolean populateByLoader() {
-        SampleLoader sampleLoader = new SampleLoader();
-        SampleMapper sampleMapper = new SampleMapper();
+    // POST => "/samples/fake/save/one"
+    public SampleResponseDto saveOneByFaker() {
+        SampleRequestDto request = SampleFaker.createDummy();
+        return sampleService.create(request);
+    }
 
-        List<Sample> samples = sampleLoader.generateList(); // list by data loader
+    // POST => "/samples/load/save/one"
+    public SampleResponseDto saveOneByLoader() {
+        SampleRequestDto request = SampleLoader.generateItem();
+        return sampleService.create(request);
+    }
 
-        SampleDatabase.displayDataTable(samples); // convert and display table by database
-
-        return sampleService.createAll(sampleMapper.toRequestDto(samples));
+    // POST => "samples/save"
+    public SampleResponseDto save(SampleRequestDto request) {
+        return sampleService.create(request);
     }
 
     // -------------------------------------------- CRUD => READ
 
-    // GET => "samples/find/id=item"
+    // GET => "samples/id"
     public SampleResponseDto getById(Integer id) {
         return sampleService.find(id);
     }
 
-    // GET => "samples/find/all=list"
+    // GET => "samples/all"
     public List<SampleResponseDto> getAll() {
         return sampleService.findAll();
     }
 
-    // GET => "samples/find/text=list"
+    // GET => "samples/text"
     public List<SampleResponseDto> getByText(String text) {
         return sampleService.findByText(text);
     }
 
     // -------------------------------------------- CRUD => UPDATE
 
-    // PUT => "samples/update/item=id+data"
+    // PUT => "samples/id"
     public SampleResponseDto updateById(Integer id, Sample sampleData) {
         return sampleService.update(id, sampleData);
     }
 
     // -------------------------------------------- CRUD => DELETE
 
-    // DELETE => "samples/delete/item=id"
+    // DELETE => "samples/id"
     public boolean deleteById(Integer id) {
         return sampleService.delete(id);
     }
 
-    // DELETE => "samples/delete/all"
+    // DELETE => "samples/all"
     public boolean deleteAll() {
         return sampleService.deleteAll();
     }
