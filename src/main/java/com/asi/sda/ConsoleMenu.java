@@ -1,4 +1,9 @@
-package com.asi.demo;
+package com.asi.sda;
+
+import com.asi.sda.sample.SampleMapper;
+import com.asi.sda.sample.database.SampleDatabase;
+import com.asi.sda.sample.faker.SampleFaker;
+import com.asi.sda.sample.loader.SampleLoader;
 
 import java.util.Scanner;
 
@@ -6,6 +11,16 @@ public class ConsoleMenu {
     private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
+        boolean joker = true; // populate scenario
+
+        if (joker) {
+            System.out.println("Welcome to Sample Demo Activator with database populated by loader!");
+            SampleDatabase.displayDataTable(SampleMapper.toEntities(SampleLoader.generateItemList()));
+        } else {
+            System.out.println("Welcome to Sample Demo Activator with database populated by faker!");
+            SampleDatabase.displayDataTable(SampleMapper.toEntities(SampleFaker.createDummyList()));
+        }
+
         boolean exitMainMenu = false;
         do {
             displayMainMenu();

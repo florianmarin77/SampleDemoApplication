@@ -1,6 +1,6 @@
-package com.asi.demo.sample.loader;
+package com.asi.sda.sample.loader;
 
-import com.asi.demo.sample.SampleRequestDto;
+import com.asi.sda.sample.SampleRequestDto;
 
 import java.util.ArrayList;
 import java.util.List;

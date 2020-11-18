@@ -1,4 +1,4 @@
-package com.asi.demo.sample;
+package com.asi.sda.sample;
 
 import java.util.ArrayList;
 import java.util.List;

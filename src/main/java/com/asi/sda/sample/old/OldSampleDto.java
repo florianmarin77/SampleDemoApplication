@@ -1,27 +1,11 @@
-package com.asi.demo.sample;
+package com.asi.sda.sample.old;
 
 import java.util.Objects;
 
-public class Sample {
+public class OldSampleDto {
 
     private int id;
-
     private String text;
-
-    // =================> constructors
-
-    public Sample() {
-        // empty constructor by default
-    }
-
-    public Sample(String text) {
-        this.text = text;
-    }
-
-    public Sample(int id, String text) {
-        this.id = id;
-        this.text = text;
-    }
 
     // =================> getters & setters
 
@@ -41,14 +25,14 @@ public class Sample {
         this.text = text;
     }
 
-    // =================> special methods
+    // special methods
 
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
-        Sample sample = (Sample) object;
-        return Objects.equals(text, sample.text);
+        OldSampleDto oldSampleDto = (OldSampleDto) object;
+        return Objects.equals(text, oldSampleDto.text);
     }
 
     @Override
@@ -58,7 +42,7 @@ public class Sample {
 
     @Override
     public String toString() {
-        return "Sample{" +
+        return "SampleDto{" +
                 "id=" + id +
                 ", text='" + text + '\'' +
                 '}';

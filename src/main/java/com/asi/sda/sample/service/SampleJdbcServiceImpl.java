@@ -1,10 +1,10 @@
-package com.asi.demo.sample.service;
+package com.asi.sda.sample.service;
 
-import com.asi.demo.sample.Sample;
-import com.asi.demo.sample.SampleMapper;
-import com.asi.demo.sample.SampleRequestDto;
-import com.asi.demo.sample.SampleResponseDto;
-import com.asi.demo.sample.repository.SampleRepository;
+import com.asi.sda.sample.Sample;
+import com.asi.sda.sample.SampleMapper;
+import com.asi.sda.sample.SampleRequestDto;
+import com.asi.sda.sample.SampleResponseDto;
+import com.asi.sda.sample.repository.SampleRepository;
 
 import java.util.List;
 import java.util.Optional;

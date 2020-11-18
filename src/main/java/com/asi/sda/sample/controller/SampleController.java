@@ -1,11 +1,11 @@
-package com.asi.demo.sample.controller;
+package com.asi.sda.sample.controller;
 
-import com.asi.demo.sample.Sample;
-import com.asi.demo.sample.SampleRequestDto;
-import com.asi.demo.sample.SampleResponseDto;
-import com.asi.demo.sample.faker.SampleFaker;
-import com.asi.demo.sample.loader.SampleLoader;
-import com.asi.demo.sample.service.SampleService;
+import com.asi.sda.sample.Sample;
+import com.asi.sda.sample.SampleRequestDto;
+import com.asi.sda.sample.SampleResponseDto;
+import com.asi.sda.sample.faker.SampleFaker;
+import com.asi.sda.sample.loader.SampleLoader;
+import com.asi.sda.sample.service.SampleService;
 
 import java.util.List;
 

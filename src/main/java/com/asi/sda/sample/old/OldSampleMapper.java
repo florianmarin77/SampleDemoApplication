@@ -1,6 +1,6 @@
-package com.asi.demo.sample.old;
+package com.asi.sda.sample.old;
 
-import com.asi.demo.sample.Sample;
+import com.asi.sda.sample.Sample;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,16 +1,16 @@
-package com.asi.demo.sample.main;
+package com.asi.sda.sample.main;
 
-import com.asi.demo.sample.Sample;
-import com.asi.demo.sample.SampleMapper;
-import com.asi.demo.sample.controller.SampleController;
-import com.asi.demo.sample.repository.SampleHibernateDao;
-import com.asi.demo.sample.repository.SampleJdbcDao;
-import com.asi.demo.sample.repository.SampleJpaDao;
-import com.asi.demo.sample.repository.SampleRepository;
-import com.asi.demo.sample.service.SampleHibernateServiceImpl;
-import com.asi.demo.sample.service.SampleJdbcServiceImpl;
-import com.asi.demo.sample.service.SampleJpaServiceImpl;
-import com.asi.demo.sample.service.SampleService;
+import com.asi.sda.sample.Sample;
+import com.asi.sda.sample.SampleMapper;
+import com.asi.sda.sample.controller.SampleController;
+import com.asi.sda.sample.repository.SampleHibernateDao;
+import com.asi.sda.sample.repository.SampleJdbcDao;
+import com.asi.sda.sample.repository.SampleJpaDao;
+import com.asi.sda.sample.repository.SampleRepository;
+import com.asi.sda.sample.service.SampleHibernateServiceImpl;
+import com.asi.sda.sample.service.SampleJdbcServiceImpl;
+import com.asi.sda.sample.service.SampleJpaServiceImpl;
+import com.asi.sda.sample.service.SampleService;
 
 import java.util.ArrayList;
 import java.util.List;

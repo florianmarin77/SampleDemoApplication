@@ -1,55 +1,54 @@
-package com.asi.demo.sample.service;
+package com.asi.sda.sample.repository;
 
-import com.asi.demo.sample.Sample;
-import com.asi.demo.sample.SampleRequestDto;
-import com.asi.demo.sample.SampleResponseDto;
+import com.asi.sda.sample.Sample;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface SampleService {
+public interface SampleRepository {
 
     // -------------------------------------------- CRUD => CREATE
 
     /**
      * Inserts all samples in the database.
      *
-     * @param requests a list of samples to be saved
-     * @return true if all samples were created
+     * @param samples a list of samples to be saved
+     * @return true if all samples are created
      */
-    List<SampleResponseDto> createAll(List<SampleRequestDto> requests);
+    List<Sample> createAll(List<Sample> samples);
 
     /**
      * Inserts a complete sample in the database.
      *
-     * @param request the sample to be saved
-     * @return the created sample as data transfer object
+     * @param sample the sample to be saved
+     * @return the created sample
      */
-    SampleResponseDto create(SampleRequestDto request);
+    Optional<Sample> create(Sample sample);
 
     // -------------------------------------------- CRUD => READ
 
     /**
      * Returns all samples from the database.
      *
-     * @return a list of found samples as dtos
+     * @return a list of found samples
      */
-    List<SampleResponseDto> findAll();
+    List<Sample> findAll();
 
     /**
      * Returns all samples by first name.
      *
      * @param text the sample internal text
-     * @return a list of found samples as dtos
+     * @return a list of found samples
      */
-    List<SampleResponseDto> findByText(String text);
+    List<Sample> findByText(String text);
 
     /**
      * Returns a specific sample by id.
      *
      * @param id the specific sample id
-     * @return the found sample as data transfer object
+     * @return the found sample if exists
      */
-    SampleResponseDto find(Integer id);
+    Optional<Sample> find(Integer id);
 
     // -------------------------------------------- CRUD => UPDATE
 
@@ -58,9 +57,9 @@ public interface SampleService {
      *
      * @param id         the specific sample id
      * @param sampleData the object data to update
-     * @return the updated sample as data transfer object
+     * @return the updated sample
      */
-    SampleResponseDto update(Integer id, Sample sampleData);
+    Optional<Sample> update(Integer id, Sample sampleData);
 
     // -------------------------------------------- CRUD => DELETE
 

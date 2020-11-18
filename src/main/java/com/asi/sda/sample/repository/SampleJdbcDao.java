@@ -1,7 +1,7 @@
-package com.asi.demo.sample.repository;
+package com.asi.sda.sample.repository;
 
-import com.asi.demo.sample.Sample;
-import com.asi.demo.sample.database.SampleDatabase;
+import com.asi.sda.sample.Sample;
+import com.asi.sda.sample.database.SampleDatabase;
 import net.bytebuddy.utility.RandomString;
 
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class SampleHibernateDao implements SampleRepository {
-    private static final String SOURCE = "HIBERNATE-DAO => ";
+public class SampleJdbcDao implements SampleRepository {
+    private static final String SOURCE = "JDBC-DAO => ";
 
     // -------------------------------------------- CRUD => CREATE
 
