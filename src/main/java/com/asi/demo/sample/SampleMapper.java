@@ -74,8 +74,8 @@ public class SampleMapper {
         return entities;
     }
 
-    public static List<Sample> toEntities(List<SampleRequestDto> requestDtos) {
-        return requestDtos.stream()
+    public static List<Sample> toEntities(List<SampleRequestDto> requests) {
+        return requests.stream()
                 .map(SampleMapper::toEntity)
                 .collect(Collectors.toList());
     }
