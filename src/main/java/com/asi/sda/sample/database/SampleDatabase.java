@@ -32,7 +32,7 @@ public class SampleDatabase {
         for (Sample item : entities) {
             int id = item.getId();
             String text = item.getText();
-            displayDataLine(id, text);
+            displayDataLine(id, maxLength, text);
             if (entities.indexOf(item) < entities.size() - 1) {
                 displayInsideLine(maxLength);
             }
@@ -41,30 +41,37 @@ public class SampleDatabase {
         System.out.println();
     }
 
-    private static void displayOutsideLine(int textLength) {
+    private static void displayOutsideLine(int maxLength) {
         System.out.print("+------");
-        for (int k = 0; k < textLength; k++) {
+        for (int k = 0; k < maxLength; k++) {
             System.out.print("-");
         }
         System.out.print("-+");
         System.out.println();
     }
 
-    private static void displayInsideLine(int textLength) {
+    private static void displayInsideLine(int maxLength) {
         System.out.print("-------");
-        for (int k = 0; k < textLength; k++) {
+        for (int k = 0; k < maxLength; k++) {
             System.out.print("-");
         }
         System.out.print("--");
         System.out.println();
     }
 
-    private static void displayDataLine(int id, String text) {
+    private static void displayDataLine(int id, int maxLength, String text) {
+        StringBuilder blank = new StringBuilder();
+        if (text.length() < maxLength) {
+            int difLength = maxLength - text.length();
+            for (int k = 0; k < difLength; k++) {
+                blank.append(" ");
+            }
+        }
         System.out.print("| ");
         if (id < 10) {
             System.out.print("0");
         }
-        System.out.print(id + " | " + text + " |");
+        System.out.print(id + " | " + text + blank + " |");
         System.out.println();
     }
 }
