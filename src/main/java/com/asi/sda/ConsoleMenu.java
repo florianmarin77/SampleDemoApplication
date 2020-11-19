@@ -69,62 +69,31 @@ public class ConsoleMenu {
                             break;
                             case 2: {
                                 Scanner scanner = new Scanner(System.in);
-                                List<Sample> entities = database.getDatabase();
                                 System.out.println("READ => Please enter ID (integer number): ");
                                 int id = scanner.nextInt();
 
                                 controller.getById(id);
-                                SampleDatabase.displayDataTable(entities);
+                                SampleDatabase.displayDataTable(database.getDatabase());
                             }
                             break;
                             case 3: {
                                 Scanner scanner = new Scanner(System.in);
-                                List<Sample> entities = database.getDatabase();
                                 System.out.println("UPDATE => Please enter ID (integer number): ");
-
                                 int id = scanner.nextInt();
-                                boolean isValid = false;
-                                for (Sample entity : entities) {
-                                    if (entity.getId() == id) {
-                                        System.out.println("Sample found: " + entity);
-                                        System.out.println("UPDATE => Please enter DATA (text string): ");
-                                        Scanner scanner1 = new Scanner(System.in);
-                                        String data = scanner1.nextLine();
-                                        entity.setText(data);
-                                        database.setDatabase(entities);
-                                        isValid = true;
-                                        System.out.println("Sample updated! " + entity);
-                                    }
-                                }
-                                if (!isValid) {
-                                    System.out.println("Sample not found and not updated!");
-                                }
-                                SampleDatabase.displayDataTable(entities);
+
+                                // TODO complete the method
+
+                                SampleDatabase.displayDataTable(database.getDatabase());
                             }
                             break;
                             case 4: {
                                 Scanner scanner = new Scanner(System.in);
-                                List<Sample> entities = database.getDatabase();
                                 System.out.println("DELETE => Please enter ID (integer number): ");
-
                                 int id = scanner.nextInt();
-                                boolean isValid = false;
-                                int index = 0;
-                                for (Sample entity : entities) {
-                                    if (entity.getId() == id) {
-                                        System.out.println("Sample found: " + entity);
-                                        index = entities.indexOf(entity);
-                                        isValid = true;
-                                    }
-                                }
-                                if (!isValid) {
-                                    System.out.println("Sample not found and not deleted!");
-                                } else {
-                                    entities.remove(index);
-                                    database.setDatabase(entities);
-                                    System.out.println("Sample deleted!");
-                                }
-                                SampleDatabase.displayDataTable(entities);
+
+                                // TODO complete the method
+
+                                SampleDatabase.displayDataTable(database.getDatabase());
                             }
                             break;
                             default: {
