@@ -117,16 +117,17 @@ public class SampleDao implements SampleRepository {
     @Override
     public Optional<Sample> find(Integer id) {
         List<Sample> entities = database.getDatabase();
-        Sample entity = new Sample();
+        Sample entity = null;
 
         for (Sample item : entities) {
-            if (item.getId() == id) {
+            if (item.getId().equals(id)) {
                 System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
                 entity = item;
-            } else {
-                System.out.println(SOURCE + "FIND=FALSE/ID=" + id);
-                entity = null;
             }
+        }
+
+        if (entity == null) {
+            System.out.println(SOURCE + "FIND=FALSE/ID=" + id);
         }
 
         return Optional.ofNullable(entity);

@@ -9,7 +9,6 @@ import com.asi.sda.sample.loader.SampleLoader;
 import com.asi.sda.sample.repository.SampleDao;
 import com.asi.sda.sample.service.SampleServiceImpl;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleMenu {
