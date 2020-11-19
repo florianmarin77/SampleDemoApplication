@@ -16,12 +16,4 @@ public class SampleLoader {
         }
         return items;
     }
-
-    public static List<SampleRequestDto> generateItem() {
-        List<SampleRequestDto> items = new ArrayList<>();
-        SampleRequestDto item = new SampleRequestDto();
-        item.setText("0123456789");
-        items.add(item);
-        return items;
-    }
 }

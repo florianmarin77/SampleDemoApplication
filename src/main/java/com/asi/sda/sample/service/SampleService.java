@@ -71,11 +71,4 @@ public interface SampleService {
      * @return true if the sample was deleted
      */
     boolean delete(Integer id);
-
-    /**
-     * Deletes all samples from the database.
-     *
-     * @return true if all samples were deleted
-     */
-    boolean deleteAll();
 }

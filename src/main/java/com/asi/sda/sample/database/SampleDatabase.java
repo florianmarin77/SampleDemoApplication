@@ -6,28 +6,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SampleDatabase {
-    public static List<Sample> displayDataTable(List<Sample> samples) {
+    public static List<Sample> populateByList(List<Sample> samples){
         List<Sample> entities = new ArrayList<>();
-        int textLength = samples.get(0).getText().length();
         int k = 0; // fake id
-        System.out.println();
-        displayOutsideLine(textLength);
         for (Sample item : samples) {
             k++;
             Sample entity = new Sample();
             entity.setId(k);
             entity.setText(item.getText());
             entities.add(entity);
-            int id = entity.getId();
-            String text = entity.getText();
-            displayDataLine(id, text);
-            if (entities.indexOf(item) < entities.size() - 1) {
-                displayInsideLine(textLength);
+        }
+        return entities;
+    }
+
+    public static void displayDataTable(List<Sample> entities) {
+        int maxLength = entities.get(0).getText().length();
+        for (Sample item : entities) {
+            int textLength = item.getText().length();
+            if (textLength > maxLength) {
+                maxLength = textLength;
             }
         }
-        displayOutsideLine(textLength);
         System.out.println();
-        return entities;
+        displayOutsideLine(maxLength);
+        for (Sample item : entities) {
+            int id = item.getId();
+            String text = item.getText();
+            displayDataLine(id, text);
+            if (entities.indexOf(item) < entities.size() - 1) {
+                displayInsideLine(maxLength);
+            }
+        }
+        displayOutsideLine(maxLength);
+        System.out.println();
     }
 
     private static void displayOutsideLine(int textLength) {

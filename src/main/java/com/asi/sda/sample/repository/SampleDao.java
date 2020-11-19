@@ -1,5 +1,6 @@
 package com.asi.sda.sample.repository;
 
+import com.asi.sda.ConsoleMenu;
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.database.SampleDatabase;
 import net.bytebuddy.utility.RandomString;
@@ -9,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class SampleJdbcDao implements SampleRepository {
-    private static final String SOURCE = "JDBC-DAO => ";
+public class SampleDao implements SampleRepository {
+    private static final String SOURCE = "DAO => ";
 
     // -------------------------------------------- CRUD => CREATE
 
@@ -18,7 +19,7 @@ public class SampleJdbcDao implements SampleRepository {
     public List<Sample> createAll(List<Sample> samples) {
         boolean isDone = true; // scenario setup
 
-        List<Sample> entities = SampleDatabase.displayDataTable(samples);
+        List<Sample> entities = SampleDatabase.populateByList(samples);
 
         if (isDone) {
             System.out.println("Return dao data: " + entities);
@@ -26,6 +27,9 @@ public class SampleJdbcDao implements SampleRepository {
         } else {
             System.out.println(SOURCE + "CREATE=FALSE/SIZE=" + 0 + "/all");
         }
+
+        ConsoleMenu.lastInsertId = entities.size();
+        SampleDatabase.displayDataTable(entities);
 
         return entities;
     }
@@ -49,6 +53,8 @@ public class SampleJdbcDao implements SampleRepository {
             entity = null;
             System.out.println(SOURCE + "CREATE=FALSE/ID=" + 0);
         }
+
+        ConsoleMenu.lastInsertId++;
 
         return Optional.ofNullable(entity);
     }
@@ -162,21 +168,6 @@ public class SampleJdbcDao implements SampleRepository {
             System.out.println(SOURCE + "DELETE=TRUE/ID=" + id);
         } else {
             System.out.println(SOURCE + "DELETE=FALSE/ID=" + id);
-        }
-
-        return isDone;
-    }
-
-    @Override
-    public boolean deleteAll() {
-        boolean isDone = true; // scenario setup
-
-        if (isDone) {
-            Random random = new Random();
-            int fakeSize = random.nextInt(9) + 1;
-            System.out.println(SOURCE + "DELETE=TRUE/SIZE=" + fakeSize + "/all");
-        } else {
-            System.out.println(SOURCE + "DELETE=FALSE/SIZE=" + 0 + "/all");
         }
 
         return isDone;

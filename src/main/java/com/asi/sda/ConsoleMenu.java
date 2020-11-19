@@ -12,6 +12,8 @@ import java.util.Scanner;
 public class ConsoleMenu {
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    public static int lastInsertId;
+
     public static void main(String[] args) {
         boolean joker = false; // populate scenario
 
@@ -19,11 +21,15 @@ public class ConsoleMenu {
 
         if (joker) {
             System.out.println("Welcome to Sample Demo Activator with database populated by loader!");
-            database = SampleDatabase.displayDataTable(SampleMapper.toEntities(SampleLoader.generateItemList()));
+            database = SampleDatabase.populateByList(SampleMapper.toEntities(SampleLoader.generateItemList()));
         } else {
             System.out.println("Welcome to Sample Demo Activator with database populated by faker!");
-            database = SampleDatabase.displayDataTable(SampleMapper.toEntities(SampleFaker.createDummyList()));
+            database = SampleDatabase.populateByList(SampleMapper.toEntities(SampleFaker.createDummyList()));
         }
+
+        lastInsertId = database.size();
+
+        SampleDatabase.displayDataTable(database);
 
         boolean exitMainMenu = false;
         do {
@@ -46,19 +52,74 @@ public class ConsoleMenu {
                             }
                             break;
                             case 1: {
-                                System.out.println("#1 SAMPLE MENU create");
+                                Scanner scanner = new Scanner(System.in);
+                                System.out.println("CREATE => Please enter DATA (text string): ");
+                                String data = scanner.nextLine();
+                                lastInsertId++;
+                                Sample sample = new Sample(lastInsertId, data);
+                                database.add(sample);
+                                SampleDatabase.displayDataTable(database);
                             }
                             break;
                             case 2: {
-                                System.out.println("#2 SAMPLE MENU read");
+                                Scanner scanner = new Scanner(System.in);
+                                System.out.println("READ => Please enter ID (integer number): ");
+                                int id = scanner.nextInt();
+                                boolean isValid = false;
+                                for (Sample item : database){
+                                    if (item.getId() == id) {
+                                        System.out.println("Sample found: " + item);
+                                        isValid = true;
+                                    }
+                                }
+                                if (!isValid){
+                                    System.out.println("Sample not found!");
+                                }
+                                SampleDatabase.displayDataTable(database);
                             }
                             break;
                             case 3: {
-                                System.out.println("#3 SAMPLE MENU update");
+                                Scanner scanner = new Scanner(System.in);
+                                System.out.println("UPDATE => Please enter ID (integer number): ");
+                                int id = scanner.nextInt();
+                                boolean isValid = false;
+                                for (Sample item : database) {
+                                    if (item.getId() == id) {
+                                        System.out.println("Sample found: " + item);
+                                        System.out.println("UPDATE => Please enter DATA (text string): ");
+                                        Scanner scanner1 = new Scanner(System.in);
+                                        String data = scanner1.nextLine();
+                                        item.setText(data);
+                                        isValid = true;
+                                        System.out.println("Sample updated! " + item);
+                                    }
+                                }
+                                if (!isValid){
+                                    System.out.println("Sample not found and not updated!");
+                                }
+                                SampleDatabase.displayDataTable(database);
                             }
                             break;
                             case 4: {
-                                System.out.println("#4 SAMPLE MENU delete");
+                                Scanner scanner = new Scanner(System.in);
+                                System.out.println("DELETE => Please enter ID (integer number): ");
+                                int id = scanner.nextInt();
+                                boolean isValid = false;
+                                int index = 0;
+                                for (Sample item : database) {
+                                    if (item.getId() == id) {
+                                        System.out.println("Sample found: " + item);
+                                        index = database.indexOf(item);
+                                        isValid = true;
+                                    }
+                                }
+                                if (!isValid){
+                                    System.out.println("Sample not found and not deleted!");
+                                } else {
+                                    database.remove(index);
+                                    System.out.println("Sample deleted!");
+                                }
+                                SampleDatabase.displayDataTable(database);
                             }
                             break;
                             default: {
@@ -86,7 +147,7 @@ public class ConsoleMenu {
         System.out.println("2. Find sample");
         System.out.println("3. Update sample");
         System.out.println("4. Delete sample");
-        System.out.println("Please select an operation:");
+        System.out.println("Select an option:");
     }
 
     private static void displayMainMenu() {
@@ -94,6 +155,6 @@ public class ConsoleMenu {
         System.out.println("---------");
         System.out.println("0. Exit");
         System.out.println("1. Samples");
-        System.out.println("Please make your choice:");
+        System.out.println("Make your choice:");
     }
 }

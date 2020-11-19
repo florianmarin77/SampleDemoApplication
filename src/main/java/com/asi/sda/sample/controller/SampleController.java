@@ -34,20 +34,6 @@ public class SampleController {
         return sampleService.createAll(requests);
     }
 
-    // POST => "/samples/fake/save/one"
-    public List<SampleResponseDto> saveOneByFaker() {
-        System.out.println(SOURCE + "POST/samples/fake/save/one");
-        List<SampleRequestDto> requests = SampleFaker.createDummy();
-        return sampleService.createAll(requests);
-    }
-
-    // POST => "/samples/load/save/one"
-    public List<SampleResponseDto> saveOneByLoader() {
-        System.out.println(SOURCE + "POST/samples/load/save/one");
-        List<SampleRequestDto> requests = SampleLoader.generateItem();
-        return sampleService.createAll(requests);
-    }
-
     // POST => "samples/save"
     public SampleResponseDto save(SampleRequestDto request) {
         System.out.println(SOURCE + "POST/samples/save");
@@ -88,11 +74,5 @@ public class SampleController {
     public boolean deleteById(Integer id) {
         System.out.println(SOURCE + "DELETE/samples/id");
         return sampleService.delete(id);
-    }
-
-    // DELETE => "samples/all"
-    public boolean deleteAll() {
-        System.out.println(SOURCE + "DELETE/samples/all");
-        return sampleService.deleteAll();
     }
 }

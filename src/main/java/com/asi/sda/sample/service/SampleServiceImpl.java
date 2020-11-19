@@ -9,14 +9,14 @@ import com.asi.sda.sample.repository.SampleRepository;
 import java.util.List;
 import java.util.Optional;
 
-public class SampleHibernateServiceImpl implements SampleService {
-    private static final String SOURCE = "HIBERNATE-SERVICE => ";
+public class SampleServiceImpl implements SampleService {
+    private static final String SOURCE = "SERVICE => ";
 
     private final SampleRepository sampleRepository;
 
     // =================> constructor
 
-    public SampleHibernateServiceImpl(SampleRepository sampleRepository) {
+    public SampleServiceImpl(SampleRepository sampleRepository) {
         this.sampleRepository = sampleRepository;
     }
 
@@ -98,12 +98,5 @@ public class SampleHibernateServiceImpl implements SampleService {
         System.out.println(SOURCE + "DELETE");
 
         return sampleRepository.delete(id);
-    }
-
-    @Override
-    public boolean deleteAll() {
-        System.out.println(SOURCE + "DELETE/all");
-
-        return sampleRepository.deleteAll();
     }
 }

@@ -3,13 +3,9 @@ package com.asi.sda.sample.main;
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
 import com.asi.sda.sample.controller.SampleController;
-import com.asi.sda.sample.repository.SampleHibernateDao;
-import com.asi.sda.sample.repository.SampleJdbcDao;
-import com.asi.sda.sample.repository.SampleJpaDao;
+import com.asi.sda.sample.repository.SampleDao;
 import com.asi.sda.sample.repository.SampleRepository;
-import com.asi.sda.sample.service.SampleHibernateServiceImpl;
-import com.asi.sda.sample.service.SampleJdbcServiceImpl;
-import com.asi.sda.sample.service.SampleJpaServiceImpl;
+import com.asi.sda.sample.service.SampleServiceImpl;
 import com.asi.sda.sample.service.SampleService;
 
 import java.util.ArrayList;
@@ -17,14 +13,8 @@ import java.util.List;
 
 public class MainSample {
     public static void main(String[] args) {
-        testHibernateImplementation();
-        testJdbcImplementation();
-        testJpaImplementation();
-    }
-
-    private static void testHibernateImplementation() {
-        SampleRepository sampleHibernateDao = new SampleHibernateDao();
-        SampleService sampleHibernateService = new SampleHibernateServiceImpl(sampleHibernateDao);
+        SampleRepository sampleHibernateDao = new SampleDao();
+        SampleService sampleHibernateService = new SampleServiceImpl(sampleHibernateDao);
         SampleController sampleController = new SampleController(sampleHibernateService);
 
         Sample sample1 = new Sample("0123456789");
@@ -33,7 +23,7 @@ public class MainSample {
         samples.add(sample1);
         samples.add(sample2);
 
-        System.out.println("============================================================> REPOSITORY BY HIBERNATE ");
+        System.out.println("============================================================> REPOSITORY SIMULATOR ");
 
         // create
         System.out.println(sampleHibernateDao.create(new Sample("repository create")));
@@ -56,10 +46,8 @@ public class MainSample {
         // delete
         System.out.println("Sample deleted: " + sampleHibernateDao.delete(3));
         System.out.println();
-        System.out.println("Samples deleted: " + sampleHibernateDao.deleteAll());
-        System.out.println();
 
-        System.out.println("============================================================> SERVICE BY HIBERNATE");
+        System.out.println("============================================================> SERVICE SIMULATOR");
 
         // create
         System.out.println(sampleHibernateService.create(SampleMapper.toRequestDto(new Sample("service create"))));
@@ -82,10 +70,8 @@ public class MainSample {
         // delete
         System.out.println("Sample deleted: " + sampleHibernateService.delete(3));
         System.out.println();
-        System.out.println("Samples deleted: " + sampleHibernateService.deleteAll());
-        System.out.println();
 
-        System.out.println("============================================================> CONTROLLER BY HIBERNATE");
+        System.out.println("============================================================> CONTROLLER SIMULATOR");
 
         // save all by faker
         System.out.println("Return service data: " + sampleController.saveAllByFaker());
@@ -93,14 +79,6 @@ public class MainSample {
 
         // save all by loader
         System.out.println("Return service data: " + sampleController.saveAllByLoader());
-        System.out.println();
-
-        // save one by faker
-        System.out.println("Return service data: " + sampleController.saveOneByFaker());
-        System.out.println();
-
-        // save one by loader
-        System.out.println("Return service data: " + sampleController.saveOneByLoader());
         System.out.println();
 
         // create by save
@@ -125,230 +103,6 @@ public class MainSample {
 
         // delete by id
         System.out.println("Sample deleted: " + sampleController.deleteById(3));
-        System.out.println();
-
-        // delete all
-        System.out.println("Samples deleted: " + sampleController.deleteAll());
-        System.out.println();
-    }
-
-    private static void testJdbcImplementation() {
-        SampleRepository sampleJdbcDao = new SampleJdbcDao();
-        SampleService sampleJdbcService = new SampleJdbcServiceImpl(sampleJdbcDao);
-        SampleController sampleController = new SampleController(sampleJdbcService);
-
-        Sample sample1 = new Sample("#0123456789");
-        Sample sample2 = new Sample("@0123456789");
-        List<Sample> samples = new ArrayList<>();
-        samples.add(sample1);
-        samples.add(sample2);
-
-        System.out.println("============================================================> REPOSITORY BY JDBC ");
-
-        // create
-        System.out.println(sampleJdbcDao.create(new Sample("repository create")));
-        System.out.println();
-        System.out.println("Samples created: " + sampleJdbcDao.createAll(samples));
-        System.out.println();
-
-        // read
-        System.out.println(sampleJdbcDao.find(5));
-        System.out.println();
-        System.out.println(sampleJdbcDao.findAll());
-        System.out.println();
-        System.out.println(sampleJdbcDao.findByText("repository read"));
-        System.out.println();
-
-        // update
-        System.out.println(sampleJdbcDao.update(7, new Sample("repository update")));
-        System.out.println();
-
-        // delete
-        System.out.println("Sample deleted: " + sampleJdbcDao.delete(3));
-        System.out.println();
-        System.out.println("Samples deleted: " + sampleJdbcDao.deleteAll());
-        System.out.println();
-
-        System.out.println("============================================================> SERVICE BY JDBC");
-
-        // create
-        System.out.println(sampleJdbcService.create(SampleMapper.toRequestDto(new Sample("service create"))));
-        System.out.println();
-        System.out.println("Samples created: " + sampleJdbcService.createAll(SampleMapper.toRequestDto(samples)));
-        System.out.println();
-
-        // read
-        System.out.println(sampleJdbcService.find(5));
-        System.out.println();
-        System.out.println(sampleJdbcService.findAll());
-        System.out.println();
-        System.out.println(sampleJdbcService.findByText("service read"));
-        System.out.println();
-
-        // update
-        System.out.println(sampleJdbcService.update(7, new Sample("service update")));
-        System.out.println();
-
-        // delete
-        System.out.println("Sample deleted: " + sampleJdbcService.delete(3));
-        System.out.println();
-        System.out.println("Samples deleted: " + sampleJdbcService.deleteAll());
-        System.out.println();
-
-        System.out.println("============================================================> CONTROLLER BY JDBC");
-
-        // save all by faker
-        System.out.println("Return service data: " + sampleController.saveAllByFaker());
-        System.out.println();
-
-        // save all by loader
-        System.out.println("Return service data: " + sampleController.saveAllByLoader());
-        System.out.println();
-
-        // save one by faker
-        System.out.println("Return service data: " + sampleController.saveOneByFaker());
-        System.out.println();
-
-        // save one by loader
-        System.out.println("Return service data: " + sampleController.saveOneByLoader());
-        System.out.println();
-
-        // create by save
-        System.out.println(sampleController.save(SampleMapper.toRequestDto(new Sample("controller create"))));
-        System.out.println();
-
-        // find by id
-        System.out.println(sampleController.getById(5));
-        System.out.println();
-
-        // find all
-        System.out.println(sampleController.getAll());
-        System.out.println();
-
-        // find by text
-        System.out.println(sampleController.getByText("controller read"));
-        System.out.println();
-
-        // update by id
-        System.out.println(sampleController.updateById(7, new Sample("controller update")));
-        System.out.println();
-
-        // delete by id
-        System.out.println("Sample deleted: " + sampleController.deleteById(3));
-        System.out.println();
-
-        // delete all
-        System.out.println("Samples deleted: " + sampleController.deleteAll());
-        System.out.println();
-    }
-
-    private static void testJpaImplementation() {
-        SampleRepository sampleJpaDao = new SampleJpaDao();
-        SampleService sampleJpaService = new SampleJpaServiceImpl(sampleJpaDao);
-        SampleController sampleController = new SampleController(sampleJpaService);
-
-        Sample sample1 = new Sample("#0123456789");
-        Sample sample2 = new Sample("@0123456789");
-        List<Sample> samples = new ArrayList<>();
-        samples.add(sample1);
-        samples.add(sample2);
-
-        System.out.println("============================================================> REPOSITORY BY JPA ");
-
-        // create
-        System.out.println(sampleJpaDao.create(new Sample("repository create")));
-        System.out.println();
-        System.out.println("Samples created: " + sampleJpaDao.createAll(samples));
-        System.out.println();
-
-        // read
-        System.out.println(sampleJpaDao.find(5));
-        System.out.println();
-        System.out.println(sampleJpaDao.findAll());
-        System.out.println();
-        System.out.println(sampleJpaDao.findByText("repository read"));
-        System.out.println();
-
-        // update
-        System.out.println(sampleJpaDao.update(7, new Sample("repository update")));
-        System.out.println();
-
-        // delete
-        System.out.println("Sample deleted: " + sampleJpaDao.delete(3));
-        System.out.println();
-        System.out.println("Samples deleted: " + sampleJpaDao.deleteAll());
-        System.out.println();
-
-        System.out.println("============================================================> SERVICE BY JPA");
-
-        // create
-        System.out.println(sampleJpaService.create(SampleMapper.toRequestDto(new Sample("service create"))));
-        System.out.println();
-        System.out.println("Samples created: " + sampleJpaService.createAll(SampleMapper.toRequestDto(samples)));
-        System.out.println();
-
-        // read
-        System.out.println(sampleJpaService.find(5));
-        System.out.println();
-        System.out.println(sampleJpaService.findAll());
-        System.out.println();
-        System.out.println(sampleJpaService.findByText("service read"));
-        System.out.println();
-
-        // update
-        System.out.println(sampleJpaService.update(7, new Sample("service update")));
-        System.out.println();
-
-        // delete
-        System.out.println("Sample deleted: " + sampleJpaService.delete(3));
-        System.out.println();
-        System.out.println("Samples deleted: " + sampleJpaService.deleteAll());
-        System.out.println();
-
-        System.out.println("============================================================> CONTROLLER BY JPA");
-
-        // save all by faker
-        System.out.println("Return service data: " + sampleController.saveAllByFaker());
-        System.out.println();
-
-        // save all by loader
-        System.out.println("Return service data: " + sampleController.saveAllByLoader());
-        System.out.println();
-
-        // save one by faker
-        System.out.println("Return service data: " + sampleController.saveOneByFaker());
-        System.out.println();
-
-        // save one by loader
-        System.out.println("Return service data: " + sampleController.saveOneByLoader());
-        System.out.println();
-
-        // create by save
-        System.out.println(sampleController.save(SampleMapper.toRequestDto(new Sample("controller create"))));
-        System.out.println();
-
-        // find by id
-        System.out.println(sampleController.getById(5));
-        System.out.println();
-
-        // find all
-        System.out.println(sampleController.getAll());
-        System.out.println();
-
-        // find by text
-        System.out.println(sampleController.getByText("controller read"));
-        System.out.println();
-
-        // update by id
-        System.out.println(sampleController.updateById(7, new Sample("controller update")));
-        System.out.println();
-
-        // delete by id
-        System.out.println("Sample deleted: " + sampleController.deleteById(3));
-        System.out.println();
-
-        // delete all
-        System.out.println("Samples deleted: " + sampleController.deleteAll());
         System.out.println();
     }
 }
