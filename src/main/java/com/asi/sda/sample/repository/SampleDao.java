@@ -13,7 +13,7 @@ import java.util.Random;
 public class SampleDao implements SampleRepository {
     private static final String SOURCE = "DAO => ";
 
-    private static final SampleDatabase database = new SampleDatabase();
+    private static final SampleDatabase database = SampleDatabase.getInstance();
 
     // -------------------------------------------- CRUD => CREATE
 
@@ -40,23 +40,21 @@ public class SampleDao implements SampleRepository {
     public Optional<Sample> create(Sample sample) {
         boolean isDone = true; // scenario setup
 
+        List<Sample> entities = database.getDatabase();
+
         Sample entity = new Sample();
+        entity.setId(ConsoleMenu.lastInsertId);
+        entity.setText(sample.getText());
+        entities.add(entity);
+        database.setDatabase(entities);
 
         if (isDone) {
-            Random random = new Random();
-            int fakeId = random.nextInt(9) + 1;
-
-            entity.setId(fakeId);
-            entity.setText(sample.getText());
-
             System.out.println("Return dao data: " + entity);
             System.out.println(SOURCE + "CREATE=TRUE/ID=" + entity.getId());
         } else {
             entity = null;
             System.out.println(SOURCE + "CREATE=FALSE/ID=" + 0);
         }
-
-        ConsoleMenu.lastInsertId++;
 
         return Optional.ofNullable(entity);
     }
@@ -118,22 +116,17 @@ public class SampleDao implements SampleRepository {
 
     @Override
     public Optional<Sample> find(Integer id) {
-        boolean isDone = true; // scenario setup
-
+        List<Sample> entities = database.getDatabase();
         Sample entity = new Sample();
 
-        if (isDone) {
-            RandomString randomString = new RandomString();
-            String fakeText = randomString.nextString();
-
-            entity.setId(id);
-            entity.setText(fakeText);
-
-            System.out.println("Return dao data: " + entity);
-            System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
-        } else {
-            entity = null;
-            System.out.println(SOURCE + "FIND=FALSE/ID=" + id);
+        for (Sample item : entities) {
+            if (item.getId() == id) {
+                System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
+                entity = item;
+            } else {
+                System.out.println(SOURCE + "FIND=FALSE/ID=" + id);
+                entity = null;
+            }
         }
 
         return Optional.ofNullable(entity);

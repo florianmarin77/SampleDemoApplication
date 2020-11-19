@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class ConsoleMenu {
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final SampleDatabase database = new SampleDatabase();
+    private static final SampleDatabase database = SampleDatabase.getInstance();
 
     private static final SampleDao dao = new SampleDao();
     private static final SampleServiceImpl service = new SampleServiceImpl(dao);
@@ -26,11 +26,11 @@ public class ConsoleMenu {
         boolean joker = false; // populate scenario
 
         if (joker) {
-            System.out.println("Welcome to Sample Demo Activator with database populated by loader!");
+            System.out.println("Welcome to Sample Demo Application with database populated by loader!");
             database.setDatabase(SampleDatabase.populateByList(SampleMapper.toEntities(SampleLoader.generateItemList())));
             SampleDatabase.displayDataTable(database.getDatabase());
         } else {
-            System.out.println("Welcome to Sample Demo Activator with database populated by faker!");
+            System.out.println("Welcome to Sample Demo Application with database populated by faker!");
             database.setDatabase(SampleDatabase.populateByList(SampleMapper.toEntities(SampleFaker.createDummyList())));
             SampleDatabase.displayDataTable(database.getDatabase());
         }
@@ -59,15 +59,12 @@ public class ConsoleMenu {
                             break;
                             case 1: {
                                 Scanner scanner = new Scanner(System.in);
-                                List<Sample> entities = database.getDatabase();
                                 System.out.println("CREATE => Please enter DATA (text string): ");
+                                Sample sample = new Sample(scanner.nextLine());
 
-                                String data = scanner.nextLine();
                                 lastInsertId++;
-                                Sample sample = new Sample(lastInsertId, data);
-                                entities.add(sample);
-                                database.setDatabase(entities);
-                                SampleDatabase.displayDataTable(entities);
+                                controller.save(SampleMapper.toRequestDto(sample));
+                                SampleDatabase.displayDataTable(database.getDatabase());
                             }
                             break;
                             case 2: {
@@ -75,16 +72,8 @@ public class ConsoleMenu {
                                 List<Sample> entities = database.getDatabase();
                                 System.out.println("READ => Please enter ID (integer number): ");
                                 int id = scanner.nextInt();
-                                boolean isValid = false;
-                                for (Sample entity : entities) {
-                                    if (entity.getId() == id) {
-                                        System.out.println("Sample found: " + entity);
-                                        isValid = true;
-                                    }
-                                }
-                                if (!isValid) {
-                                    System.out.println("Sample not found!");
-                                }
+
+                                controller.getById(id);
                                 SampleDatabase.displayDataTable(entities);
                             }
                             break;
@@ -92,6 +81,7 @@ public class ConsoleMenu {
                                 Scanner scanner = new Scanner(System.in);
                                 List<Sample> entities = database.getDatabase();
                                 System.out.println("UPDATE => Please enter ID (integer number): ");
+
                                 int id = scanner.nextInt();
                                 boolean isValid = false;
                                 for (Sample entity : entities) {
@@ -116,6 +106,7 @@ public class ConsoleMenu {
                                 Scanner scanner = new Scanner(System.in);
                                 List<Sample> entities = database.getDatabase();
                                 System.out.println("DELETE => Please enter ID (integer number): ");
+
                                 int id = scanner.nextInt();
                                 boolean isValid = false;
                                 int index = 0;

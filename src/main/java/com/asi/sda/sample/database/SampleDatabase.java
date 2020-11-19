@@ -6,6 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SampleDatabase {
+    private static SampleDatabase sampleDatabase = null;
+
+    private SampleDatabase() {
+        // prevent instantiation for Singleton
+    }
+
+    public static SampleDatabase getInstance() {
+        if(sampleDatabase == null) {
+            sampleDatabase = new SampleDatabase();
+        }
+        return sampleDatabase;
+    }
 
     private List<Sample> database;
 
