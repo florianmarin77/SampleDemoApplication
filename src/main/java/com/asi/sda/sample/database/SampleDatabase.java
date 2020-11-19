@@ -6,6 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SampleDatabase {
+
+    private List<Sample> database;
+
+    public List<Sample> getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(List<Sample> database) {
+        this.database = database;
+    }
+
     public static List<Sample> populateByList(List<Sample> samples){
         List<Sample> entities = new ArrayList<>();
         int k = 0; // fake id

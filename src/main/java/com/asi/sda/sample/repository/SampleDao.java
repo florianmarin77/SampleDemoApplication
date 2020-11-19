@@ -13,6 +13,8 @@ import java.util.Random;
 public class SampleDao implements SampleRepository {
     private static final String SOURCE = "DAO => ";
 
+    private static final SampleDatabase database = new SampleDatabase();
+
     // -------------------------------------------- CRUD => CREATE
 
     @Override

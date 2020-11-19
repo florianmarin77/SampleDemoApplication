@@ -2,34 +2,40 @@ package com.asi.sda;
 
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
+import com.asi.sda.sample.controller.SampleController;
 import com.asi.sda.sample.database.SampleDatabase;
 import com.asi.sda.sample.faker.SampleFaker;
 import com.asi.sda.sample.loader.SampleLoader;
+import com.asi.sda.sample.repository.SampleDao;
+import com.asi.sda.sample.service.SampleServiceImpl;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleMenu {
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static final SampleDatabase database = new SampleDatabase();
+
+    private static final SampleDao dao = new SampleDao();
+    private static final SampleServiceImpl service = new SampleServiceImpl(dao);
+    private static final SampleController controller = new SampleController(service);
 
     public static int lastInsertId;
 
     public static void main(String[] args) {
         boolean joker = false; // populate scenario
 
-        List<Sample> database; // database resource
-
         if (joker) {
             System.out.println("Welcome to Sample Demo Activator with database populated by loader!");
-            database = SampleDatabase.populateByList(SampleMapper.toEntities(SampleLoader.generateItemList()));
+            database.setDatabase(SampleDatabase.populateByList(SampleMapper.toEntities(SampleLoader.generateItemList())));
+            SampleDatabase.displayDataTable(database.getDatabase());
         } else {
             System.out.println("Welcome to Sample Demo Activator with database populated by faker!");
-            database = SampleDatabase.populateByList(SampleMapper.toEntities(SampleFaker.createDummyList()));
+            database.setDatabase(SampleDatabase.populateByList(SampleMapper.toEntities(SampleFaker.createDummyList())));
+            SampleDatabase.displayDataTable(database.getDatabase());
         }
 
-        lastInsertId = database.size();
-
-        SampleDatabase.displayDataTable(database);
+        lastInsertId = database.getDatabase().size();
 
         boolean exitMainMenu = false;
         do {
@@ -53,73 +59,81 @@ public class ConsoleMenu {
                             break;
                             case 1: {
                                 Scanner scanner = new Scanner(System.in);
+                                List<Sample> entities = database.getDatabase();
                                 System.out.println("CREATE => Please enter DATA (text string): ");
+
                                 String data = scanner.nextLine();
                                 lastInsertId++;
                                 Sample sample = new Sample(lastInsertId, data);
-                                database.add(sample);
-                                SampleDatabase.displayDataTable(database);
+                                entities.add(sample);
+                                database.setDatabase(entities);
+                                SampleDatabase.displayDataTable(entities);
                             }
                             break;
                             case 2: {
                                 Scanner scanner = new Scanner(System.in);
+                                List<Sample> entities = database.getDatabase();
                                 System.out.println("READ => Please enter ID (integer number): ");
                                 int id = scanner.nextInt();
                                 boolean isValid = false;
-                                for (Sample item : database){
-                                    if (item.getId() == id) {
-                                        System.out.println("Sample found: " + item);
+                                for (Sample entity : entities) {
+                                    if (entity.getId() == id) {
+                                        System.out.println("Sample found: " + entity);
                                         isValid = true;
                                     }
                                 }
-                                if (!isValid){
+                                if (!isValid) {
                                     System.out.println("Sample not found!");
                                 }
-                                SampleDatabase.displayDataTable(database);
+                                SampleDatabase.displayDataTable(entities);
                             }
                             break;
                             case 3: {
                                 Scanner scanner = new Scanner(System.in);
+                                List<Sample> entities = database.getDatabase();
                                 System.out.println("UPDATE => Please enter ID (integer number): ");
                                 int id = scanner.nextInt();
                                 boolean isValid = false;
-                                for (Sample item : database) {
-                                    if (item.getId() == id) {
-                                        System.out.println("Sample found: " + item);
+                                for (Sample entity : entities) {
+                                    if (entity.getId() == id) {
+                                        System.out.println("Sample found: " + entity);
                                         System.out.println("UPDATE => Please enter DATA (text string): ");
                                         Scanner scanner1 = new Scanner(System.in);
                                         String data = scanner1.nextLine();
-                                        item.setText(data);
+                                        entity.setText(data);
+                                        database.setDatabase(entities);
                                         isValid = true;
-                                        System.out.println("Sample updated! " + item);
+                                        System.out.println("Sample updated! " + entity);
                                     }
                                 }
-                                if (!isValid){
+                                if (!isValid) {
                                     System.out.println("Sample not found and not updated!");
                                 }
-                                SampleDatabase.displayDataTable(database);
+                                SampleDatabase.displayDataTable(entities);
                             }
                             break;
                             case 4: {
                                 Scanner scanner = new Scanner(System.in);
+                                List<Sample> entities = database.getDatabase();
                                 System.out.println("DELETE => Please enter ID (integer number): ");
                                 int id = scanner.nextInt();
                                 boolean isValid = false;
                                 int index = 0;
-                                for (Sample item : database) {
-                                    if (item.getId() == id) {
-                                        System.out.println("Sample found: " + item);
-                                        index = database.indexOf(item);
+                                for (Sample entity : entities) {
+                                    if (entity.getId() == id) {
+                                        System.out.println("Sample found: " + entity);
+                                        index = entities.indexOf(entity);
                                         isValid = true;
                                     }
                                 }
-                                if (!isValid){
+                                if (!isValid) {
                                     System.out.println("Sample not found and not deleted!");
                                 } else {
-                                    database.remove(index);
+                                    entities.remove(index);
+                                    database.setDatabase(entities);
                                     System.out.println("Sample deleted!");
                                 }
-                                SampleDatabase.displayDataTable(database);
+                                SampleDatabase.displayDataTable(entities);
                             }
                             break;
                             default: {
