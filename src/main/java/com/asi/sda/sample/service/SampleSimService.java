@@ -4,8 +4,10 @@ import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
 import com.asi.sda.sample.SampleRequestDto;
 import com.asi.sda.sample.SampleResponseDto;
+import com.asi.sda.sample.exception.SampleNotFoundException;
 import com.asi.sda.sample.repository.SampleRepository;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,14 +65,10 @@ public class SampleSimService implements SampleService {
     public SampleResponseDto find(Integer id) {
         System.out.println(SOURCE + "READ");
 
-        Optional<Sample> optional = sampleRepository.find(id);
+        Sample entity = sampleRepository.find(id)
+                .orElseThrow(() -> new RuntimeException("EXCEPTION: Sample not found!"));
 
-        if (optional.isPresent()) {
-            return SampleMapper.toResponseDto(optional.get());
-        } else {
-            System.out.println(SOURCE + "EXCEPTION: Sample not found!");
-            return SampleMapper.toResponseDto(new Sample()); // never ever
-        }
+        return SampleMapper.toResponseDto(entity);
     }
 
     // -------------------------------------------- CRUD => UPDATE
@@ -79,14 +77,10 @@ public class SampleSimService implements SampleService {
     public SampleResponseDto update(Integer id, Sample sampleData) {
         System.out.println(SOURCE + "UPDATE");
 
-        Optional<Sample> optional = sampleRepository.update(id, sampleData);
+        Sample entity = sampleRepository.update(id, sampleData)
+                .orElseThrow(() -> new RuntimeException("EXCEPTION: Sample not updated!"));
 
-        if (optional.isPresent()) {
-            return SampleMapper.toResponseDto(optional.get());
-        } else {
-            System.out.println(SOURCE + "EXCEPTION: Sample not updated!");
-            return SampleMapper.toResponseDto(new Sample()); // never ever
-        }
+        return SampleMapper.toResponseDto(entity);
     }
 
     // -------------------------------------------- CRUD => DELETE
