@@ -4,10 +4,8 @@ import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
 import com.asi.sda.sample.SampleRequestDto;
 import com.asi.sda.sample.SampleResponseDto;
-import com.asi.sda.sample.exception.SampleNotFoundException;
 import com.asi.sda.sample.repository.SampleRepository;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
