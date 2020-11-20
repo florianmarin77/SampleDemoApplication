@@ -3,18 +3,18 @@ package com.asi.sda.sample.controller;
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleRequestDto;
 import com.asi.sda.sample.SampleResponseDto;
-import com.asi.sda.sample.faker.SampleFaker;
-import com.asi.sda.sample.loader.SampleLoader;
+import com.asi.sda.sample.faker.SampleSimFaker;
+import com.asi.sda.sample.loader.SampleSimLoader;
 import com.asi.sda.sample.service.SampleService;
 
 import java.util.List;
 
-public class SampleController {
+public class SampleSimController {
     private static final String SOURCE = "CONTROLLER => ";
 
     private final SampleService sampleService;
 
-    public SampleController(SampleService sampleService) {
+    public SampleSimController(SampleService sampleService) {
         this.sampleService = sampleService;
     }
 
@@ -23,14 +23,14 @@ public class SampleController {
     // POST => "/samples/save/all/fake"
     public List<SampleResponseDto> saveAllByFaker() {
         System.out.println(SOURCE + "POST/samples/save/all/fake");
-        List<SampleRequestDto> requests = SampleFaker.createDummyList();
+        List<SampleRequestDto> requests = SampleSimFaker.createDummyList();
         return sampleService.createAll(requests);
     }
 
     // POST => "/samples/save/all/load"
     public List<SampleResponseDto> saveAllByLoader() {
         System.out.println(SOURCE + "POST/samples/save/all/load");
-        List<SampleRequestDto> requests = SampleLoader.generateItemList();
+        List<SampleRequestDto> requests = SampleSimLoader.generateItemList();
         return sampleService.createAll(requests);
     }
 

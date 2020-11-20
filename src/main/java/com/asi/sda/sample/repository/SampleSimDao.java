@@ -1,16 +1,16 @@
 package com.asi.sda.sample.repository;
 
 import com.asi.sda.sample.Sample;
-import com.asi.sda.sample.database.SampleDatabase;
+import com.asi.sda.sample.database.SampleSimDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SampleDao implements SampleRepository {
+public class SampleSimDao implements SampleRepository {
     private static final String SOURCE = "DAO => ";
 
-    private static final SampleDatabase database = SampleDatabase.getInstance();
+    private static final SampleSimDatabase database = SampleSimDatabase.getInstance();
 
     private static int lastInsertId;
 
@@ -21,7 +21,7 @@ public class SampleDao implements SampleRepository {
         List<Sample> entities = database.getDatabase(); // import
 
         boolean isDone;
-        List<Sample> results = SampleDatabase.generateId(samples, lastInsertId);
+        List<Sample> results = SampleSimDatabase.generateId(samples, lastInsertId);
         lastInsertId = lastInsertId + results.size();
         isDone = true;
 

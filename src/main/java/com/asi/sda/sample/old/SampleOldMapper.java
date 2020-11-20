@@ -6,21 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OldSampleMapper {
+public class SampleOldMapper {
 
     // entity to dto
 
-    public OldSampleDto toDto(Sample entity) {
-        OldSampleDto dto = new OldSampleDto();
+    public SampleOldDto toDto(Sample entity) {
+        SampleOldDto dto = new SampleOldDto();
         dto.setId(entity.getId());
         dto.setText(entity.getText());
         return dto;
     }
 
-    public List<OldSampleDto> toDto(List<Sample> entities) {
-        List<OldSampleDto> dtos = new ArrayList<>();
+    public List<SampleOldDto> toDto(List<Sample> entities) {
+        List<SampleOldDto> dtos = new ArrayList<>();
         for (Sample item : entities) {
-            OldSampleDto dto = new OldSampleDto();
+            SampleOldDto dto = new SampleOldDto();
             dto.setId(item.getId());
             dto.setText(item.getText());
             dtos.add(dto);
@@ -28,7 +28,7 @@ public class OldSampleMapper {
         return dtos;
     }
 
-    public List<OldSampleDto> toDtos(List<Sample> entities) {
+    public List<SampleOldDto> toDtos(List<Sample> entities) {
         return entities.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
@@ -36,16 +36,16 @@ public class OldSampleMapper {
 
     // dto to entity
 
-    public Sample toEntity(OldSampleDto dto) {
+    public Sample toEntity(SampleOldDto dto) {
         Sample entity = new Sample();
         entity.setId(dto.getId());
         entity.setText(dto.getText());
         return entity;
     }
 
-    public List<Sample> toEntity(List<OldSampleDto> dtos) {
+    public List<Sample> toEntity(List<SampleOldDto> dtos) {
         List<Sample> entities = new ArrayList<>();
-        for (OldSampleDto item : dtos) {
+        for (SampleOldDto item : dtos) {
             Sample entity = new Sample();
             entity.setId(item.getId());
             entity.setText(item.getText());
@@ -54,7 +54,7 @@ public class OldSampleMapper {
         return entities;
     }
 
-    public List<Sample> toEntities(List<OldSampleDto> dtos) {
+    public List<Sample> toEntities(List<SampleOldDto> dtos) {
         return dtos.stream()
                 .map(this::toEntity)
                 .collect(Collectors.toList());

@@ -5,7 +5,7 @@ import com.asi.sda.sample.SampleRequestDto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SampleLoader {
+public class SampleSimLoader {
     public static List<SampleRequestDto> generateItemList() {
         List<SampleRequestDto> items = new ArrayList<>();
         String numText = "0123456789";

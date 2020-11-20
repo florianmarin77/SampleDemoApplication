@@ -2,7 +2,7 @@ package com.asi.sda.sample.old;
 
 import java.util.Objects;
 
-public class OldSampleDto {
+public class SampleOldDto {
 
     private int id;
     private String text;
@@ -31,8 +31,8 @@ public class OldSampleDto {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
-        OldSampleDto oldSampleDto = (OldSampleDto) object;
-        return Objects.equals(text, oldSampleDto.text);
+        SampleOldDto sampleOldDto = (SampleOldDto) object;
+        return Objects.equals(text, sampleOldDto.text);
     }
 
     @Override

@@ -2,21 +2,21 @@ package com.asi.sda;
 
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
-import com.asi.sda.sample.controller.SampleController;
-import com.asi.sda.sample.database.SampleDatabase;
-import com.asi.sda.sample.repository.SampleDao;
+import com.asi.sda.sample.controller.SampleSimController;
+import com.asi.sda.sample.database.SampleSimDatabase;
+import com.asi.sda.sample.repository.SampleSimDao;
 import com.asi.sda.sample.service.SampleService;
-import com.asi.sda.sample.service.SampleServiceImpl;
+import com.asi.sda.sample.service.SampleSimService;
 
 import java.util.Scanner;
 
-public class ConsoleMenu {
+public class ConsoleSimMenu {
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final SampleDatabase database = SampleDatabase.getInstance();
+    private static final SampleSimDatabase database = SampleSimDatabase.getInstance();
 
-    private static final SampleDao dao = new SampleDao();
-    private static final SampleService service = new SampleServiceImpl(dao);
-    private static final SampleController controller = new SampleController(service);
+    private static final SampleSimDao dao = new SampleSimDao();
+    private static final SampleService service = new SampleSimService(dao);
+    private static final SampleSimController controller = new SampleSimController(service);
 
     public static void main(String[] args) {
         boolean joker = false; // populate scenario
@@ -24,11 +24,11 @@ public class ConsoleMenu {
         if (joker) {
             System.out.println("Welcome to Sample Demo Application with database populated by loader!");
             controller.saveAllByLoader();
-            SampleDatabase.displayDataTable(database.getDatabase());
+            SampleSimDatabase.displayDataTable(database.getDatabase());
         } else {
             System.out.println("Welcome to Sample Demo Application with database populated by faker!");
             controller.saveAllByFaker();
-            SampleDatabase.displayDataTable(database.getDatabase());
+            SampleSimDatabase.displayDataTable(database.getDatabase());
         }
 
         boolean exitMainMenu = false;
@@ -57,7 +57,7 @@ public class ConsoleMenu {
                                 Sample sample = new Sample(scanner.nextLine());
 
                                 controller.save(SampleMapper.toRequestDto(sample));
-                                SampleDatabase.displayDataTable(database.getDatabase());
+                                SampleSimDatabase.displayDataTable(database.getDatabase());
                             }
                             break;
                             case 2: {
@@ -66,7 +66,7 @@ public class ConsoleMenu {
                                 int id = scanner.nextInt();
 
                                 controller.getById(id);
-                                SampleDatabase.displayDataTable(database.getDatabase());
+                                SampleSimDatabase.displayDataTable(database.getDatabase());
                             }
                             break;
                             case 3: {
@@ -78,7 +78,7 @@ public class ConsoleMenu {
                                 String data = scanner1.nextLine();
 
                                 controller.updateById(id, new Sample(data));
-                                SampleDatabase.displayDataTable(database.getDatabase());
+                                SampleSimDatabase.displayDataTable(database.getDatabase());
                             }
                             break;
                             case 4: {
@@ -87,7 +87,7 @@ public class ConsoleMenu {
                                 int id = scanner.nextInt();
 
                                 controller.deleteById(id);
-                                SampleDatabase.displayDataTable(database.getDatabase());
+                                SampleSimDatabase.displayDataTable(database.getDatabase());
                             }
                             break;
                             default: {

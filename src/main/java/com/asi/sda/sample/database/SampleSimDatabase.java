@@ -5,19 +5,19 @@ import com.asi.sda.sample.Sample;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SampleDatabase {
+public class SampleSimDatabase {
     // Singleton pattern
-    private static SampleDatabase sampleDatabase = null;
+    private static SampleSimDatabase sampleSimDatabase = null;
 
-    private SampleDatabase() {
+    private SampleSimDatabase() {
         // prevent instantiation
     }
 
-    public static SampleDatabase getInstance() {
-        if (sampleDatabase == null) {
-            sampleDatabase = new SampleDatabase();
+    public static SampleSimDatabase getInstance() {
+        if (sampleSimDatabase == null) {
+            sampleSimDatabase = new SampleSimDatabase();
         }
-        return sampleDatabase;
+        return sampleSimDatabase;
     }
 
     // database resource

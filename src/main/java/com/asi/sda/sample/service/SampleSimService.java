@@ -9,12 +9,12 @@ import com.asi.sda.sample.repository.SampleRepository;
 import java.util.List;
 import java.util.Optional;
 
-public class SampleServiceImpl implements SampleService {
+public class SampleSimService implements SampleService {
     private static final String SOURCE = "SERVICE => ";
 
     private final SampleRepository sampleRepository;
 
-    public SampleServiceImpl(SampleRepository sampleRepository) {
+    public SampleSimService(SampleRepository sampleRepository) {
         this.sampleRepository = sampleRepository;
     }
 

@@ -6,7 +6,7 @@ import net.bytebuddy.utility.RandomString;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SampleFaker {
+public class SampleSimFaker {
     public static List<SampleRequestDto> createDummyList() {
         List<SampleRequestDto> dummies = new ArrayList<>();
         RandomString random = new RandomString();
