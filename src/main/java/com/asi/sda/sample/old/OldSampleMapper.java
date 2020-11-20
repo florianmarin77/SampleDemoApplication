@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class OldSampleMapper {
 
-    // ========================================> entity to dto
+    // entity to dto
 
     public OldSampleDto toDto(Sample entity) {
         OldSampleDto dto = new OldSampleDto();
@@ -34,7 +34,7 @@ public class OldSampleMapper {
                 .collect(Collectors.toList());
     }
 
-    // ========================================> dto to entity
+    // dto to entity
 
     public Sample toEntity(OldSampleDto dto) {
         Sample entity = new Sample();

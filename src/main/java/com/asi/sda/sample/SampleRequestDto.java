@@ -6,7 +6,7 @@ public class SampleRequestDto {
 
     private String text;
 
-    // =================> getters & setters
+    // getters & setters
 
     public String getText() {
         return text;
@@ -16,7 +16,7 @@ public class SampleRequestDto {
         this.text = text;
     }
 
-    // =================> special methods
+    // special methods
 
     @Override
     public boolean equals(Object object) {

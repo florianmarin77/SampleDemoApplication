@@ -20,17 +20,23 @@ public class SampleController {
 
     // -------------------------------------------- CRUD => CREATE
 
-    // POST => "/samples/fake/save/all"
+    // POST => "/samples/save/all/fake"
     public List<SampleResponseDto> saveAllByFaker() {
-        System.out.println(SOURCE + "POST/samples/fake/save/all");
+        System.out.println(SOURCE + "POST/samples/save/all/fake");
         List<SampleRequestDto> requests = SampleFaker.createDummyList();
         return sampleService.createAll(requests);
     }
 
-    // POST => "/samples/load/save/all"
+    // POST => "/samples/save/all/load"
     public List<SampleResponseDto> saveAllByLoader() {
-        System.out.println(SOURCE + "POST/samples/load/save/all");
+        System.out.println(SOURCE + "POST/samples/save/all/load");
         List<SampleRequestDto> requests = SampleLoader.generateItemList();
+        return sampleService.createAll(requests);
+    }
+
+    // POST => "samples/save/all"
+    public List<SampleResponseDto> saveAll(List<SampleRequestDto> requests) {
+        System.out.println(SOURCE + "POST/samples/save/all");
         return sampleService.createAll(requests);
     }
 

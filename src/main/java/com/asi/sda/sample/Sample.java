@@ -8,8 +8,6 @@ public class Sample {
 
     private String text;
 
-    // =================> constructors
-
     public Sample() {
         // empty constructor by default
     }
@@ -23,7 +21,7 @@ public class Sample {
         this.text = text;
     }
 
-    // =================> getters & setters
+    // getters & setters
 
     public Integer getId() {
         return id;
@@ -41,7 +39,7 @@ public class Sample {
         this.text = text;
     }
 
-    // =================> special methods
+    // special methods
 
     @Override
     public boolean equals(Object object) {

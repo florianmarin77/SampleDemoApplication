@@ -14,8 +14,6 @@ public class SampleServiceImpl implements SampleService {
 
     private final SampleRepository sampleRepository;
 
-    // =================> constructor
-
     public SampleServiceImpl(SampleRepository sampleRepository) {
         this.sampleRepository = sampleRepository;
     }

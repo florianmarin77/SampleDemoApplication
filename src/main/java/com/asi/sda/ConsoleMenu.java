@@ -2,13 +2,12 @@ package com.asi.sda;
 
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
-import com.asi.sda.sample.SampleResponseDto;
 import com.asi.sda.sample.controller.SampleController;
 import com.asi.sda.sample.database.SampleDatabase;
 import com.asi.sda.sample.repository.SampleDao;
+import com.asi.sda.sample.service.SampleService;
 import com.asi.sda.sample.service.SampleServiceImpl;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleMenu {
@@ -16,7 +15,7 @@ public class ConsoleMenu {
     private static final SampleDatabase database = SampleDatabase.getInstance();
 
     private static final SampleDao dao = new SampleDao();
-    private static final SampleServiceImpl service = new SampleServiceImpl(dao);
+    private static final SampleService service = new SampleServiceImpl(dao);
     private static final SampleController controller = new SampleController(service);
 
     public static void main(String[] args) {
@@ -24,7 +23,7 @@ public class ConsoleMenu {
 
         if (joker) {
             System.out.println("Welcome to Sample Demo Application with database populated by loader!");
-            List<SampleResponseDto> entities = controller.saveAllByLoader();
+            controller.saveAllByLoader();
             SampleDatabase.displayDataTable(database.getDatabase());
         } else {
             System.out.println("Welcome to Sample Demo Application with database populated by faker!");

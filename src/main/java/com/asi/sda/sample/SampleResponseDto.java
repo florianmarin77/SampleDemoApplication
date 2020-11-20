@@ -8,7 +8,7 @@ public class SampleResponseDto {
 
     private String text;
 
-    // =================> getters & setters
+    // getters & setters
 
     public Integer getId() {
         return id;
@@ -26,7 +26,7 @@ public class SampleResponseDto {
         this.text = text;
     }
 
-    // =================> special methods
+    // special methods
 
     @Override
     public boolean equals(Object object) {

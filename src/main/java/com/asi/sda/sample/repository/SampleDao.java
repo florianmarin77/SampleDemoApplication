@@ -2,12 +2,10 @@ package com.asi.sda.sample.repository;
 
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.database.SampleDatabase;
-import net.bytebuddy.utility.RandomString;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 public class SampleDao implements SampleRepository {
     private static final String SOURCE = "DAO => ";
@@ -65,24 +63,10 @@ public class SampleDao implements SampleRepository {
 
     @Override
     public List<Sample> findAll() {
-        boolean isDone = true; // scenario setup
-
-        List<Sample> entities = new ArrayList<>();
+        List<Sample> entities = database.getDatabase(); // import
+        boolean isDone = true;
 
         if (isDone) {
-            Random random = new Random();
-            int fakeSize = random.nextInt(9) + 1;
-            RandomString randomString = new RandomString();
-
-            for (int k = 0; k < fakeSize; k++) {
-                String fakeText = randomString.nextString();
-                Sample entity = new Sample();
-
-                entity.setId(k + 1);
-                entity.setText(fakeText);
-                entities.add(entity);
-            }
-            System.out.println("Return dao data: " + entities);
             System.out.println(SOURCE + "FIND=TRUE/SIZE=" + entities.size() + "/all");
         } else {
             System.out.println(SOURCE + "FIND=FALSE/SIZE=" + 0 + "/all");
@@ -93,27 +77,22 @@ public class SampleDao implements SampleRepository {
 
     @Override
     public List<Sample> findByText(String text) {
-        boolean isDone = true; // scenario setup
+        List<Sample> entities = database.getDatabase(); // import
+        List<Sample> results = new ArrayList<>();
 
-        List<Sample> entities = new ArrayList<>();
-
-        if (isDone) {
-            Random random = new Random();
-            int fakeSize = random.nextInt(9) + 1;
-            for (int k = 0; k < fakeSize; k++) {
-                Sample entity = new Sample();
-
-                entity.setId(k + 1);
-                entity.setText(text);
-                entities.add(entity);
+        for (Sample item : entities) {
+            if (item.getText().equals(text)) {
+                results.add(item);
             }
-            System.out.println("Return dao data: " + entities);
-            System.out.println(SOURCE + "FIND=TRUE/SIZE=" + entities.size() + "/" + text);
-        } else {
-            System.out.println(SOURCE + "FIND=FALSE/SIZE=" + 0 + "/" + text);
         }
 
-        return entities;
+        if (results.isEmpty()) {
+            System.out.println(SOURCE + "FIND=FALSE/SIZE=" + 0 + "/" + text);
+        } else {
+            System.out.println(SOURCE + "FIND=TRUE/SIZE=" + results.size() + "/" + text);
+        }
+
+        return results;
     }
 
     @Override

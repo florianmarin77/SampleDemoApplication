@@ -7,7 +7,7 @@ public class OldSampleDto {
     private int id;
     private String text;
 
-    // =================> getters & setters
+    // getters & setters
 
     public int getId() {
         return id;

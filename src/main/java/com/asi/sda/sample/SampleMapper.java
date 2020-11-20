@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class SampleMapper {
 
-    // ========================================> entity to request dto
+    // entity to request dto
 
     public static SampleRequestDto toRequestDto(Sample entity) {
         SampleRequestDto request = new SampleRequestDto();
@@ -30,7 +30,7 @@ public class SampleMapper {
                 .collect(Collectors.toList());
     }
 
-    // ========================================> entity to response dto
+    // entity to response dto
 
     public static SampleResponseDto toResponseDto(Sample entity) {
         SampleResponseDto response = new SampleResponseDto();
@@ -56,7 +56,7 @@ public class SampleMapper {
                 .collect(Collectors.toList());
     }
 
-    // ========================================> request dto to entity
+    // request dto to entity
 
     public static Sample toEntity(SampleRequestDto request) {
         Sample entity = new Sample();

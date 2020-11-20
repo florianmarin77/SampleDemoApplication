@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SampleDatabase {
+    // Singleton pattern
     private static SampleDatabase sampleDatabase = null;
 
     private SampleDatabase() {
-        // prevent instantiation for Singleton
+        // prevent instantiation
     }
 
     public static SampleDatabase getInstance() {
@@ -19,6 +20,7 @@ public class SampleDatabase {
         return sampleDatabase;
     }
 
+    // database resource
     private List<Sample> database = new ArrayList<>();
 
     public List<Sample> getDatabase() {
