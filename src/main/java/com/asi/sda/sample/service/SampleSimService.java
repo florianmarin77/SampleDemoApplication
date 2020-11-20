@@ -4,6 +4,8 @@ import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
 import com.asi.sda.sample.SampleRequestDto;
 import com.asi.sda.sample.SampleResponseDto;
+import com.asi.sda.sample.exception.SampleNotFoundException;
+import com.asi.sda.sample.exception.SampleNotUpdatedException;
 import com.asi.sda.sample.repository.SampleRepository;
 
 import java.util.List;
@@ -64,7 +66,7 @@ public class SampleSimService implements SampleService {
         System.out.println(SOURCE + "READ");
 
         Sample entity = sampleRepository.find(id)
-                .orElseThrow(() -> new RuntimeException("EXCEPTION: Sample not found!"));
+                .orElseThrow(() -> new SampleNotFoundException("EXCEPTION: Sample not found!"));
 
         return SampleMapper.toResponseDto(entity);
     }
@@ -76,7 +78,7 @@ public class SampleSimService implements SampleService {
         System.out.println(SOURCE + "UPDATE");
 
         Sample entity = sampleRepository.update(id, sampleData)
-                .orElseThrow(() -> new RuntimeException("EXCEPTION: Sample not updated!"));
+                .orElseThrow(() -> new SampleNotUpdatedException("EXCEPTION: Sample not updated!"));
 
         return SampleMapper.toResponseDto(entity);
     }
