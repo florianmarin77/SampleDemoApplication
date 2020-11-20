@@ -15,41 +15,44 @@ public class SampleDao implements SampleRepository {
 
     private static final SampleDatabase database = SampleDatabase.getInstance();
 
+    private static int lastInsertId;
+
     // -------------------------------------------- CRUD => CREATE
 
     @Override
     public List<Sample> createAll(List<Sample> samples) {
-        boolean isDone = true; // scenario setup
+        List<Sample> entities = database.getDatabase(); // import
 
-        List<Sample> entities = SampleDatabase.populateByList(samples);
+        boolean isDone;
+        List<Sample> results = SampleDatabase.generateId(samples, lastInsertId);
+        lastInsertId = lastInsertId + results.size();
+        isDone = true;
 
         if (isDone) {
-            System.out.println("Return dao data: " + entities);
-            System.out.println(SOURCE + "CREATE=TRUE/SIZE=" + entities.size() + "/all");
+            entities.addAll(results);
+            database.setDatabase(entities); // export
+            System.out.println(SOURCE + "CREATE=TRUE/SIZE=" + results.size() + "/all");
         } else {
             System.out.println(SOURCE + "CREATE=FALSE/SIZE=" + 0 + "/all");
         }
 
-        ConsoleMenu.lastInsertId = entities.size();
-        SampleDatabase.displayDataTable(entities);
-
-        return entities;
+        return results;
     }
 
     @Override
     public Optional<Sample> create(Sample sample) {
-        boolean isDone = true; // scenario setup
+        List<Sample> entities = database.getDatabase(); // import
 
-        List<Sample> entities = database.getDatabase();
-
+        boolean isDone;
+        lastInsertId++;
         Sample entity = new Sample();
-        entity.setId(ConsoleMenu.lastInsertId);
+        entity.setId(lastInsertId);
         entity.setText(sample.getText());
-        entities.add(entity);
-        database.setDatabase(entities);
+        isDone = true;
 
         if (isDone) {
-            System.out.println("Return dao data: " + entity);
+            entities.add(entity);
+            database.setDatabase(entities); // export
             System.out.println(SOURCE + "CREATE=TRUE/ID=" + entity.getId());
         } else {
             entity = null;
@@ -116,18 +119,24 @@ public class SampleDao implements SampleRepository {
 
     @Override
     public Optional<Sample> find(Integer id) {
-        List<Sample> entities = database.getDatabase();
-        Sample entity = null;
+        List<Sample> entities = database.getDatabase(); // import
 
+        int index = 0;
+        boolean isFound = false;
         for (Sample item : entities) {
             if (item.getId().equals(id)) {
-                System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
-                entity = item;
+                index = entities.indexOf(item);
+                isFound = true;
             }
         }
 
-        if (entity == null) {
+        Sample entity;
+        if (isFound) {
+            System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
+            entity = entities.get(index);
+        } else {
             System.out.println(SOURCE + "FIND=FALSE/ID=" + id);
+            entity = null;
         }
 
         return Optional.ofNullable(entity);
@@ -137,14 +146,24 @@ public class SampleDao implements SampleRepository {
 
     @Override
     public Optional<Sample> update(Integer id, Sample sampleData) {
-        boolean isDone = true; // scenario setup
+        List<Sample> entities = database.getDatabase(); // import
+
+        int index = 0;
+        boolean isFound = false;
+        for (Sample item : entities) {
+            if (item.getId().equals(id)) {
+                System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
+                index = entities.indexOf(item);
+                isFound = true;
+            }
+        }
 
         Sample entity = new Sample();
-
-        if (isDone) {
+        if (isFound) {
             entity.setId(id);
             entity.setText(sampleData.getText());
-            System.out.println("Return dao data: " + entity);
+            entities.get(index).setText(sampleData.getText());
+            database.setDatabase(entities); // export
             System.out.println(SOURCE + "UPDATE=TRUE/ID=" + id);
         } else {
             entity = null;
@@ -158,14 +177,26 @@ public class SampleDao implements SampleRepository {
 
     @Override
     public boolean delete(Integer id) {
-        boolean isDone = true; // scenario setup
+        List<Sample> entities = database.getDatabase(); // import
 
-        if (isDone) {
+        int index = 0;
+        boolean isFound = false;
+        for (Sample item : entities) {
+            if (item.getId().equals(id)) {
+                System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
+                index = entities.indexOf(item);
+                isFound = true;
+            }
+        }
+
+        if (isFound) {
+            entities.remove(index);
+            database.setDatabase(entities); // export
             System.out.println(SOURCE + "DELETE=TRUE/ID=" + id);
         } else {
             System.out.println(SOURCE + "DELETE=FALSE/ID=" + id);
         }
 
-        return isDone;
+        return isFound;
     }
 }

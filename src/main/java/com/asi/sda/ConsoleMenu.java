@@ -2,6 +2,7 @@ package com.asi.sda;
 
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
+import com.asi.sda.sample.SampleResponseDto;
 import com.asi.sda.sample.controller.SampleController;
 import com.asi.sda.sample.database.SampleDatabase;
 import com.asi.sda.sample.faker.SampleFaker;
@@ -9,6 +10,7 @@ import com.asi.sda.sample.loader.SampleLoader;
 import com.asi.sda.sample.repository.SampleDao;
 import com.asi.sda.sample.service.SampleServiceImpl;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleMenu {
@@ -19,22 +21,18 @@ public class ConsoleMenu {
     private static final SampleServiceImpl service = new SampleServiceImpl(dao);
     private static final SampleController controller = new SampleController(service);
 
-    public static int lastInsertId;
-
     public static void main(String[] args) {
         boolean joker = false; // populate scenario
 
         if (joker) {
             System.out.println("Welcome to Sample Demo Application with database populated by loader!");
-            database.setDatabase(SampleDatabase.populateByList(SampleMapper.toEntities(SampleLoader.generateItemList())));
+            List<SampleResponseDto> entities = controller.saveAllByLoader();
             SampleDatabase.displayDataTable(database.getDatabase());
         } else {
             System.out.println("Welcome to Sample Demo Application with database populated by faker!");
-            database.setDatabase(SampleDatabase.populateByList(SampleMapper.toEntities(SampleFaker.createDummyList())));
+            controller.saveAllByFaker();
             SampleDatabase.displayDataTable(database.getDatabase());
         }
-
-        lastInsertId = database.getDatabase().size();
 
         boolean exitMainMenu = false;
         do {
@@ -61,7 +59,6 @@ public class ConsoleMenu {
                                 System.out.println("CREATE => Please enter DATA (text string): ");
                                 Sample sample = new Sample(scanner.nextLine());
 
-                                lastInsertId++;
                                 controller.save(SampleMapper.toRequestDto(sample));
                                 SampleDatabase.displayDataTable(database.getDatabase());
                             }
@@ -79,9 +76,11 @@ public class ConsoleMenu {
                                 Scanner scanner = new Scanner(System.in);
                                 System.out.println("UPDATE => Please enter ID (integer number): ");
                                 int id = scanner.nextInt();
+                                Scanner scanner1 = new Scanner(System.in);
+                                System.out.println("UPDATE => Please enter DATA (text string): ");
+                                String data = scanner1.nextLine();
 
-                                // TODO complete the method
-
+                                controller.updateById(id, new Sample(data));
                                 SampleDatabase.displayDataTable(database.getDatabase());
                             }
                             break;
@@ -90,8 +89,7 @@ public class ConsoleMenu {
                                 System.out.println("DELETE => Please enter ID (integer number): ");
                                 int id = scanner.nextInt();
 
-                                // TODO complete the method
-
+                                controller.deleteById(id);
                                 SampleDatabase.displayDataTable(database.getDatabase());
                             }
                             break;

@@ -19,7 +19,7 @@ public class SampleDatabase {
         return sampleDatabase;
     }
 
-    private List<Sample> database;
+    private List<Sample> database = new ArrayList<>();
 
     public List<Sample> getDatabase() {
         return database;
@@ -29,13 +29,13 @@ public class SampleDatabase {
         this.database = database;
     }
 
-    public static List<Sample> populateByList(List<Sample> samples){
+    public static List<Sample> generateId(List<Sample> samples, int lastInsertId){
         List<Sample> entities = new ArrayList<>();
-        int k = 0; // fake id
+
         for (Sample item : samples) {
-            k++;
+            lastInsertId++;
             Sample entity = new Sample();
-            entity.setId(k);
+            entity.setId(lastInsertId);
             entity.setText(item.getText());
             entities.add(entity);
         }
