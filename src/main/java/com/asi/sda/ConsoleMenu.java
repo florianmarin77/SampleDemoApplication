@@ -5,8 +5,6 @@ import com.asi.sda.sample.SampleMapper;
 import com.asi.sda.sample.SampleResponseDto;
 import com.asi.sda.sample.controller.SampleController;
 import com.asi.sda.sample.database.SampleDatabase;
-import com.asi.sda.sample.faker.SampleFaker;
-import com.asi.sda.sample.loader.SampleLoader;
 import com.asi.sda.sample.repository.SampleDao;
 import com.asi.sda.sample.service.SampleServiceImpl;
 

@@ -5,8 +5,8 @@ import com.asi.sda.sample.SampleMapper;
 import com.asi.sda.sample.controller.SampleController;
 import com.asi.sda.sample.repository.SampleDao;
 import com.asi.sda.sample.repository.SampleRepository;
-import com.asi.sda.sample.service.SampleServiceImpl;
 import com.asi.sda.sample.service.SampleService;
+import com.asi.sda.sample.service.SampleServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;

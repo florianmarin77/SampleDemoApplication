@@ -1,6 +1,5 @@
 package com.asi.sda.sample.repository;
 
-import com.asi.sda.ConsoleMenu;
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.database.SampleDatabase;
 import net.bytebuddy.utility.RandomString;

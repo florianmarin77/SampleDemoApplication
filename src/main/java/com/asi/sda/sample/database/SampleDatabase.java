@@ -13,7 +13,7 @@ public class SampleDatabase {
     }
 
     public static SampleDatabase getInstance() {
-        if(sampleDatabase == null) {
+        if (sampleDatabase == null) {
             sampleDatabase = new SampleDatabase();
         }
         return sampleDatabase;
@@ -29,7 +29,7 @@ public class SampleDatabase {
         this.database = database;
     }
 
-    public static List<Sample> generateId(List<Sample> samples, int lastInsertId){
+    public static List<Sample> generateId(List<Sample> samples, int lastInsertId) {
         List<Sample> entities = new ArrayList<>();
 
         for (Sample item : samples) {
