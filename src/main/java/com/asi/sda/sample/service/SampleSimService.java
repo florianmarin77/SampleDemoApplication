@@ -5,11 +5,11 @@ import com.asi.sda.sample.SampleMapper;
 import com.asi.sda.sample.SampleRequestDto;
 import com.asi.sda.sample.SampleResponseDto;
 import com.asi.sda.sample.exception.SampleNotFoundException;
+import com.asi.sda.sample.exception.SampleNotSavedException;
 import com.asi.sda.sample.exception.SampleNotUpdatedException;
 import com.asi.sda.sample.repository.SampleRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public class SampleSimService implements SampleService {
     private static final String SOURCE = "SERVICE => ";
@@ -27,7 +27,13 @@ public class SampleSimService implements SampleService {
         System.out.println(SOURCE + "CREATE/all");
 
         List<Sample> samples = SampleMapper.toEntity(requests);
-        return SampleMapper.toResponseDto(sampleRepository.createAll(samples));
+        List<Sample> entities = sampleRepository.createAll(samples);
+
+        if (entities.isEmpty()) {
+            throw new SampleNotSavedException("EXCEPTION: Samples not saved!");
+        } else {
+            return SampleMapper.toResponseDto(entities);
+        }
     }
 
     @Override
@@ -35,13 +41,12 @@ public class SampleSimService implements SampleService {
         System.out.println(SOURCE + "CREATE");
 
         Sample sample = SampleMapper.toEntity(request);
-        Optional<Sample> optional = sampleRepository.create(sample);
+        Sample entity = sampleRepository.create(sample);
 
-        if (optional.isPresent()) {
-            return SampleMapper.toResponseDto(optional.get());
+        if (entity == null) {
+            throw new SampleNotSavedException("EXCEPTION: Sample not saved!");
         } else {
-            System.out.println(SOURCE + "EXCEPTION: Sample not saved!");
-            return SampleMapper.toResponseDto(new Sample()); // never ever
+            return SampleMapper.toResponseDto(entity);
         }
     }
 

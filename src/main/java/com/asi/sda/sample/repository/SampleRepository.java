@@ -23,7 +23,7 @@ public interface SampleRepository {
      * @param sample the sample to be saved
      * @return the created sample
      */
-    Optional<Sample> create(Sample sample);
+    Sample create(Sample sample);
 
     // -------------------------------------------- CRUD => READ
 

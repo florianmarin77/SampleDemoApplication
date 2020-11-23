@@ -37,10 +37,10 @@ public class SampleSimDao implements SampleRepository {
     }
 
     @Override
-    public Optional<Sample> create(Sample sample) {
+    public Sample create(Sample sample) {
         List<Sample> entities = database.getDatabase(); // import
-
         boolean isDone;
+
         lastInsertId++;
         Sample entity = new Sample();
         entity.setId(lastInsertId);
@@ -56,7 +56,7 @@ public class SampleSimDao implements SampleRepository {
             System.out.println(SOURCE + "CREATE=FALSE/ID=" + 0);
         }
 
-        return Optional.ofNullable(entity);
+        return entity;
     }
 
     // -------------------------------------------- CRUD => READ
