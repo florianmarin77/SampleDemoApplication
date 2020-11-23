@@ -61,12 +61,11 @@ public class MainSimController {
         SampleSimDatabase.displayDataTable(database.getDatabase());
 
         // update by id
-        System.out.println(controller.updateById(54, new Sample("macarena")));
-        System.out.println();
+        controller.updateById(54, new Sample("macarena"));
         SampleSimDatabase.displayDataTable(database.getDatabase());
 
         // delete by id
-        System.out.println("Sample deleted: " + controller.deleteById(55));
+        controller.deleteById(55);
         System.out.println();
         SampleSimDatabase.displayDataTable(database.getDatabase());
     }

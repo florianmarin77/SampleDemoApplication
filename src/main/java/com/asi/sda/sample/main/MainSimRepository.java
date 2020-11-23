@@ -43,13 +43,11 @@ public class MainSimRepository {
         SampleSimDatabase.displayDataTable(database.getDatabase());
 
         // update
-        System.out.println(dao.update(2, new Sample("macarena")));
-        System.out.println();
+        dao.update(2, new Sample("macarena"));
         SampleSimDatabase.displayDataTable(database.getDatabase());
 
         // delete
-        System.out.println("Sample deleted: " + dao.delete(3));
-        System.out.println();
+        dao.delete(3);
         SampleSimDatabase.displayDataTable(database.getDatabase());
     }
 }

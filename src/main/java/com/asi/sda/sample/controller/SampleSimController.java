@@ -69,16 +69,16 @@ public class SampleSimController {
     // -------------------------------------------- CRUD => UPDATE
 
     // PUT => "samples/id"
-    public SampleResponseDto updateById(Integer id, Sample sampleData) {
+    public void updateById(Integer id, Sample sampleData) {
         System.out.println(SOURCE + "PUT/samples/id");
-        return sampleService.update(id, sampleData);
+        sampleService.update(id, sampleData);
     }
 
     // -------------------------------------------- CRUD => DELETE
 
     // DELETE => "samples/id"
-    public boolean deleteById(Integer id) {
+    public void deleteById(Integer id) {
         System.out.println(SOURCE + "DELETE/samples/id");
-        return sampleService.delete(id);
+        sampleService.delete(id);
     }
 }

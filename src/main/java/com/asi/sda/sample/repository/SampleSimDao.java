@@ -18,8 +18,7 @@ public class SampleSimDao implements SampleRepository {
 
     private static int lastInsertId;
 
-    private static final boolean isActive = false; // exception scenario
-
+    private static final boolean isActive = true; // exception scenario
 
     // -------------------------------------------- CRUD => CREATE
 
@@ -133,6 +132,7 @@ public class SampleSimDao implements SampleRepository {
                 entity = entities.get(index);
                 System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
             } else {
+                entity = null;
                 System.out.println(SOURCE + "FIND=FALSE/ID=" + id);
             }
         } else {
