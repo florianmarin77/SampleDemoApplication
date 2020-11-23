@@ -6,7 +6,6 @@ import com.asi.sda.sample.SampleRequestDto;
 import com.asi.sda.sample.SampleResponseDto;
 import com.asi.sda.sample.exception.SampleNotFoundException;
 import com.asi.sda.sample.exception.SampleNotSavedException;
-import com.asi.sda.sample.exception.SampleNotUpdatedException;
 import com.asi.sda.sample.repository.SampleRepository;
 
 import java.util.List;
@@ -79,21 +78,18 @@ public class SampleSimService implements SampleService {
     // -------------------------------------------- CRUD => UPDATE
 
     @Override
-    public SampleResponseDto update(Integer id, Sample sampleData) {
+    public void update(Integer id, Sample sampleData) {
         System.out.println(SOURCE + "UPDATE");
 
-        Sample entity = sampleRepository.update(id, sampleData)
-                .orElseThrow(() -> new SampleNotUpdatedException("EXCEPTION: Sample not updated!"));
-
-        return SampleMapper.toResponseDto(entity);
+        sampleRepository.update(id, sampleData);
     }
 
     // -------------------------------------------- CRUD => DELETE
 
     @Override
-    public boolean delete(Integer id) {
+    public void delete(Integer id) {
         System.out.println(SOURCE + "DELETE");
 
-        return sampleRepository.delete(id);
+        sampleRepository.delete(id);
     }
 }

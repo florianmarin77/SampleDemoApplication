@@ -12,15 +12,15 @@ public interface SampleRepository {
     /**
      * Inserts all samples in the database.
      *
-     * @param samples a list of samples to be saved
-     * @return true if all samples are created
+     * @param samples a list of samples to be created
+     * @return a list of created samples
      */
     List<Sample> createAll(List<Sample> samples);
 
     /**
      * Inserts a complete sample in the database.
      *
-     * @param sample the sample to be saved
+     * @param sample the sample to be created
      * @return the created sample
      */
     Sample create(Sample sample);
@@ -35,7 +35,7 @@ public interface SampleRepository {
     List<Sample> findAll();
 
     /**
-     * Returns all samples by first name.
+     * Returns all samples by text.
      *
      * @param text the sample internal text
      * @return a list of found samples
@@ -57,9 +57,8 @@ public interface SampleRepository {
      *
      * @param id         the specific sample id
      * @param sampleData the object data to update
-     * @return the updated sample
      */
-    Optional<Sample> update(Integer id, Sample sampleData);
+    void update(Integer id, Sample sampleData);
 
     // -------------------------------------------- CRUD => DELETE
 
@@ -67,7 +66,6 @@ public interface SampleRepository {
      * Deletes a specific sample from the database.
      *
      * @param id the specific sample id
-     * @return true if the sample was deleted
      */
-    boolean delete(Integer id);
+    void delete(Integer id);
 }

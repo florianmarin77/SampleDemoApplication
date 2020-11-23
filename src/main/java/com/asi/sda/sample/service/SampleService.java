@@ -13,15 +13,15 @@ public interface SampleService {
     /**
      * Inserts all samples in the database.
      *
-     * @param requests a list of samples to be saved
-     * @return true if all samples were created
+     * @param requests a list of samples to be created
+     * @return a list of created samples
      */
     List<SampleResponseDto> createAll(List<SampleRequestDto> requests);
 
     /**
      * Inserts a complete sample in the database.
      *
-     * @param request the sample to be saved
+     * @param request the sample to be created
      * @return the created sample as data transfer object
      */
     SampleResponseDto create(SampleRequestDto request);
@@ -36,7 +36,7 @@ public interface SampleService {
     List<SampleResponseDto> findAll();
 
     /**
-     * Returns all samples by first name.
+     * Returns all samples by text.
      *
      * @param text the sample internal text
      * @return a list of found samples as dtos
@@ -58,9 +58,8 @@ public interface SampleService {
      *
      * @param id         the specific sample id
      * @param sampleData the object data to update
-     * @return the updated sample as data transfer object
      */
-    SampleResponseDto update(Integer id, Sample sampleData);
+    void update(Integer id, Sample sampleData);
 
     // -------------------------------------------- CRUD => DELETE
 
@@ -68,7 +67,6 @@ public interface SampleService {
      * Deletes a specific sample from the database.
      *
      * @param id the specific sample id
-     * @return true if the sample was deleted
      */
-    boolean delete(Integer id);
+    void delete(Integer id);
 }
