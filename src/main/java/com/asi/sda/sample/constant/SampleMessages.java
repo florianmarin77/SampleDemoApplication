@@ -7,7 +7,7 @@ public final class SampleMessages {
     public static final String SAMPLES_SAVED = "SAMPLES SAVED. SIZE={}";
     public static final String SAMPLE_FOUND = "SAMPLE FOUND. ID={}";
     public static final String SAMPLES_FOUND = "SAMPLES FOUND. SIZE={}/{}";
-    public static final String SAMPLE_UPDATED = "SAMPLE UPDATED. ID={sample}";
+    public static final String SAMPLE_UPDATED = "SAMPLE UPDATED. ID={}";
     public static final String SAMPLE_DELETED = "SAMPLE DELETED. ID={}";
     public static final String SAMPLES_DELETED = "SAMPLES DELETED. SIZE={}";
 
