@@ -52,7 +52,7 @@ public class SampleJpaDao implements SampleRepository {
             }
         }
 
-        return samples;
+        return samples; // entity if successfully
     }
 
     @Override
@@ -74,7 +74,7 @@ public class SampleJpaDao implements SampleRepository {
             }
         }
 
-        return sample;
+        return sample; // entity if successfully
     }
 
     // -------------------------------------------- CRUD => READ
@@ -101,28 +101,28 @@ public class SampleJpaDao implements SampleRepository {
                 .createQuery(FIND_BY_TEXT_JPQL, Sample.class);
         typedQuery.setParameter("text", text);
 
-        List<Sample> samples = typedQuery.getResultList();
+        List<Sample> entities = typedQuery.getResultList();
 
-        if (samples.isEmpty()) {
+        if (entities.isEmpty()) {
             LOGGER.warn(SAMPLES_NOT_FOUND, 0, text);
         } else {
-            LOGGER.info(SAMPLES_FOUND, samples.size(), text);
+            LOGGER.info(SAMPLES_FOUND, entities.size(), text);
         }
 
-        return samples;
+        return entities;
     }
 
     @Override
     public Optional<Sample> find(Integer id) {
-        Sample sample = entityManager.find(Sample.class, id);
+        Sample entity = entityManager.find(Sample.class, id);
 
-        if (sample == null) {
+        if (entity == null) {
             LOGGER.warn(SAMPLE_NOT_FOUND, id);
         } else {
-            LOGGER.info(SAMPLE_FOUND, sample.getId());
+            LOGGER.info(SAMPLE_FOUND, entity.getId());
         }
 
-        return Optional.ofNullable(sample);
+        return Optional.ofNullable(entity);
     }
 
     // -------------------------------------------- CRUD => UPDATE

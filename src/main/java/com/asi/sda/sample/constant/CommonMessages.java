@@ -12,6 +12,8 @@ public class CommonMessages {
     public static final String GENERIC_ISSUE = "Something went wrong! {}";
     public static final String LAST_INSERT = "LAST INSERT ID MAY BE CORRUPTED! {}>=<{}";
 
+    public static final String OUT_OF_RANGE_ERROR = "ID NUMBER OUT OF RANGE!";
+
     private CommonMessages() {
         // private constructor by default
     }

@@ -1,7 +1,7 @@
 package com.asi.sda.sample.exception;
 
 public class SampleNotUpdatedException extends RuntimeException {
-    public SampleNotUpdatedException(String errorMessage) {
-        super(errorMessage);
+    public SampleNotUpdatedException(String message) {
+        super(message);
     }
 }
