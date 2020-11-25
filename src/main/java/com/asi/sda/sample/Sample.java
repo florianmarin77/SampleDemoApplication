@@ -1,11 +1,18 @@
 package com.asi.sda.sample;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity(name = "Sample")
+@Table(name = "sample")
 public class Sample {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
+    @Column(name = "text")
     private String text;
 
     public Sample() {
