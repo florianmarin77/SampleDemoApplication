@@ -17,11 +17,9 @@ import static com.asi.sda.sample.constant.SampleMessages.*;
 import static com.asi.sda.sample.constant.CommonMessages.OUT_OF_RANGE_ERROR;
 
 public class SampleJpaService implements SampleService {
-
     private static final Logger LOGGER = LogManager.getLogger(SampleJpaService.class);
 
-
-    private SampleRepository sampleRepository;
+    private final SampleRepository sampleRepository;
 
     public SampleJpaService(SampleRepository sampleRepository) {
         this.sampleRepository = sampleRepository;

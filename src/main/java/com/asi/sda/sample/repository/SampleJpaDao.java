@@ -14,11 +14,9 @@ import static com.asi.sda.sample.constant.SampleMessages.*;
 
 
 public class SampleJpaDao implements SampleRepository {
-
     private static final Logger LOGGER = LogManager.getLogger(SampleJpaDao.class);
 
     public static int lastInsertId;
-
 
     private final EntityManager entityManager;
 
