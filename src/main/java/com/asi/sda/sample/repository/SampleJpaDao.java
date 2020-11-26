@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,8 +94,7 @@ public class SampleJpaDao implements SampleRepository {
 
     @Override
     public List<Sample> findAll() {
-        TypedQuery<Sample> typedQuery = entityManager
-                .createQuery(FIND_ALL_JPQL, Sample.class);
+        TypedQuery<Sample> typedQuery = entityManager.createQuery(FIND_ALL_JPQL, Sample.class);
 
         List<Sample> samples = typedQuery.getResultList();
 
@@ -109,11 +109,17 @@ public class SampleJpaDao implements SampleRepository {
 
     @Override
     public List<Sample> findByText(String text) {
-        TypedQuery<Sample> typedQuery = entityManager
-                .createQuery(FIND_BY_TEXT_JPQL, Sample.class);
+        TypedQuery<Sample> typedQuery = entityManager.createQuery(FIND_BY_TEXT_JPQL, Sample.class);
         typedQuery.setParameter("text", text);
 
-        List<Sample> entities = typedQuery.getResultList();
+        // jpql search is case insensitive by default
+        List<Sample> results = typedQuery.getResultList();
+        List<Sample> entities = new ArrayList<>();
+        for (Sample item : results) {
+            if (item.getText().equals(text)) {
+                entities.add(item);
+            }
+        }
 
         if (entities.isEmpty()) {
             LOGGER.warn(SAMPLES_NOT_FOUND, 0, text);
