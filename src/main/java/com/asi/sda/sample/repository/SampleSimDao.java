@@ -61,7 +61,7 @@ public class SampleSimDao implements SampleRepository {
             System.out.println(SOURCE + "CREATE=TRUE/ID=" + entity.getId());
         } else {
             System.out.println(SOURCE + "CREATE=FALSE/ID=" + 0);
-            if (isActive){
+            if (isActive) {
                 throw new SampleNotSavedException("ERROR: Sample saving failed!");
             }
         }
@@ -120,15 +120,13 @@ public class SampleSimDao implements SampleRepository {
         Sample entity = new Sample();
 
         if (isReady) {
-            int index = 0;
-            boolean isFound = false;
+            Integer index = null;
             for (Sample item : entities) {
                 if (item.getId().equals(id)) {
                     index = entities.indexOf(item);
-                    isFound = true;
                 }
             }
-            if (isFound) {
+            if (index != null) {
                 entity = entities.get(index);
                 System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
             } else {
@@ -152,16 +150,14 @@ public class SampleSimDao implements SampleRepository {
         boolean isReady = true; // database scenario
 
         if (isReady) {
-            int index = 0;
-            boolean isFound = false;
+            Integer index = null;
             for (Sample item : entities) {
                 if (item.getId().equals(id)) {
                     index = entities.indexOf(item);
-                    isFound = true;
                 }
             }
             Sample entity = new Sample();
-            if(isFound){
+            if (index != null) {
                 entity.setId(id);
                 entity.setText(sampleData.getText());
                 entities.get(index).setText(sampleData.getText());
@@ -171,7 +167,7 @@ public class SampleSimDao implements SampleRepository {
                 System.out.println(SOURCE + "UPDATE=FALSE/ID=" + id);
             }
         } else {
-            if (isActive){
+            if (isActive) {
                 throw new SampleNotUpdatedException("ERROR: Sample updating failed!");
             }
         }
@@ -185,17 +181,15 @@ public class SampleSimDao implements SampleRepository {
         boolean isReady = true; // database scenario
 
         if (isReady) {
-            int index = 0;
-            boolean isFound = false;
+            Integer index = null;
             for (Sample item : entities) {
                 if (item.getId().equals(id)) {
                     System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
                     index = entities.indexOf(item);
-                    isFound = true;
                 }
             }
-            if (isFound) {
-                entities.remove(index);
+            if (index != null) {
+                entities.remove((int) index);
                 database.setDatabase(entities); // export
                 System.out.println(SOURCE + "DELETE=TRUE/ID=" + id);
             } else {

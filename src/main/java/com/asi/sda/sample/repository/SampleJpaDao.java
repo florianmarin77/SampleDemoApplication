@@ -1,6 +1,7 @@
 package com.asi.sda.sample.repository;
 
 import com.asi.sda.sample.Sample;
+import com.asi.sda.sample.database.SampleSimDatabase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,12 +10,15 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
-import static com.asi.sda.sample.constant.CommonMessages.*;
+import static com.asi.sda.sample.constant.CommonMessages.LAST_INSERT;
+import static com.asi.sda.sample.constant.CommonMessages.PLEASE_WAIT;
 import static com.asi.sda.sample.constant.SampleMessages.*;
 
 
 public class SampleJpaDao implements SampleRepository {
     private static final Logger LOGGER = LogManager.getLogger(SampleJpaDao.class);
+
+    private static final SampleSimDatabase database = SampleSimDatabase.getInstance();
 
     public static int lastInsertId;
 
@@ -28,6 +32,8 @@ public class SampleJpaDao implements SampleRepository {
 
     @Override
     public List<Sample> createAll(List<Sample> samples) {
+        List<Sample> duplicates = database.getDatabase(); // import
+
         try {
             LOGGER.info(SAMPLES_START + PLEASE_WAIT);
             entityManager.getTransaction().begin();
@@ -44,6 +50,9 @@ public class SampleJpaDao implements SampleRepository {
             if (!foundId.equals(lastInsertId)) {
                 LOGGER.warn(LAST_INSERT, lastInsertId, foundId);
             }
+
+            duplicates.addAll(samples);
+            database.setDatabase(duplicates); // export
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
@@ -55,6 +64,8 @@ public class SampleJpaDao implements SampleRepository {
 
     @Override
     public Sample create(Sample sample) {
+        List<Sample> duplicates = database.getDatabase(); // import
+
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(sample);
@@ -66,6 +77,9 @@ public class SampleJpaDao implements SampleRepository {
             if (!foundId.equals(lastInsertId)) {
                 LOGGER.warn(LAST_INSERT, lastInsertId, foundId);
             }
+
+            duplicates.add(sample);
+            database.setDatabase(duplicates); // export
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
@@ -127,6 +141,8 @@ public class SampleJpaDao implements SampleRepository {
 
     @Override
     public void update(Integer id, Sample sampleData) {
+        List<Sample> duplicates = database.getDatabase(); // import
+
         Sample foundSample = entityManager.find(Sample.class, id);
 
         try {
@@ -140,6 +156,18 @@ public class SampleJpaDao implements SampleRepository {
                 entityManager.getTransaction().commit();
                 LOGGER.info(SAMPLE_UPDATED, foundSample.getId());
             }
+
+            Integer index = null;
+            for (Sample item : duplicates) {
+                if (item.getId().equals(id)) {
+                    index = duplicates.indexOf(item);
+                }
+            }
+            if (index != null) {
+                duplicates.get(index).setText(sampleData.getText());
+                database.setDatabase(duplicates); // export
+            }
+
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
@@ -151,6 +179,8 @@ public class SampleJpaDao implements SampleRepository {
 
     @Override
     public void delete(Integer id) {
+        List<Sample> duplicates = database.getDatabase(); // import
+
         try {
             Sample foundSample = entityManager.find(Sample.class, id);
 
@@ -162,6 +192,17 @@ public class SampleJpaDao implements SampleRepository {
                 entityManager.getTransaction().commit();
 
                 LOGGER.info(SAMPLE_DELETED, id);
+            }
+
+            Integer index = null;
+            for (Sample item : duplicates) {
+                if (item.getId().equals(id)) {
+                    index = duplicates.indexOf(item);
+                }
+            }
+            if (index != null) {
+                duplicates.remove((int) index);
+                database.setDatabase(duplicates); // export
             }
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {

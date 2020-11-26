@@ -28,43 +28,43 @@ public class MainJpaDao {
          * JPA DAO *
          ***********/
 
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("MacroMedia");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MacroMedia");
+        EntityManager em = emf.createEntityManager();
 
-        SampleRepository sampleJpaDao = new SampleJpaDao(entityManager);
+        SampleRepository dao = new SampleJpaDao(em);
 
         // populate database by loader scenario
         if (JOKER) {
-            SampleLoader sampleSplitLoader = new SampleSplitLoader(); // database resources => sampleList.csv
-            Path sampleListPath = Paths.get(ClassLoader.getSystemResource("data/sample/sampleList.csv").toURI());
-            sampleJpaDao.createAll(sampleSplitLoader.loadData(Paths.get(String.valueOf(sampleListPath))));
+            SampleLoader loader = new SampleSplitLoader(); // database resources => sampleList.csv
+            Path path = Paths.get(ClassLoader.getSystemResource("data/sample/sampleList.csv").toURI());
+            dao.createAll(loader.loadData(Paths.get(String.valueOf(path))));
         } else {
-            SampleLoader sampleLineLoader = new SampleLineLoader(); // database resources => sampleList.txt
-            Path sampleListPath = Paths.get(ClassLoader.getSystemResource("data/sample/sampleList.txt").toURI());
-            sampleJpaDao.createAll(sampleLineLoader.loadData(Paths.get(String.valueOf(sampleListPath))));
+            SampleLoader loader = new SampleLineLoader(); // database resources => sampleList.txt
+            Path path = Paths.get(ClassLoader.getSystemResource("data/sample/sampleList.txt").toURI());
+            dao.createAll(loader.loadData(Paths.get(String.valueOf(path))));
         }
 
         // create single sample (id=27)
-        sampleJpaDao.create(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+        dao.create(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
 
         // find all samples (found list size = 27)
-        sampleJpaDao.findAll();
+        dao.findAll();
 
         // find by text (found list size = 1)
-        sampleJpaDao.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        dao.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         // find by good id
-        sampleJpaDao.find(1);
+        dao.find(1);
 
         // integral sample update id = 27
-        sampleJpaDao.update(27, new Sample("abcdefghijklmnopqrstuvwxyz"));
+        dao.update(27, new Sample("abcdefghijklmnopqrstuvwxyz"));
 
         // delete good id = 27
-        sampleJpaDao.delete(27);
+        dao.delete(27);
 
         // close resources
-        entityManager.close();
-        entityManagerFactory.close();
+        em.close();
+        emf.close();
 
         // drop sample table
 //        SampleJdbcDao sampleJdbcDao = new SampleJdbcDao();
