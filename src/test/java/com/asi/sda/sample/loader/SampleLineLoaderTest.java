@@ -15,12 +15,6 @@ class SampleLineLoaderTest {
 
     @Test
     void loadData() {
-        /**
-         * given => the resource file named bookListTest.csv
-         * when  => trying to load from this resource file
-         * then  => the result list contains expected items
-         */
-
         SampleLoader loader = new SampleLineLoader();
         List<Sample> samples = new ArrayList<>();
         Path path;
