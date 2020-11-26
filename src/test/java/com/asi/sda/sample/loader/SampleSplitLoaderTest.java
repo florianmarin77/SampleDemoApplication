@@ -21,12 +21,12 @@ class SampleSplitLoaderTest {
          * then  => the result list contains expected items
          */
 
-        SampleLoader sampleLoader = new SampleSplitLoader();
+        SampleLoader loader = new SampleSplitLoader();
         List<Sample> samples = new ArrayList<>();
-        Path sampleListPath;
+        Path path;
         try {
-            sampleListPath = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.csv").toURI());
-            samples = sampleLoader.loadData(Paths.get(String.valueOf(sampleListPath)));
+            path = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.csv").toURI());
+            samples = loader.loadData(Paths.get(String.valueOf(path)));
         } catch (URISyntaxException exception) {
             exception.printStackTrace();
         }

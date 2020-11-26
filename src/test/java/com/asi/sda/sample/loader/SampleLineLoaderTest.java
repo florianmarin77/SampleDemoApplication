@@ -21,12 +21,12 @@ class SampleLineLoaderTest {
          * then  => the result list contains expected items
          */
 
-        SampleLoader sampleLoader = new SampleLineLoader();
+        SampleLoader loader = new SampleLineLoader();
         List<Sample> samples = new ArrayList<>();
-        Path sampleListPath;
+        Path path;
         try {
-            sampleListPath = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.txt").toURI());
-            samples = sampleLoader.loadData(Paths.get(String.valueOf(sampleListPath)));
+            path = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.txt").toURI());
+            samples = loader.loadData(Paths.get(String.valueOf(path)));
         } catch (URISyntaxException exception) {
             exception.printStackTrace();
         }
