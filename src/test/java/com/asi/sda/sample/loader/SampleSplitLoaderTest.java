@@ -17,9 +17,9 @@ class SampleSplitLoaderTest {
     void loadData() {
         SampleLoader loader = new SampleSplitLoader();
         List<Sample> samples = new ArrayList<>();
-        Path path;
+
         try {
-            path = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.csv").toURI());
+            Path path = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.csv").toURI());
             samples = loader.loadData(Paths.get(String.valueOf(path)));
         } catch (URISyntaxException exception) {
             exception.printStackTrace();

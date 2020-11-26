@@ -17,9 +17,9 @@ class SampleLineLoaderTest {
     void loadData() {
         SampleLoader loader = new SampleLineLoader();
         List<Sample> samples = new ArrayList<>();
-        Path path;
+
         try {
-            path = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.txt").toURI());
+            Path path = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.txt").toURI());
             samples = loader.loadData(Paths.get(String.valueOf(path)));
         } catch (URISyntaxException exception) {
             exception.printStackTrace();
