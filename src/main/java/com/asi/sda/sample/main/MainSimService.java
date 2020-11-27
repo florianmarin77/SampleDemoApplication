@@ -30,11 +30,11 @@ public class MainSimService {
         // create
         System.out.println(service.create(SampleMapper.toRequestDto(new Sample("service"))));
         System.out.println();
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         System.out.println("Samples created: " + service.createAll(SampleMapper.toRequestDto(samples)));
         System.out.println();
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // read
         System.out.println(service.find(1));
@@ -43,14 +43,14 @@ public class MainSimService {
         System.out.println();
         System.out.println(service.findByText("service"));
         System.out.println();
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // update
         service.update(2, new Sample("macarena"));
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // delete
         service.delete(3);
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
     }
 }

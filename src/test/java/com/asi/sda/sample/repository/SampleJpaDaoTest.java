@@ -13,10 +13,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SampleJpaDaoTest {
-
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("MacroMedia");
     private static final EntityManager em = emf.createEntityManager();
-
     private static final SampleRepository dao = new SampleJpaDao(em);
 
     @Test
@@ -27,10 +25,10 @@ class SampleJpaDaoTest {
         List<Sample> samples = new ArrayList<>();
         samples.add(sample1);
         samples.add(sample2);
-        
+
         dao.createAll(samples);
         List<Sample> samplesAfter = dao.findAll();
-        
+
         assertThat(samplesAfter.size()).isEqualTo(samplesBefore.size() + samples.size());
     }
 

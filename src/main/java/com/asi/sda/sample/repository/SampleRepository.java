@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface SampleRepository {
 
-    // -------------------------------------------- CRUD => CREATE
-
     /**
      * Inserts all samples in the database.
      *
@@ -24,8 +22,6 @@ public interface SampleRepository {
      * @return the created sample
      */
     Sample create(Sample sample);
-
-    // -------------------------------------------- CRUD => READ
 
     /**
      * Returns all samples from the database.
@@ -50,17 +46,13 @@ public interface SampleRepository {
      */
     Optional<Sample> find(Integer id);
 
-    // -------------------------------------------- CRUD => UPDATE
-
     /**
      * Updates a specific sample by id.
      *
-     * @param id         the specific sample id
-     * @param sampleData the object data to update
+     * @param id   the specific sample id
+     * @param data the object data to update
      */
-    void update(Integer id, Sample sampleData);
-
-    // -------------------------------------------- CRUD => DELETE
+    void update(Integer id, Sample data);
 
     /**
      * Deletes a specific sample from the database.

@@ -26,12 +26,12 @@ public class MainSimRepository {
         // create
         System.out.println(dao.create(new Sample("repository")));
         System.out.println();
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // createAll
         System.out.println("Samples created: " + dao.createAll(samples));
         System.out.println();
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // read
         System.out.println(dao.find(1));
@@ -40,14 +40,14 @@ public class MainSimRepository {
         System.out.println();
         System.out.println(dao.findByText("repository"));
         System.out.println();
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // update
         dao.update(2, new Sample("macarena"));
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // delete
         dao.delete(3);
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
     }
 }

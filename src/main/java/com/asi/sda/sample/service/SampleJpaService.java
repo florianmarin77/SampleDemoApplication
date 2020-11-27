@@ -13,8 +13,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
-import static com.asi.sda.sample.constant.SampleMessages.*;
 import static com.asi.sda.sample.constant.CommonMessages.OUT_OF_RANGE_ERROR;
+import static com.asi.sda.sample.constant.SampleMessages.*;
 
 public class SampleJpaService implements SampleService {
     private static final Logger LOGGER = LogManager.getLogger(SampleJpaService.class);
@@ -24,8 +24,6 @@ public class SampleJpaService implements SampleService {
     public SampleJpaService(SampleRepository sampleRepository) {
         this.sampleRepository = sampleRepository;
     }
-
-    // -------------------------------------------- CRUD => CREATE
 
     @Override
     public List<SampleResponseDto> createAll(List<SampleRequestDto> requests) {
@@ -48,8 +46,6 @@ public class SampleJpaService implements SampleService {
             return SampleMapper.toResponseDto(entity);
         }
     }
-
-    // -------------------------------------------- CRUD => READ
 
     @Override
     public List<SampleResponseDto> findAll() {
@@ -82,15 +78,13 @@ public class SampleJpaService implements SampleService {
         }
     }
 
-    // -------------------------------------------- CRUD => UPDATE
-
     @Override
-    public void update(Integer id, Sample sampleData) {
+    public void update(Integer id, Sample data) {
         if (hasValidId(id)) {
             Optional<Sample> optional = sampleRepository.find(id);
 
             if (optional.isPresent()) {
-                sampleRepository.update(id, sampleData);
+                sampleRepository.update(id, data);
             } else {
                 throw new SampleNotUpdatedException(SAMPLE_NOT_UPDATED_ERROR);
             }
@@ -98,8 +92,6 @@ public class SampleJpaService implements SampleService {
             throw new OutOfRangeException(OUT_OF_RANGE_ERROR);
         }
     }
-
-    // -------------------------------------------- CRUD => DELETE
 
     @Override
     public void delete(Integer id) {
@@ -115,8 +107,6 @@ public class SampleJpaService implements SampleService {
             throw new OutOfRangeException(OUT_OF_RANGE_ERROR);
         }
     }
-
-    // ==================================================> SPECIAL METHODS
 
     private boolean hasValidId(Integer id) {
         boolean validId = false;

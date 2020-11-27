@@ -19,7 +19,7 @@ class SampleSimDatabaseTest {
         samples.add(sample2);
         int lastInsertId = 0;
 
-        List<Sample> results = SampleSimDatabase.generateId(samples, lastInsertId);
+        List<Sample> results = SampleSimDatabase.generateIdAll(samples, lastInsertId);
 
         assertThat(results.get(0).getId()).isEqualTo(1);
         assertThat(results.get(0).getText()).isEqualTo("0123456789");

@@ -4,22 +4,19 @@ import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
 import com.asi.sda.sample.SampleRequestDto;
 import com.asi.sda.sample.SampleResponseDto;
-import com.asi.sda.sample.exception.SampleNotFoundException;
 import com.asi.sda.sample.exception.SampleNotSavedException;
 import com.asi.sda.sample.repository.SampleRepository;
 
 import java.util.List;
 
 public class SampleSimService implements SampleService {
-    private static final String SOURCE = "SERVICE => ";
+    private static final String SOURCE = "SERVICE => "; // logger
 
     private final SampleRepository sampleRepository;
 
     public SampleSimService(SampleRepository sampleRepository) {
         this.sampleRepository = sampleRepository;
     }
-
-    // -------------------------------------------- CRUD => CREATE
 
     @Override
     public List<SampleResponseDto> createAll(List<SampleRequestDto> requests) {
@@ -49,8 +46,6 @@ public class SampleSimService implements SampleService {
         }
     }
 
-    // -------------------------------------------- CRUD => READ
-
     @Override
     public List<SampleResponseDto> findAll() {
         System.out.println(SOURCE + "READ/all");
@@ -70,25 +65,25 @@ public class SampleSimService implements SampleService {
         System.out.println(SOURCE + "READ");
 
         Sample entity = sampleRepository.find(id)
-                .orElseThrow(() -> new SampleNotFoundException("EXCEPTION: Sample not found!"));
+                .orElseThrow(() -> new RuntimeException("EXCEPTION: Sample not found!"));
 
         return SampleMapper.toResponseDto(entity);
     }
 
-    // -------------------------------------------- CRUD => UPDATE
-
     @Override
-    public void update(Integer id, Sample sampleData) {
+    public void update(Integer id, Sample data) {
         System.out.println(SOURCE + "UPDATE");
 
-        sampleRepository.update(id, sampleData);
-    }
+        sampleRepository.find(id).orElseThrow(() -> new RuntimeException("EXCEPTION: Sample not found!"));
 
-    // -------------------------------------------- CRUD => DELETE
+        sampleRepository.update(id, data);
+    }
 
     @Override
     public void delete(Integer id) {
         System.out.println(SOURCE + "DELETE");
+
+        sampleRepository.find(id).orElseThrow(() -> new RuntimeException("EXCEPTION: Sample not found!"));
 
         sampleRepository.delete(id);
     }

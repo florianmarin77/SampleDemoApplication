@@ -20,20 +20,18 @@ public class SampleSimDao implements SampleRepository {
 
     private static final boolean isActive = true; // exception scenario
 
-    // -------------------------------------------- CRUD => CREATE
-
     @Override
     public List<Sample> createAll(List<Sample> samples) {
-        List<Sample> entities = database.getDatabase(); // import
+        List<Sample> entities = database.getSampleList(); // import
         boolean isReady = true; // database scenario
 
         List<Sample> results = new ArrayList<>();
 
         if (isReady) {
-            results = SampleSimDatabase.generateId(samples, lastInsertId);
+            results = SampleSimDatabase.generateIdAll(samples, lastInsertId);
             lastInsertId = lastInsertId + results.size();
             entities.addAll(results);
-            database.setDatabase(entities); // export
+            database.setSampleList(entities); // export
             System.out.println(SOURCE + "CREATE=TRUE/SIZE=" + results.size() + "/all");
         } else {
             System.out.println(SOURCE + "CREATE=FALSE/SIZE=" + 0 + "/all");
@@ -47,18 +45,17 @@ public class SampleSimDao implements SampleRepository {
 
     @Override
     public Sample create(Sample sample) {
-        List<Sample> entities = database.getDatabase(); // import
+        List<Sample> entities = database.getSampleList(); // import
         boolean isReady = true; // database scenario
 
-        Sample entity = new Sample();
+        Sample result = new Sample();
 
         if (isReady) {
+            result = SampleSimDatabase.generateIdOne(sample, lastInsertId);
             lastInsertId++;
-            entity.setId(lastInsertId);
-            entity.setText(sample.getText());
-            entities.add(entity);
-            database.setDatabase(entities); // export
-            System.out.println(SOURCE + "CREATE=TRUE/ID=" + entity.getId());
+            entities.add(result);
+            database.setSampleList(entities); // export
+            System.out.println(SOURCE + "CREATE=TRUE/ID=" + result.getId());
         } else {
             System.out.println(SOURCE + "CREATE=FALSE/ID=" + 0);
             if (isActive) {
@@ -66,14 +63,12 @@ public class SampleSimDao implements SampleRepository {
             }
         }
 
-        return entity;
+        return result;
     }
-
-    // -------------------------------------------- CRUD => READ
 
     @Override
     public List<Sample> findAll() {
-        List<Sample> entities = database.getDatabase(); // import
+        List<Sample> entities = database.getSampleList(); // import
         boolean isReady = true; // database scenario
 
         if (isReady) {
@@ -90,7 +85,7 @@ public class SampleSimDao implements SampleRepository {
 
     @Override
     public List<Sample> findByText(String text) {
-        List<Sample> entities = database.getDatabase(); // import
+        List<Sample> entities = database.getSampleList(); // import
         boolean isReady = true; // database scenario
 
         List<Sample> results = new ArrayList<>();
@@ -114,7 +109,7 @@ public class SampleSimDao implements SampleRepository {
 
     @Override
     public Optional<Sample> find(Integer id) {
-        List<Sample> entities = database.getDatabase(); // import
+        List<Sample> entities = database.getSampleList(); // import
         boolean isReady = true; // database scenario
 
         Sample entity = new Sample();
@@ -142,11 +137,9 @@ public class SampleSimDao implements SampleRepository {
         return Optional.ofNullable(entity);
     }
 
-    // -------------------------------------------- CRUD => UPDATE
-
     @Override
-    public void update(Integer id, Sample sampleData) {
-        List<Sample> entities = database.getDatabase(); // import
+    public void update(Integer id, Sample data) {
+        List<Sample> entities = database.getSampleList(); // import
         boolean isReady = true; // database scenario
 
         if (isReady) {
@@ -156,12 +149,9 @@ public class SampleSimDao implements SampleRepository {
                     index = entities.indexOf(item);
                 }
             }
-            Sample entity = new Sample();
             if (index != null) {
-                entity.setId(id);
-                entity.setText(sampleData.getText());
-                entities.get(index).setText(sampleData.getText());
-                database.setDatabase(entities); // export
+                entities.get(index).setText(data.getText());
+                database.setSampleList(entities); // export
                 System.out.println(SOURCE + "UPDATE=TRUE/ID=" + id);
             } else {
                 System.out.println(SOURCE + "UPDATE=FALSE/ID=" + id);
@@ -173,11 +163,9 @@ public class SampleSimDao implements SampleRepository {
         }
     }
 
-    // -------------------------------------------- CRUD => DELETE
-
     @Override
     public void delete(Integer id) {
-        List<Sample> entities = database.getDatabase(); // import
+        List<Sample> entities = database.getSampleList(); // import
         boolean isReady = true; // database scenario
 
         if (isReady) {
@@ -190,7 +178,7 @@ public class SampleSimDao implements SampleRepository {
             }
             if (index != null) {
                 entities.remove((int) index);
-                database.setDatabase(entities); // export
+                database.setSampleList(entities); // export
                 System.out.println(SOURCE + "DELETE=TRUE/ID=" + id);
             } else {
                 System.out.println(SOURCE + "DELETE=FALSE/ID=" + id);

@@ -29,11 +29,9 @@ public class SampleJpaDao implements SampleRepository {
         this.entityManager = entityManager;
     }
 
-    // -------------------------------------------- CRUD => CREATE
-
     @Override
     public List<Sample> createAll(List<Sample> samples) {
-        List<Sample> duplicates = database.getDatabase(); // import
+        List<Sample> duplicates = database.getSampleList(); // import
 
         try {
             LOGGER.info(SAMPLES_START + PLEASE_WAIT);
@@ -53,7 +51,7 @@ public class SampleJpaDao implements SampleRepository {
             }
 
             duplicates.addAll(samples);
-            database.setDatabase(duplicates); // export
+            database.setSampleList(duplicates); // export
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
@@ -65,7 +63,7 @@ public class SampleJpaDao implements SampleRepository {
 
     @Override
     public Sample create(Sample sample) {
-        List<Sample> duplicates = database.getDatabase(); // import
+        List<Sample> duplicates = database.getSampleList(); // import
 
         try {
             entityManager.getTransaction().begin();
@@ -80,7 +78,7 @@ public class SampleJpaDao implements SampleRepository {
             }
 
             duplicates.add(sample);
-            database.setDatabase(duplicates); // export
+            database.setSampleList(duplicates); // export
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
@@ -89,8 +87,6 @@ public class SampleJpaDao implements SampleRepository {
 
         return sample; // entity if successfully
     }
-
-    // -------------------------------------------- CRUD => READ
 
     @Override
     public List<Sample> findAll() {
@@ -143,11 +139,9 @@ public class SampleJpaDao implements SampleRepository {
         return Optional.ofNullable(entity);
     }
 
-    // -------------------------------------------- CRUD => UPDATE
-
     @Override
-    public void update(Integer id, Sample sampleData) {
-        List<Sample> duplicates = database.getDatabase(); // import
+    public void update(Integer id, Sample data) {
+        List<Sample> duplicates = database.getSampleList(); // import
 
         Sample foundSample = entityManager.find(Sample.class, id);
 
@@ -155,7 +149,7 @@ public class SampleJpaDao implements SampleRepository {
             if (foundSample == null) {
                 LOGGER.warn(SAMPLE_NOT_UPDATED + SAMPLE_NOT_FOUND, id);
             } else {
-                foundSample.setText(sampleData.getText());
+                foundSample.setText(data.getText());
 
                 entityManager.getTransaction().begin();
                 entityManager.merge(foundSample);
@@ -170,8 +164,8 @@ public class SampleJpaDao implements SampleRepository {
                 }
             }
             if (index != null) {
-                duplicates.get(index).setText(sampleData.getText());
-                database.setDatabase(duplicates); // export
+                duplicates.get(index).setText(data.getText());
+                database.setSampleList(duplicates); // export
             }
 
         } catch (Exception exception) {
@@ -181,11 +175,9 @@ public class SampleJpaDao implements SampleRepository {
         }
     }
 
-    // -------------------------------------------- CRUD => DELETE
-
     @Override
     public void delete(Integer id) {
-        List<Sample> duplicates = database.getDatabase(); // import
+        List<Sample> duplicates = database.getSampleList(); // import
 
         try {
             Sample foundSample = entityManager.find(Sample.class, id);
@@ -208,7 +200,7 @@ public class SampleJpaDao implements SampleRepository {
             }
             if (index != null) {
                 duplicates.remove((int) index);
-                database.setDatabase(duplicates); // export
+                database.setSampleList(duplicates); // export
             }
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {

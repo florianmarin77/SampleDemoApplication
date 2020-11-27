@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface SampleService {
 
-    // -------------------------------------------- CRUD => CREATE
-
     /**
      * Inserts all samples in the database.
      *
@@ -25,8 +23,6 @@ public interface SampleService {
      * @return the created sample as data transfer object
      */
     SampleResponseDto create(SampleRequestDto request);
-
-    // -------------------------------------------- CRUD => READ
 
     /**
      * Returns all samples from the database.
@@ -51,17 +47,13 @@ public interface SampleService {
      */
     SampleResponseDto find(Integer id);
 
-    // -------------------------------------------- CRUD => UPDATE
-
     /**
      * Updates a specific sample by id.
      *
-     * @param id         the specific sample id
-     * @param sampleData the object data to update
+     * @param id   the specific sample id
+     * @param data the object data to update
      */
-    void update(Integer id, Sample sampleData);
-
-    // -------------------------------------------- CRUD => DELETE
+    void update(Integer id, Sample data);
 
     /**
      * Deletes a specific sample from the database.

@@ -32,22 +32,22 @@ public class MainSimController {
         // save all by faker
         System.out.println("Return data: " + controller.saveAllByFaker());
         System.out.println();
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // save all by loader
         System.out.println("Return data: " + controller.saveAllByLoader());
         System.out.println();
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // save
         System.out.println(controller.save(SampleMapper.toRequestDto(new Sample("controller"))));
         System.out.println();
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // save all
         System.out.println("Samples created: " + controller.saveAll(SampleMapper.toRequestDto(samples)));
         System.out.println();
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // find by id
         System.out.println(controller.getById(53));
@@ -58,15 +58,15 @@ public class MainSimController {
         // find by text
         System.out.println(controller.getByText("controller"));
         System.out.println();
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // update by id
         controller.updateById(54, new Sample("macarena"));
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
 
         // delete by id
         controller.deleteById(55);
         System.out.println();
-        SampleSimDatabase.displayDataTable(database.getDatabase());
+        SampleSimDatabase.displayDataTable(database.getSampleList());
     }
 }

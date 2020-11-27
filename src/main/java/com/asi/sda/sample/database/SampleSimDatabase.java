@@ -21,27 +21,39 @@ public class SampleSimDatabase {
     }
 
     // database resource
-    private List<Sample> database = new ArrayList<>();
+    private List<Sample> sampleList = new ArrayList<>();
 
-    public List<Sample> getDatabase() {
-        return database;
+    public List<Sample> getSampleList() {
+        return sampleList;
     }
 
-    public void setDatabase(List<Sample> database) {
-        this.database = database;
+    public void setSampleList(List<Sample> sampleList) {
+        this.sampleList = sampleList;
     }
 
-    public static List<Sample> generateId(List<Sample> samples, int lastInsertId) {
+    public static List<Sample> generateIdAll(List<Sample> samples, int lastInsertId) {
         List<Sample> entities = new ArrayList<>();
 
         for (Sample item : samples) {
             lastInsertId++;
+
             Sample entity = new Sample();
             entity.setId(lastInsertId);
             entity.setText(item.getText());
             entities.add(entity);
         }
+
         return entities;
+    }
+
+    public static Sample generateIdOne(Sample sample, int lastInsertId){
+        lastInsertId++;
+
+        Sample entity =  new Sample();
+        entity.setId(lastInsertId);
+        entity.setText(sample.getText());
+
+        return entity;
     }
 
     public static void displayDataTable(List<Sample> entities) {
