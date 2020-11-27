@@ -49,7 +49,7 @@ public class SingleDao implements Repository {
             System.out.println(SOURCE + "CREATE=FALSE/ID=" + 0); // logger
         }
 
-        return null;
+        return result;
     }
 
     @Override
