@@ -30,13 +30,13 @@ class SampleSimDaoTest {
 
     @Test
     void create() {
-        int before = dao.findAll().size();
+        List<Sample> samplesBefore = dao.findAll();
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         dao.create(sample);
-        int after = dao.findAll().size();
+        List<Sample> samplesAfter = dao.findAll();
 
-        assertThat(after).isEqualTo(before + 1);
+        assertThat(samplesAfter.size()).isEqualTo(samplesBefore.size() + 1);
     }
 
     @Test
@@ -95,16 +95,11 @@ class SampleSimDaoTest {
     void delete() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         dao.create(sample);
-        int before = dao.findAll().size();
-//        List<Sample> samplesBefore = dao.findAll();
-//        System.out.println(samplesBefore.size());
+        List<Sample> samplesBefore = dao.findAll();
 
         dao.delete(sample.getId());
-//        List<Sample> samplesAfter = dao.findAll();
-//        System.out.println(samplesAfter.size());
-        int after = dao.findAll().size();
+        List<Sample> samplesAfter = dao.findAll();
 
-
-        assertThat(after).isLessThan(before);
+        assertThat(samplesAfter.size()).isLessThan(samplesBefore.size());
     }
 }

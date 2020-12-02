@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private static Database database;
+    // Singleton pattern
+    private static Database database = null;
 
     private Database() {
         // prevent instantiation
@@ -21,6 +22,7 @@ public class Database {
         return database;
     }
 
+    // database resource
     private List<Single> singleList = new ArrayList<>();
 
     public List<Single> getSingleList() {

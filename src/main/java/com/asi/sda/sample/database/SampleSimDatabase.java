@@ -13,7 +13,8 @@ public class SampleSimDatabase {
         // prevent instantiation
     }
 
-    public static SampleSimDatabase getInstance() {
+    // Thread Safe Lazy Sampleton
+    public static synchronized SampleSimDatabase getInstance() {
         if (sampleSimDatabase == null) {
             sampleSimDatabase = new SampleSimDatabase();
         }
@@ -31,6 +32,7 @@ public class SampleSimDatabase {
         this.sampleList = sampleList;
     }
 
+    // generate multiple ids
     public static List<Sample> generateIdAll(List<Sample> samples, int lastInsertId) {
         List<Sample> entities = new ArrayList<>();
 
@@ -46,6 +48,7 @@ public class SampleSimDatabase {
         return entities;
     }
 
+    // generate single id
     public static Sample generateIdOne(Sample sample, int lastInsertId) {
         lastInsertId++;
 
@@ -56,16 +59,25 @@ public class SampleSimDatabase {
         return entity;
     }
 
-    public static void displayDataTable(List<Sample> entities) {
-        int maxLength = entities.get(0).getText().length();
-        for (Sample item : entities) {
-            int textLength = item.getText().length();
-            if (textLength > maxLength) {
-                maxLength = textLength;
+    public void displayTable(List<Sample> entities) {
+        int maxLength;
+        if (entities.isEmpty()) {
+            maxLength = 4;
+        } else {
+            maxLength = entities.get(0).getText().length();
+            for (Sample item : entities) {
+                int textLength = item.getText().length();
+                if (textLength > maxLength) {
+                    maxLength = textLength;
+                }
             }
         }
         System.out.println();
         displayOutsideLine(maxLength);
+        displayMetaData(maxLength, "TEXT");
+        if (!entities.isEmpty()) {
+            displayInsideLine(maxLength);
+        }
         for (Sample item : entities) {
             int id = item.getId();
             String text = item.getText();
@@ -78,7 +90,7 @@ public class SampleSimDatabase {
         System.out.println();
     }
 
-    private static void displayOutsideLine(int maxLength) {
+    private void displayOutsideLine(int maxLength) {
         System.out.print("+------");
         for (int k = 0; k < maxLength; k++) {
             System.out.print("-");
@@ -87,16 +99,16 @@ public class SampleSimDatabase {
         System.out.println();
     }
 
-    private static void displayInsideLine(int maxLength) {
-        System.out.print("-------");
+    private void displayInsideLine(int maxLength) {
+        System.out.print("|------");
         for (int k = 0; k < maxLength; k++) {
             System.out.print("-");
         }
-        System.out.print("--");
+        System.out.print("-|");
         System.out.println();
     }
 
-    private static void displayDataLine(int id, int maxLength, String text) {
+    private void displayDataLine(int id, int maxLength, String text) {
         StringBuilder blank = new StringBuilder();
         if (text.length() < maxLength) {
             int difLength = maxLength - text.length();
@@ -109,6 +121,18 @@ public class SampleSimDatabase {
             System.out.print("0");
         }
         System.out.print(id + " | " + text + blank + " |");
+        System.out.println();
+    }
+
+    private void displayMetaData(int maxLength, String text) {
+        StringBuilder blank = new StringBuilder();
+        if (text.length() < maxLength) {
+            int difLength = maxLength - text.length();
+            for (int k = 0; k < difLength; k++) {
+                blank.append(" ");
+            }
+        }
+        System.out.print("| ID | " + text + blank + " |");
         System.out.println();
     }
 }

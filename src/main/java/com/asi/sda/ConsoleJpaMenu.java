@@ -36,13 +36,13 @@ public class ConsoleJpaMenu {
             SampleLoader loader = new SampleSplitLoader(); // database resources => sampleList.csv
             Path path = Paths.get(ClassLoader.getSystemResource("data/sample/sampleList.csv").toURI());
             service.createAll(SampleMapper.toRequestDtos(loader.loadData(Paths.get(String.valueOf(path)))));
-            SampleSimDatabase.displayDataTable(database.getSampleList());
+            database.displayTable(database.getSampleList());
         } else {
             System.out.println("Welcome to Sample Demo Application with database populated by line loader!");
             SampleLoader loader = new SampleLineLoader(); // database resources => sampleList.txt
             Path path = Paths.get(ClassLoader.getSystemResource("data/sample/sampleList.txt").toURI());
             service.createAll(SampleMapper.toRequestDtos(loader.loadData(Paths.get(String.valueOf(path)))));
-            SampleSimDatabase.displayDataTable(database.getSampleList());
+            database.displayTable(database.getSampleList());
         }
 
         boolean exitMainMenu = false;
@@ -71,7 +71,7 @@ public class ConsoleJpaMenu {
                                 Sample sample = new Sample(scanner.nextLine());
 
                                 service.create(SampleMapper.toRequestDto(sample));
-                                SampleSimDatabase.displayDataTable(database.getSampleList());
+                                database.displayTable(database.getSampleList());
                             }
                             break;
                             case 2: {
@@ -80,7 +80,7 @@ public class ConsoleJpaMenu {
                                 int id = scanner.nextInt();
 
                                 service.find(id);
-                                SampleSimDatabase.displayDataTable(database.getSampleList());
+                                database.displayTable(database.getSampleList());
                             }
                             break;
                             case 3: {
@@ -92,7 +92,7 @@ public class ConsoleJpaMenu {
                                 String data = scanner1.nextLine();
 
                                 service.update(id, new Sample(data));
-                                SampleSimDatabase.displayDataTable(database.getSampleList());
+                                database.displayTable(database.getSampleList());
                             }
                             break;
                             case 4: {
@@ -101,7 +101,7 @@ public class ConsoleJpaMenu {
                                 int id = scanner.nextInt();
 
                                 service.delete(id);
-                                SampleSimDatabase.displayDataTable(database.getSampleList());
+                                database.displayTable(database.getSampleList());
                             }
                             break;
                             default: {

@@ -24,11 +24,11 @@ public class ConsoleSimMenu {
         if (joker) {
             System.out.println("Welcome to Sample Demo Application with database populated by loader!");
             controller.saveAllByLoader();
-            SampleSimDatabase.displayDataTable(database.getSampleList());
+            database.displayTable(database.getSampleList());
         } else {
             System.out.println("Welcome to Sample Demo Application with database populated by faker!");
             controller.saveAllByFaker();
-            SampleSimDatabase.displayDataTable(database.getSampleList());
+            database.displayTable(database.getSampleList());
         }
 
         boolean exitMainMenu = false;
@@ -57,7 +57,7 @@ public class ConsoleSimMenu {
                                 Sample sample = new Sample(scanner.nextLine());
 
                                 controller.save(SampleMapper.toRequestDto(sample));
-                                SampleSimDatabase.displayDataTable(database.getSampleList());
+                                database.displayTable(database.getSampleList());
                             }
                             break;
                             case 2: {
@@ -66,7 +66,7 @@ public class ConsoleSimMenu {
                                 int id = scanner.nextInt();
 
                                 controller.getById(id);
-                                SampleSimDatabase.displayDataTable(database.getSampleList());
+                                database.displayTable(database.getSampleList());
                             }
                             break;
                             case 3: {
@@ -78,7 +78,7 @@ public class ConsoleSimMenu {
                                 String data = scanner1.nextLine();
 
                                 controller.updateById(id, new Sample(data));
-                                SampleSimDatabase.displayDataTable(database.getSampleList());
+                                database.displayTable(database.getSampleList());
                             }
                             break;
                             case 4: {
@@ -87,7 +87,7 @@ public class ConsoleSimMenu {
                                 int id = scanner.nextInt();
 
                                 controller.deleteById(id);
-                                SampleSimDatabase.displayDataTable(database.getSampleList());
+                                database.displayTable(database.getSampleList());
                             }
                             break;
                             default: {
