@@ -79,11 +79,11 @@ public class Database {
         if (!entities.isEmpty()) {
             displayInsideLine(maxLength);
         }
-        for (Single item : entities) {
-            int id = item.getId();
-            String text = item.getText();
+        for (int q = 0; q < entities.size(); q++) {
+            int id = entities.get(q).getId();
+            String text = entities.get(q).getText();
             displayDataLine(id, maxLength, text);
-            if (entities.indexOf(item) < entities.size() - 1) {
+            if (q < entities.size() - 1) {
                 displayInsideLine(maxLength);
             }
         }

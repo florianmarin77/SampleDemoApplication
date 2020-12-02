@@ -116,9 +116,9 @@ public class SampleSimDao implements SampleRepository {
 
         if (isReady) {
             Integer index = null;
-            for (Sample item : entities) {
-                if (item.getId().equals(id)) {
-                    index = entities.indexOf(item);
+            for (int k = 0; k < entities.size(); k++) {
+                if (entities.get(k).getId().equals(id)) {
+                    index = k;
                 }
             }
             if (index != null) {
@@ -145,9 +145,9 @@ public class SampleSimDao implements SampleRepository {
         Sample result = new Sample();
         if (isReady) {
             Integer index = null;
-            for (Sample item : entities) {
-                if (item.getId().equals(id)) {
-                    index = entities.indexOf(item);
+            for (int k = 0; k < entities.size(); k++) {
+                if (entities.get(k).getId().equals(id)) {
+                    index = k;
                 }
             }
             if (index != null) {
@@ -175,10 +175,9 @@ public class SampleSimDao implements SampleRepository {
         Sample result = new Sample();
         if (isReady) {
             Integer index = null;
-            for (Sample item : entities) {
-                if (item.getId().equals(id)) {
-                    System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
-                    index = entities.indexOf(item);
+            for (int k = 0; k < entities.size(); k++) {
+                if (entities.get(k).getId().equals(id)) {
+                    index = k;
                 }
             }
             if (index != null) {
