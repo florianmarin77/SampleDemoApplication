@@ -1,7 +1,6 @@
 package com.asi.sda.sample.repository;
 
 import com.asi.sda.sample.Sample;
-import com.asi.sda.sample.database.SampleSimDatabase;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,7 +14,8 @@ class SampleSimDaoTest {
 
     @Test
     void createAll() {
-        List<Sample> samplesBefore = dao.findAll();
+        int before = dao.findAll().size();
+
         Sample sample1 = new Sample("0123456789");
         Sample sample2 = new Sample("9876543210");
         List<Sample> samples = new ArrayList<>();
@@ -23,30 +23,32 @@ class SampleSimDaoTest {
         samples.add(sample2);
 
         dao.createAll(samples);
-        List<Sample> samplesAfter = dao.findAll();
+        int after = dao.findAll().size();
 
-        assertThat(samplesAfter.size()).isEqualTo(samplesBefore.size() + samples.size());
+        assertThat(after).isEqualTo(before + samples.size());
     }
 
     @Test
     void create() {
-        List<Sample> samplesBefore = dao.findAll();
+        int before = dao.findAll().size();
+
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         dao.create(sample);
-        List<Sample> samplesAfter = dao.findAll();
+        int after = dao.findAll().size();
 
-        assertThat(samplesAfter.size()).isEqualTo(samplesBefore.size() + 1);
+        assertThat(after).isEqualTo(before + 1);
     }
 
     @Test
     void findAll() {
-        List<Sample> samplesBefore = dao.findAll();
+        int before = dao.findAll().size();
+
         dao.create(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
 
-        List<Sample> samplesAfter = dao.findAll();
+        int after = dao.findAll().size();
 
-        assertThat(samplesAfter.size()).isGreaterThan(samplesBefore.size());
+        assertThat(after).isGreaterThan(before);
     }
 
     @Test
@@ -78,12 +80,13 @@ class SampleSimDaoTest {
     @Test
     void update() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
         Sample data = new Sample("abcdefghijklmnopqrstuvwxyz");
         Sample entity = new Sample();
-        dao.create(sample);
 
-        dao.update(sample.getId(), data);
-        Optional<Sample> optional = dao.find(sample.getId());
+        Sample result = dao.create(sample);
+
+        Optional<Sample> optional = dao.update(result.getId(), data);
         if (optional.isPresent()) {
             entity = optional.get();
         }
@@ -94,12 +97,12 @@ class SampleSimDaoTest {
     @Test
     void delete() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        dao.create(sample);
-        List<Sample> samplesBefore = dao.findAll();
+        Sample result = dao.create(sample);
+        int before = dao.findAll().size();
 
-        dao.delete(sample.getId());
-        List<Sample> samplesAfter = dao.findAll();
+        dao.delete(result.getId());
+        int after = dao.findAll().size();
 
-        assertThat(samplesAfter.size()).isLessThan(samplesBefore.size());
+        assertThat(after).isLessThan(before);
     }
 }
