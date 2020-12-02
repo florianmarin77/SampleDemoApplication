@@ -4,7 +4,9 @@ import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
 import com.asi.sda.sample.SampleRequestDto;
 import com.asi.sda.sample.SampleResponseDto;
-import com.asi.sda.sample.exception.*;
+import com.asi.sda.sample.exception.OutOfRangeException;
+import com.asi.sda.sample.exception.SampleNotFoundException;
+import com.asi.sda.sample.exception.SampleNotSavedException;
 import com.asi.sda.sample.repository.SampleJpaDao;
 import com.asi.sda.sample.repository.SampleRepository;
 import org.apache.logging.log4j.LogManager;
@@ -79,33 +81,40 @@ public class SampleJpaService implements SampleService {
     }
 
     @Override
-    public void update(Integer id, Sample data) {
+    public SampleResponseDto update(Integer id, Sample data) {
+        Sample result;
         if (hasValidId(id)) {
             Optional<Sample> optional = sampleRepository.find(id);
 
             if (optional.isPresent()) {
                 sampleRepository.update(id, data);
+                result = optional.get();
+                result.setText(data.getText());
             } else {
-                throw new SampleNotUpdatedException(SAMPLE_NOT_UPDATED_ERROR);
+                throw new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR);
             }
         } else {
             throw new OutOfRangeException(OUT_OF_RANGE_ERROR);
         }
+        return SampleMapper.toResponseDto(result);
     }
 
     @Override
-    public void delete(Integer id) {
+    public SampleResponseDto delete(Integer id) {
+        Sample result;
         if (hasValidId(id)) {
             Optional<Sample> optional = sampleRepository.find(id);
 
             if (optional.isPresent()) {
+                result = optional.get();
                 sampleRepository.delete(id);
             } else {
-                throw new SampleNotDeletedException(SAMPLE_NOT_DELETED_ERROR);
+                throw new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR);
             }
         } else {
             throw new OutOfRangeException(OUT_OF_RANGE_ERROR);
         }
+        return SampleMapper.toResponseDto(result);
     }
 
     private boolean hasValidId(Integer id) {

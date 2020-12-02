@@ -42,7 +42,7 @@ public interface SampleRepository {
      * Returns a specific sample by id.
      *
      * @param id the specific sample id
-     * @return the found sample if exists
+     * @return the found sample only if id exists
      */
     Optional<Sample> find(Integer id);
 
@@ -51,13 +51,15 @@ public interface SampleRepository {
      *
      * @param id   the specific sample id
      * @param data the object data to update
+     * @return the updated sample only if id exists
      */
-    void update(Integer id, Sample data);
+    Optional<Sample> update(Integer id, Sample data);
 
     /**
      * Deletes a specific sample from the database.
      *
      * @param id the specific sample id
+     * @return the deleted single only if id exists
      */
-    void delete(Integer id);
+    Optional<Sample> delete(Integer id);
 }

@@ -2,14 +2,14 @@ package com.asi.sda.sample.repository;
 
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.database.SampleSimDatabase;
-import com.asi.sda.sample.exception.SampleNotDeletedException;
 import com.asi.sda.sample.exception.SampleNotFoundException;
 import com.asi.sda.sample.exception.SampleNotSavedException;
-import com.asi.sda.sample.exception.SampleNotUpdatedException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.asi.sda.sample.constant.SampleMessages.SAMPLE_NOT_FOUND_ERROR;
 
 public class SampleSimDao implements SampleRepository {
     private static final String SOURCE = "DAO => ";
@@ -130,7 +130,7 @@ public class SampleSimDao implements SampleRepository {
             }
         } else {
             if (isActive) {
-                throw new SampleNotFoundException("ERROR: Sample searching failed!");
+                throw new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR);
             }
         }
 
@@ -138,10 +138,11 @@ public class SampleSimDao implements SampleRepository {
     }
 
     @Override
-    public void update(Integer id, Sample data) {
+    public Optional<Sample> update(Integer id, Sample data) {
         List<Sample> entities = database.getSampleList(); // import
         boolean isReady = true; // database scenario
 
+        Sample result = new Sample();
         if (isReady) {
             Integer index = null;
             for (Sample item : entities) {
@@ -151,23 +152,27 @@ public class SampleSimDao implements SampleRepository {
             }
             if (index != null) {
                 entities.get(index).setText(data.getText());
+                result = entities.get(index);
                 database.setSampleList(entities); // export
                 System.out.println(SOURCE + "UPDATE=TRUE/ID=" + id);
             } else {
+                result = null;
                 System.out.println(SOURCE + "UPDATE=FALSE/ID=" + id);
             }
         } else {
             if (isActive) {
-                throw new SampleNotUpdatedException("ERROR: Sample updating failed!");
+                throw new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR);
             }
         }
+        return Optional.ofNullable(result);
     }
 
     @Override
-    public void delete(Integer id) {
+    public Optional<Sample> delete(Integer id) {
         List<Sample> entities = database.getSampleList(); // import
         boolean isReady = true; // database scenario
 
+        Sample result = new Sample();
         if (isReady) {
             Integer index = null;
             for (Sample item : entities) {
@@ -177,16 +182,19 @@ public class SampleSimDao implements SampleRepository {
                 }
             }
             if (index != null) {
+                result = entities.get(index);
                 entities.remove((int) index);
                 database.setSampleList(entities); // export
                 System.out.println(SOURCE + "DELETE=TRUE/ID=" + id);
             } else {
+                result = null;
                 System.out.println(SOURCE + "DELETE=FALSE/ID=" + id);
             }
         } else {
             if (isActive) {
-                throw new SampleNotDeletedException("ERROR: Sample deleting failed!");
+                throw new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR);
             }
         }
+        return Optional.ofNullable(result);
     }
 }

@@ -4,10 +4,13 @@ import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
 import com.asi.sda.sample.SampleRequestDto;
 import com.asi.sda.sample.SampleResponseDto;
+import com.asi.sda.sample.exception.SampleNotFoundException;
 import com.asi.sda.sample.exception.SampleNotSavedException;
 import com.asi.sda.sample.repository.SampleRepository;
 
 import java.util.List;
+
+import static com.asi.sda.sample.constant.SampleMessages.SAMPLE_NOT_FOUND_ERROR;
 
 public class SampleSimService implements SampleService {
     private static final String SOURCE = "SERVICE => "; // logger
@@ -65,26 +68,28 @@ public class SampleSimService implements SampleService {
         System.out.println(SOURCE + "READ");
 
         Sample entity = sampleRepository.find(id)
-                .orElseThrow(() -> new RuntimeException("EXCEPTION: Sample not found!"));
+                .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
         return SampleMapper.toResponseDto(entity);
     }
 
     @Override
-    public void update(Integer id, Sample data) {
+    public SampleResponseDto update(Integer id, Sample data) {
         System.out.println(SOURCE + "UPDATE");
 
-        sampleRepository.find(id).orElseThrow(() -> new RuntimeException("EXCEPTION: Sample not found!"));
+        Sample result = sampleRepository.update(id, data)
+                .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
-        sampleRepository.update(id, data);
+        return SampleMapper.toResponseDto(result);
     }
 
     @Override
-    public void delete(Integer id) {
+    public SampleResponseDto delete(Integer id) {
         System.out.println(SOURCE + "DELETE");
 
-        sampleRepository.find(id).orElseThrow(() -> new RuntimeException("EXCEPTION: Sample not found!"));
+        Sample result = sampleRepository.delete(id)
+                .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
-        sampleRepository.delete(id);
+        return SampleMapper.toResponseDto(result);
     }
 }

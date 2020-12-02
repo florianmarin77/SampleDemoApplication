@@ -140,21 +140,22 @@ public class SampleJpaDao implements SampleRepository {
     }
 
     @Override
-    public void update(Integer id, Sample data) {
+    public Optional<Sample> update(Integer id, Sample data) {
         List<Sample> duplicates = database.getSampleList(); // import
-
-        Sample foundSample = entityManager.find(Sample.class, id);
+        Sample entity = null;
 
         try {
-            if (foundSample == null) {
+            Sample result = entityManager.find(Sample.class, id);
+
+            if (result == null) {
                 LOGGER.warn(SAMPLE_NOT_UPDATED + SAMPLE_NOT_FOUND, id);
             } else {
-                foundSample.setText(data.getText());
-
+                result.setText(data.getText());
+                entity = result;
                 entityManager.getTransaction().begin();
-                entityManager.merge(foundSample);
+                entityManager.merge(result);
                 entityManager.getTransaction().commit();
-                LOGGER.info(SAMPLE_UPDATED, foundSample.getId());
+                LOGGER.info(SAMPLE_UPDATED, result.getId());
             }
 
             Integer index = null;
@@ -167,26 +168,29 @@ public class SampleJpaDao implements SampleRepository {
                 duplicates.get(index).setText(data.getText());
                 database.setSampleList(duplicates); // export
             }
-
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
         }
+
+        return Optional.ofNullable(entity);
     }
 
     @Override
-    public void delete(Integer id) {
+    public Optional<Sample> delete(Integer id) {
         List<Sample> duplicates = database.getSampleList(); // import
+        Sample entity = null;
 
         try {
-            Sample foundSample = entityManager.find(Sample.class, id);
+            Sample result = entityManager.find(Sample.class, id);
 
-            if (foundSample == null) {
+            if (result == null) {
                 LOGGER.warn(SAMPLE_NOT_DELETED + SAMPLE_NOT_FOUND, id);
             } else {
+                entity = result;
                 entityManager.getTransaction().begin();
-                entityManager.remove(foundSample);
+                entityManager.remove(result);
                 entityManager.getTransaction().commit();
 
                 LOGGER.info(SAMPLE_DELETED, id);
@@ -207,5 +211,7 @@ public class SampleJpaDao implements SampleRepository {
                 entityManager.getTransaction().rollback();
             }
         }
+
+        return Optional.ofNullable(entity);
     }
 }

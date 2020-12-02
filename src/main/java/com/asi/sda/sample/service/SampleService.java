@@ -52,13 +52,15 @@ public interface SampleService {
      *
      * @param id   the specific sample id
      * @param data the object data to update
+     * @return the found sample as data transfer object
      */
-    void update(Integer id, Sample data);
+    SampleResponseDto update(Integer id, Sample data);
 
     /**
      * Deletes a specific sample from the database.
      *
      * @param id the specific sample id
+     * @return the found sample as data transfer object
      */
-    void delete(Integer id);
+    SampleResponseDto delete(Integer id);
 }

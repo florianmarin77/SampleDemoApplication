@@ -32,8 +32,6 @@ public final class SampleMessages {
     public static final String SAMPLE_NOT_SAVED_ERROR = "ERROR: Sample not saved!";
     public static final String SAMPLES_NOT_SAVED_ERROR = "ERROR: Samples not saved!";
     public static final String SAMPLE_NOT_FOUND_ERROR = "ERROR: Sample not found!";
-    public static final String SAMPLE_NOT_UPDATED_ERROR = "ERROR: Sample not updated!";
-    public static final String SAMPLE_NOT_DELETED_ERROR = "ERROR: Sample not deleted!";
 
     // sample jpql => jpa
     public static final String FIND_ALL_JPQL = "SELECT s FROM Sample s";

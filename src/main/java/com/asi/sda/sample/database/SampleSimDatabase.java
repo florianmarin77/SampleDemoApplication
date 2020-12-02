@@ -46,10 +46,10 @@ public class SampleSimDatabase {
         return entities;
     }
 
-    public static Sample generateIdOne(Sample sample, int lastInsertId){
+    public static Sample generateIdOne(Sample sample, int lastInsertId) {
         lastInsertId++;
 
-        Sample entity =  new Sample();
+        Sample entity = new Sample();
         entity.setId(lastInsertId);
         entity.setText(sample.getText());
 
