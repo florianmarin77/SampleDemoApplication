@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SampleJpaDaoSerialTest {
-
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("MacroMedia");
     private static final EntityManager em = emf.createEntityManager();
     private static final SampleRepository dao = new SampleJpaDao(em);

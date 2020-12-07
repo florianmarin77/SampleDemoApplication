@@ -44,7 +44,6 @@ class SampleSimDaoSerialTest {
         Sample result = dao.create(sample);
 
         assertThat(result.getId()).isEqualTo(3);
-
         database.displayTable(database.getSampleList());
     }
 
@@ -54,7 +53,6 @@ class SampleSimDaoSerialTest {
         List<Sample> results = dao.findAll();
 
         assertThat(results).hasSize(3);
-
         database.displayTable(database.getSampleList());
     }
 
@@ -67,7 +65,6 @@ class SampleSimDaoSerialTest {
         for (Sample item : results) {
             assertThat(item.getText()).isEqualTo("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         }
-
         database.displayTable(database.getSampleList());
     }
 
@@ -91,7 +88,6 @@ class SampleSimDaoSerialTest {
                 .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
         assertThat(result.getText()).isEqualTo("abcdefghijklmnopqrstuvwxyz");
-
         database.displayTable(database.getSampleList());
     }
 
@@ -105,7 +101,6 @@ class SampleSimDaoSerialTest {
 
         assertThat(results.size()).isEqualTo(2);
         assertThat(result.getId()).isEqualTo(3);
-
         database.displayTable(database.getSampleList());
     }
 }

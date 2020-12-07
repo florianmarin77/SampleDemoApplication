@@ -20,8 +20,8 @@ class SampleJpaDaoTest {
     @Test
     void createAll() {
         List<Sample> samplesBefore = dao.findAll();
-        Sample sample1 = new Sample("0123456789");
-        Sample sample2 = new Sample("9876543210");
+        Sample sample1 = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        Sample sample2 = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         List<Sample> samples = new ArrayList<>();
         samples.add(sample1);
         samples.add(sample2);

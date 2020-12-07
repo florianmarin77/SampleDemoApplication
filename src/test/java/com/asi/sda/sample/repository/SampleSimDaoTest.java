@@ -17,7 +17,6 @@ class SampleSimDaoTest {
     @Test
     void createAll() {
         int before = dao.findAll().size();
-
         Sample sample1 = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         Sample sample2 = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         List<Sample> samples = new ArrayList<>();
@@ -28,34 +27,29 @@ class SampleSimDaoTest {
         int after = dao.findAll().size();
 
         assertThat(after).isEqualTo(before + samples.size());
-
         database.displayTable(database.getSampleList());
     }
 
     @Test
     void create() {
         int before = dao.findAll().size();
-
-        Sample sample = new Sample("abcdefghijklmnopqrstuvwxyz");
+        Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         dao.create(sample);
         int after = dao.findAll().size();
 
         assertThat(after).isEqualTo(before + 1);
-
         database.displayTable(database.getSampleList());
     }
 
     @Test
     void findAll() {
         int before = dao.findAll().size();
-
         dao.create(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
 
         int after = dao.findAll().size();
 
         assertThat(after).isGreaterThan(before);
-
         database.displayTable(database.getSampleList());
     }
 
@@ -69,7 +63,6 @@ class SampleSimDaoTest {
         for (Sample item : samples) {
             assertThat(item.getText()).isEqualTo("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         }
-
         database.displayTable(database.getSampleList());
     }
 
@@ -85,17 +78,15 @@ class SampleSimDaoTest {
         }
 
         assertThat(result.getId()).isEqualTo(entity.getId());
-
         database.displayTable(database.getSampleList());
     }
 
     @Test
     void update() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        Sample result = dao.create(sample);
-
         Sample data = new Sample("abcdefghijklmnopqrstuvwxyz");
         Sample entity = new Sample();
+        Sample result = dao.create(sample);
 
         Optional<Sample> optional = dao.update(result.getId(), data);
         if (optional.isPresent()) {
@@ -103,7 +94,6 @@ class SampleSimDaoTest {
         }
 
         assertThat(entity.getText()).isEqualTo(data.getText());
-
         database.displayTable(database.getSampleList());
     }
 
