@@ -31,10 +31,10 @@ class SampleJpaDaoSerialTest {
         samples.add(sample1);
         samples.add(sample2);
 
-        dao.createAll(samples);
+        List<Sample> entities = dao.createAll(samples);
 
-        assertThat(samples.get(0).getId()).isEqualTo(1);
-        assertThat(samples.get(1).getId()).isEqualTo(2);
+        assertThat(entities.get(0).getId()).isEqualTo(1);
+        assertThat(entities.get(1).getId()).isEqualTo(2);
     }
 
     @Test
@@ -42,9 +42,9 @@ class SampleJpaDaoSerialTest {
     void create() {
         Sample sample = new Sample("abcdefghijklmnopqrstuvwxyz");
 
-        dao.create(sample);
+        Sample entity = dao.create(sample);
 
-        assertThat(sample.getId()).isEqualTo(3);
+        assertThat(entity.getId()).isEqualTo(3);
     }
 
     @Test

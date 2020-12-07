@@ -34,10 +34,10 @@ class SampleJpaServiceSerialTest {
         samples.add(sample1);
         samples.add(sample2);
 
-        service.createAll(SampleMapper.toRequestDtos(samples));
+        List<SampleResponseDto> responses = service.createAll(SampleMapper.toRequestDtos(samples));
 
-        assertThat(samples.get(0).getId()).isEqualTo(1);
-        assertThat(samples.get(1).getId()).isEqualTo(2);
+        assertThat(responses.get(0).getId()).isEqualTo(1);
+        assertThat(responses.get(1).getId()).isEqualTo(2);
     }
 
     @Test
@@ -45,9 +45,9 @@ class SampleJpaServiceSerialTest {
     void create() {
         Sample sample = new Sample("abcdefghijklmnopqrstuvwxyz");
 
-        service.create(SampleMapper.toRequestDto(sample));
+        SampleResponseDto response = service.create(SampleMapper.toRequestDto(sample));
 
-        assertThat(sample.getId()).isEqualTo(3);
+        assertThat(response.getId()).isEqualTo(3);
     }
 
     @Test
@@ -92,9 +92,9 @@ class SampleJpaServiceSerialTest {
     void delete() {
         SampleResponseDto result = service.delete(3);
 
-        List<Sample> samples = dao.findAll();
+        List<SampleResponseDto> results = service.findAll();
 
-        assertThat(samples.size()).isEqualTo(2);
+        assertThat(results.size()).isEqualTo(2);
         assertThat(result.getId()).isEqualTo(3);
     }
 }
