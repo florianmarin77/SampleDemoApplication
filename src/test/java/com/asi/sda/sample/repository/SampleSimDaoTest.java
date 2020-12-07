@@ -107,7 +107,6 @@ class SampleSimDaoTest {
         int after = dao.findAll().size();
 
         assertThat(after).isLessThan(before);
-
         database.displayTable(database.getSampleList());
     }
 }

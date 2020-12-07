@@ -32,7 +32,6 @@ class SampleSimDaoSerialTest {
 
         assertThat(results.get(0).getId()).isEqualTo(1);
         assertThat(results.get(1).getId()).isEqualTo(2);
-
         database.displayTable(database.getSampleList());
     }
 
@@ -75,7 +74,6 @@ class SampleSimDaoSerialTest {
                 .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
         assertThat(result.getText()).isEqualTo("abcdefghijklmnopqrstuvwxyz");
-
         database.displayTable(database.getSampleList());
     }
 
