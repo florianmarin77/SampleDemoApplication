@@ -28,10 +28,10 @@ class SampleSimDaoSerialTest {
         samples.add(sample1);
         samples.add(sample2);
 
-        List<Sample> results = dao.createAll(samples);
+        List<Sample> entities = dao.createAll(samples);
 
-        assertThat(results.get(0).getId()).isEqualTo(1);
-        assertThat(results.get(1).getId()).isEqualTo(2);
+        assertThat(entities.get(0).getId()).isEqualTo(1);
+        assertThat(entities.get(1).getId()).isEqualTo(2);
         database.displayTable(database.getSampleList());
     }
 
@@ -40,9 +40,9 @@ class SampleSimDaoSerialTest {
     void create() {
         Sample sample = new Sample("abcdefghijklmnopqrstuvwxyz");
 
-        Sample result = dao.create(sample);
+        Sample entity = dao.create(sample);
 
-        assertThat(result.getId()).isEqualTo(3);
+        assertThat(entity.getId()).isEqualTo(3);
         database.displayTable(database.getSampleList());
     }
 

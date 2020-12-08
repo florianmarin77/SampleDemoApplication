@@ -33,7 +33,7 @@ class SampleSimDaoTest {
     @Test
     void create() {
         int before = dao.findAll().size();
-        Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        Sample sample = new Sample("abcdefghijklmnopqrstuvwxyz");
 
         dao.create(sample);
         int after = dao.findAll().size();
@@ -57,10 +57,9 @@ class SampleSimDaoTest {
     void findByText() {
         dao.create(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
 
-        List<Sample> samples = dao.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        List<Sample> results = dao.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-        // case sensitive validation after jpql search
-        for (Sample item : samples) {
+        for (Sample item : results) {
             assertThat(item.getText()).isEqualTo("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         }
         database.displayTable(database.getSampleList());
@@ -69,15 +68,15 @@ class SampleSimDaoTest {
     @Test
     void find() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        Sample result = dao.create(sample);
-        Sample entity = new Sample();
+        Sample entity = dao.create(sample);
+        Sample result = new Sample();
 
-        Optional<Sample> optional = dao.find(result.getId());
+        Optional<Sample> optional = dao.find(entity.getId());
         if (optional.isPresent()) {
-            entity = optional.get();
+            result = optional.get();
         }
 
-        assertThat(result.getId()).isEqualTo(entity.getId());
+        assertThat(entity.getId()).isEqualTo(result.getId());
         database.displayTable(database.getSampleList());
     }
 
@@ -85,25 +84,26 @@ class SampleSimDaoTest {
     void update() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         Sample data = new Sample("abcdefghijklmnopqrstuvwxyz");
-        Sample entity = new Sample();
-        Sample result = dao.create(sample);
+        Sample entity = dao.create(sample);
+        Sample result = new Sample();
 
-        Optional<Sample> optional = dao.update(result.getId(), data);
+        dao.update(entity.getId(), data);
+        Optional<Sample> optional = dao.find(entity.getId());
         if (optional.isPresent()) {
-            entity = optional.get();
+            result = optional.get();
         }
 
-        assertThat(entity.getText()).isEqualTo(data.getText());
+        assertThat(result.getText()).isEqualTo(data.getText());
         database.displayTable(database.getSampleList());
     }
 
     @Test
     void delete() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        Sample result = dao.create(sample);
+        Sample entity = dao.create(sample);
         int before = dao.findAll().size();
 
-        dao.delete(result.getId());
+        dao.delete(entity.getId());
         int after = dao.findAll().size();
 
         assertThat(after).isLessThan(before);

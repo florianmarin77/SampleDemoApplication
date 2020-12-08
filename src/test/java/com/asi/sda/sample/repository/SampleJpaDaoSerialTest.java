@@ -50,18 +50,18 @@ class SampleJpaDaoSerialTest {
     @Test
     @Order(3)
     void findAll() {
-        List<Sample> samples = dao.findAll();
+        List<Sample> results = dao.findAll();
 
-        assertThat(samples).hasSize(3);
+        assertThat(results).hasSize(3);
     }
 
     @Test
     @Order(4)
     void findByText() {
-        List<Sample> samples = dao.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        List<Sample> results = dao.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-        assertThat(samples).hasSize(2);
-        for (Sample item : samples) {
+        assertThat(results).hasSize(2);
+        for (Sample item : results) {
             assertThat(item.getText()).isEqualTo("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         }
     }
@@ -92,9 +92,9 @@ class SampleJpaDaoSerialTest {
         Sample result = dao.delete(3)
                 .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
-        List<Sample> samples = dao.findAll();
+        List<Sample> results = dao.findAll();
 
-        assertThat(samples.size()).isEqualTo(2);
+        assertThat(results.size()).isEqualTo(2);
         assertThat(result.getId()).isEqualTo(3);
     }
 }

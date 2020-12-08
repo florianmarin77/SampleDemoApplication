@@ -19,7 +19,7 @@ class SampleJpaDaoTest {
 
     @Test
     void createAll() {
-        List<Sample> samplesBefore = dao.findAll();
+        List<Sample> resultsBefore = dao.findAll();
         Sample sample1 = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         Sample sample2 = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         List<Sample> samples = new ArrayList<>();
@@ -27,40 +27,39 @@ class SampleJpaDaoTest {
         samples.add(sample2);
 
         dao.createAll(samples);
-        List<Sample> samplesAfter = dao.findAll();
+        List<Sample> resultsAfter = dao.findAll();
 
-        assertThat(samplesAfter.size()).isEqualTo(samplesBefore.size() + samples.size());
+        assertThat(resultsAfter.size()).isEqualTo(resultsBefore.size() + samples.size());
     }
 
     @Test
     void create() {
-        List<Sample> samplesBefore = dao.findAll();
-        Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        List<Sample> resultsBefore = dao.findAll();
+        Sample sample = new Sample("abcdefghijklmnopqrstuvwxyz");
 
         dao.create(sample);
-        List<Sample> samplesAfter = dao.findAll();
+        List<Sample> resultsAfter = dao.findAll();
 
-        assertThat(samplesAfter.size()).isEqualTo(samplesBefore.size() + 1);
+        assertThat(resultsAfter.size()).isEqualTo(resultsBefore.size() + 1);
     }
 
     @Test
     void findAll() {
-        List<Sample> samplesBefore = dao.findAll();
+        List<Sample> resultsBefore = dao.findAll();
         dao.create(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
 
-        List<Sample> samplesAfter = dao.findAll();
+        List<Sample> resultsAfter = dao.findAll();
 
-        assertThat(samplesAfter.size()).isGreaterThan(samplesBefore.size());
+        assertThat(resultsAfter.size()).isGreaterThan(resultsBefore.size());
     }
 
     @Test
     void findByText() {
         dao.create(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
 
-        List<Sample> samples = dao.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        List<Sample> results = dao.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-        // case sensitive validation after jpql search
-        for (Sample item : samples) {
+        for (Sample item : results) {
             assertThat(item.getText()).isEqualTo("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         }
     }
@@ -68,40 +67,40 @@ class SampleJpaDaoTest {
     @Test
     void find() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        Sample entity = new Sample();
-        dao.create(sample);
+        Sample entity = dao.create(sample);
+        Sample result = new Sample();
 
-        Optional<Sample> optional = dao.find(sample.getId());
+        Optional<Sample> optional = dao.find(entity.getId());
         if (optional.isPresent()) {
-            entity = optional.get();
+            result = optional.get();
         }
 
-        assertThat(sample.getId()).isEqualTo(entity.getId());
+        assertThat(entity.getId()).isEqualTo(result.getId());
     }
 
     @Test
     void update() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         Sample data = new Sample("abcdefghijklmnopqrstuvwxyz");
-        Sample entity = new Sample();
-        dao.create(sample);
+        Sample entity = dao.create(sample);
+        Sample result = new Sample();
 
-        dao.update(sample.getId(), data);
-        Optional<Sample> optional = dao.find(sample.getId());
+        dao.update(entity.getId(), data);
+        Optional<Sample> optional = dao.find(entity.getId());
         if (optional.isPresent()) {
-            entity = optional.get();
+            result = optional.get();
         }
 
-        assertThat(entity.getText()).isEqualTo(data.getText());
+        assertThat(result.getText()).isEqualTo(data.getText());
     }
 
     @Test
     void delete() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        dao.create(sample);
+        Sample entity = dao.create(sample);
         List<Sample> samplesBefore = dao.findAll();
 
-        dao.delete(sample.getId());
+        dao.delete(entity.getId());
         List<Sample> samplesAfter = dao.findAll();
 
         assertThat(samplesAfter.size()).isLessThan(samplesBefore.size());
