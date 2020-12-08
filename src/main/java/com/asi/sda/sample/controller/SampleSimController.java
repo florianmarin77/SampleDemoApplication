@@ -18,8 +18,6 @@ public class SampleSimController {
         this.service = service;
     }
 
-    // -------------------------------------------- CRUD => CREATE
-
     // POST => "/samples/save/all/fake"
     public List<SampleResponseDto> saveAllByFaker() {
         System.out.println(SOURCE + "POST/samples/save/all/fake");
@@ -46,8 +44,6 @@ public class SampleSimController {
         return service.create(request);
     }
 
-    // -------------------------------------------- CRUD => READ
-
     // GET => "samples/id"
     public SampleResponseDto getById(Integer id) {
         System.out.println(SOURCE + "GET/samples/id");
@@ -66,19 +62,15 @@ public class SampleSimController {
         return service.findByText(text);
     }
 
-    // -------------------------------------------- CRUD => UPDATE
-
     // PUT => "samples/id"
-    public void updateById(Integer id, Sample sampleData) {
+    public SampleResponseDto updateById(Integer id, Sample sampleData) {
         System.out.println(SOURCE + "PUT/samples/id");
-        service.update(id, sampleData);
+        return service.update(id, sampleData);
     }
 
-    // -------------------------------------------- CRUD => DELETE
-
     // DELETE => "samples/id"
-    public void deleteById(Integer id) {
+    public SampleResponseDto deleteById(Integer id) {
         System.out.println(SOURCE + "DELETE/samples/id");
-        service.delete(id);
+        return service.delete(id);
     }
 }

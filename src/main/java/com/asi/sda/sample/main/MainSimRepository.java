@@ -29,7 +29,7 @@ public class MainSimRepository {
         database.displayTable(database.getSampleList());
 
         // createAll
-        System.out.println("Samples created: " + dao.createAll(samples));
+        System.out.println(dao.createAll(samples));
         System.out.println();
         database.displayTable(database.getSampleList());
 

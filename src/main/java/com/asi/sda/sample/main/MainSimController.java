@@ -30,12 +30,12 @@ public class MainSimController {
         System.out.println();
 
         // save all by faker
-        System.out.println("Return data: " + controller.saveAllByFaker());
+        System.out.println(controller.saveAllByFaker());
         System.out.println();
         database.displayTable(database.getSampleList());
 
         // save all by loader
-        System.out.println("Return data: " + controller.saveAllByLoader());
+        System.out.println(controller.saveAllByLoader());
         System.out.println();
         database.displayTable(database.getSampleList());
 
@@ -45,7 +45,7 @@ public class MainSimController {
         database.displayTable(database.getSampleList());
 
         // save all
-        System.out.println("Samples created: " + controller.saveAll(SampleMapper.toRequestDto(samples)));
+        System.out.println(controller.saveAll(SampleMapper.toRequestDto(samples)));
         System.out.println();
         database.displayTable(database.getSampleList());
 
@@ -61,11 +61,12 @@ public class MainSimController {
         database.displayTable(database.getSampleList());
 
         // update by id
-        controller.updateById(54, new Sample("macarena"));
+        System.out.println(controller.updateById(54, new Sample("macarena")));
+        System.out.println();
         database.displayTable(database.getSampleList());
 
         // delete by id
-        controller.deleteById(55);
+        System.out.println(controller.deleteById(55));
         System.out.println();
         database.displayTable(database.getSampleList());
     }

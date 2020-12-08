@@ -32,7 +32,7 @@ public class MainSimService {
         System.out.println();
         database.displayTable(database.getSampleList());
 
-        System.out.println("Samples created: " + service.createAll(SampleMapper.toRequestDto(samples)));
+        System.out.println(service.createAll(SampleMapper.toRequestDto(samples)));
         System.out.println();
         database.displayTable(database.getSampleList());
 
