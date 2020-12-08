@@ -46,11 +46,12 @@ public class MainSimService {
         database.displayTable(database.getSampleList());
 
         // update
-        service.update(2, new Sample("macarena"));
+        System.out.println(service.update(2, new Sample("macarena")));
+        System.out.println();
         database.displayTable(database.getSampleList());
 
         // delete
-        service.delete(3);
+        System.out.println(service.delete(3));
         database.displayTable(database.getSampleList());
     }
 }
