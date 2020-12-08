@@ -2,6 +2,7 @@ package com.asi.sda.sample.main;
 
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
+import com.asi.sda.sample.SampleResponseDto;
 import com.asi.sda.sample.loader.SampleLineLoader;
 import com.asi.sda.sample.loader.SampleLoader;
 import com.asi.sda.sample.loader.SampleSplitLoader;
@@ -16,6 +17,7 @@ import javax.persistence.Persistence;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class MainJpaService {
     /**
@@ -48,23 +50,32 @@ public class MainJpaService {
             service.createAll(SampleMapper.toRequestDtos(loader.loadData(Paths.get(String.valueOf(path)))));
         }
 
+        SampleResponseDto response;
+        List<SampleResponseDto> responses;
+
         // create single sample (id=27)
-        service.create(SampleMapper.toRequestDto(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ")));
+        response = service.create(SampleMapper.toRequestDto(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ")));
+        System.out.println(response);
 
         // find all samples (found list size = 27)
-        service.findAll();
+        responses = service.findAll();
+        System.out.println(responses);
 
         // find by text (found list size = 1)
-        service.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        responses = service.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        System.out.println(responses);
 
         // find by good id
-        service.find(1);
+        response = service.find(1);
+        System.out.println(response);
 
         // integral sample update id = 27
-        service.update(27, new Sample("abcdefghijklmnopqrstuvwxyz"));
+        response = service.update(27, new Sample("abcdefghijklmnopqrstuvwxyz"));
+        System.out.println(response);
 
         // delete good id = 27
-        service.delete(27);
+        response = service.delete(27);
+        System.out.println(response);
 
         // close resources
         em.close();
