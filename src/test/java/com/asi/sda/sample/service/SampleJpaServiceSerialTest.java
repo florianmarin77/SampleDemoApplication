@@ -53,18 +53,18 @@ class SampleJpaServiceSerialTest {
     @Test
     @Order(3)
     void findAll() {
-        List<SampleResponseDto> samples = service.findAll();
+        List<SampleResponseDto> results = service.findAll();
 
-        assertThat(samples).hasSize(3);
+        assertThat(results).hasSize(3);
     }
 
     @Test
     @Order(4)
     void findByText() {
-        List<SampleResponseDto> samples = service.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        List<SampleResponseDto> results = service.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-        assertThat(samples).hasSize(2);
-        for (SampleResponseDto item : samples) {
+        assertThat(results).hasSize(2);
+        for (SampleResponseDto item : results) {
             assertThat(item.getText()).isEqualTo("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         }
     }

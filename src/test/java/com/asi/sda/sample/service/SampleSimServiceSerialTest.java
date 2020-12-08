@@ -32,10 +32,10 @@ class SampleSimServiceSerialTest {
         samples.add(sample1);
         samples.add(sample2);
 
-        List<SampleResponseDto> results = service.createAll(SampleMapper.toRequestDtos(samples));
+        List<SampleResponseDto> responses = service.createAll(SampleMapper.toRequestDtos(samples));
 
-        assertThat(results.get(0).getId()).isEqualTo(1);
-        assertThat(results.get(1).getId()).isEqualTo(2);
+        assertThat(responses.get(0).getId()).isEqualTo(1);
+        assertThat(responses.get(1).getId()).isEqualTo(2);
         database.displayTable(database.getSampleList());
     }
 
@@ -44,9 +44,9 @@ class SampleSimServiceSerialTest {
     void create() {
         Sample sample = new Sample("abcdefghijklmnopqrstuvwxyz");
 
-        SampleResponseDto result = service.create(SampleMapper.toRequestDto(sample));
+        SampleResponseDto response = service.create(SampleMapper.toRequestDto(sample));
 
-        assertThat(result.getId()).isEqualTo(3);
+        assertThat(response.getId()).isEqualTo(3);
         database.displayTable(database.getSampleList());
     }
 

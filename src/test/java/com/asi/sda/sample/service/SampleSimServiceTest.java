@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,7 +37,7 @@ class SampleSimServiceTest {
     @Test
     void create() {
         int before = service.findAll().size();
-        Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        Sample sample = new Sample("abcdefghijklmnopqrstuvwxyz");
 
         service.create(SampleMapper.toRequestDto(sample));
         int after = service.findAll().size();
@@ -62,10 +61,9 @@ class SampleSimServiceTest {
     void findByText() {
         service.create(SampleMapper.toRequestDto(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ")));
 
-        List<SampleResponseDto> samples = service.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        List<SampleResponseDto> results = service.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-        // case sensitive validation after jpql search
-        for (SampleResponseDto item : samples) {
+        for (SampleResponseDto item : results) {
             assertThat(item.getText()).isEqualTo("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         }
         database.displayTable(database.getSampleList());
@@ -74,9 +72,9 @@ class SampleSimServiceTest {
     @Test
     void find() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        SampleResponseDto result = service.create(SampleMapper.toRequestDto(sample));
+        SampleResponseDto entity = service.create(SampleMapper.toRequestDto(sample));
 
-        SampleResponseDto entity = service.find(result.getId());
+        SampleResponseDto result = service.find(entity.getId());
 
         assertThat(result.getId()).isEqualTo(entity.getId());
         database.displayTable(database.getSampleList());

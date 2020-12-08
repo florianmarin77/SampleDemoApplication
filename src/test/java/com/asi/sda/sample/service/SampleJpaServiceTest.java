@@ -23,7 +23,7 @@ class SampleJpaServiceTest {
 
     @Test
     void createAll() {
-        List<SampleResponseDto> samplesBefore = service.findAll();
+        List<SampleResponseDto> resultsBefore = service.findAll();
         Sample sample1 = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         Sample sample2 = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         List<Sample> samples = new ArrayList<>();
@@ -31,40 +31,39 @@ class SampleJpaServiceTest {
         samples.add(sample2);
 
         service.createAll(SampleMapper.toRequestDtos(samples));
-        List<SampleResponseDto> samplesAfter = service.findAll();
+        List<SampleResponseDto> resultsAfter = service.findAll();
 
-        assertThat(samplesAfter.size()).isEqualTo(samplesBefore.size() + samples.size());
+        assertThat(resultsAfter.size()).isEqualTo(resultsBefore.size() + samples.size());
     }
 
     @Test
     void create() {
-        List<SampleResponseDto> samplesBefore = service.findAll();
+        List<SampleResponseDto> resultsBefore = service.findAll();
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         service.create(SampleMapper.toRequestDto(sample));
-        List<SampleResponseDto> samplesAfter = service.findAll();
+        List<SampleResponseDto> resultsAfter = service.findAll();
 
-        assertThat(samplesAfter.size()).isEqualTo(samplesBefore.size() + 1);
+        assertThat(resultsAfter.size()).isEqualTo(resultsBefore.size() + 1);
     }
 
     @Test
     void findAll() {
-        List<SampleResponseDto> samplesBefore = service.findAll();
+        List<SampleResponseDto> resultsBefore = service.findAll();
         service.create(SampleMapper.toRequestDto(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ")));
 
-        List<SampleResponseDto> samplesAfter = service.findAll();
+        List<SampleResponseDto> resultsAfter = service.findAll();
 
-        assertThat(samplesAfter.size()).isGreaterThan(samplesBefore.size());
+        assertThat(resultsAfter.size()).isGreaterThan(resultsBefore.size());
     }
 
     @Test
     void findByText() {
         service.create(SampleMapper.toRequestDto(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ")));
 
-        List<SampleResponseDto> samples = service.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        List<SampleResponseDto> results = service.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-        // case sensitive validation after jpql search
-        for (SampleResponseDto item : samples) {
+        for (SampleResponseDto item : results) {
             assertThat(item.getText()).isEqualTo("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         }
     }
@@ -94,11 +93,11 @@ class SampleJpaServiceTest {
     void delete() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         SampleResponseDto entity = service.create(SampleMapper.toRequestDto(sample));
-        List<SampleResponseDto> samplesBefore = service.findAll();
+        List<SampleResponseDto> resultsBefore = service.findAll();
 
-        SampleResponseDto result = service.delete(entity.getId());
-        List<SampleResponseDto> samplesAfter = service.findAll();
+        service.delete(entity.getId());
+        List<SampleResponseDto> resultsAfter = service.findAll();
 
-        assertThat(samplesAfter.size()).isLessThan(samplesBefore.size());
+        assertThat(resultsAfter.size()).isLessThan(resultsBefore.size());
     }
 }

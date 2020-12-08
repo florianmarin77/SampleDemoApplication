@@ -75,7 +75,7 @@ class SampleJpaDaoTest {
             result = optional.get();
         }
 
-        assertThat(entity.getId()).isEqualTo(result.getId());
+        assertThat(result.getId()).isEqualTo(entity.getId());
     }
 
     @Test
@@ -98,11 +98,11 @@ class SampleJpaDaoTest {
     void delete() {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         Sample entity = dao.create(sample);
-        List<Sample> samplesBefore = dao.findAll();
+        List<Sample> resultsBefore = dao.findAll();
 
         dao.delete(entity.getId());
-        List<Sample> samplesAfter = dao.findAll();
+        List<Sample> resultsAfter = dao.findAll();
 
-        assertThat(samplesAfter.size()).isLessThan(samplesBefore.size());
+        assertThat(resultsAfter.size()).isLessThan(resultsBefore.size());
     }
 }

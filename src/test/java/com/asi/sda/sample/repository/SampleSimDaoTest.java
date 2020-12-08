@@ -76,7 +76,7 @@ class SampleSimDaoTest {
             result = optional.get();
         }
 
-        assertThat(entity.getId()).isEqualTo(result.getId());
+        assertThat(result.getId()).isEqualTo(entity.getId());
         database.displayTable(database.getSampleList());
     }
 
