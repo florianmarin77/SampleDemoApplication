@@ -13,6 +13,8 @@ import javax.persistence.Persistence;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
 
 public class MainJpaDao {
     /**
@@ -44,23 +46,33 @@ public class MainJpaDao {
             dao.createAll(loader.loadData(Paths.get(String.valueOf(path))));
         }
 
+        Sample sample;
+        List<Sample> samples;
+        Optional<Sample> optional;
+
         // create single sample (id=27)
-        dao.create(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+        sample = dao.create(new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+        System.out.println(sample);
 
         // find all samples (found list size = 27)
-        dao.findAll();
+        samples = dao.findAll();
+        System.out.println(samples);
 
         // find by text (found list size = 1)
-        dao.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        samples = dao.findByText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        System.out.println(samples);
 
         // find by good id
-        dao.find(1);
+        optional = dao.find(1);
+        System.out.println(optional);
 
         // integral sample update id = 27
-        dao.update(27, new Sample("abcdefghijklmnopqrstuvwxyz"));
+        optional = dao.update(27, new Sample("abcdefghijklmnopqrstuvwxyz"));
+        System.out.println(optional);
 
         // delete good id = 27
-        dao.delete(27);
+        optional = dao.delete(27);
+        System.out.println(optional);
 
         // close resources
         em.close();
