@@ -1,0 +1,369 @@
+package com.asi.sda.sample.repository;
+
+import com.asi.sda.sample.Sample;
+import com.asi.sda.sample.config.JdbcConfig;
+import com.asi.sda.sample.database.SampleSimDatabase;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static com.asi.sda.sample.constant.CommonMessages.*;
+import static com.asi.sda.sample.constant.SampleMessages.*;
+
+
+public class SampleJdbcDao implements SampleRepository {
+    private static final Logger LOGGER = LogManager.getLogger(SampleJdbcDao.class);
+
+    private static final SampleSimDatabase database = SampleSimDatabase.getInstance();
+
+    private static final JdbcConfig jdbcConfig = new JdbcConfig();
+    private static final String URL = jdbcConfig.getUrl();
+    private static final String USERNAME = jdbcConfig.getUsername();
+    private static final String PASSWORD = jdbcConfig.getPassword();
+
+    public static int lastInsertId;
+
+    @Override
+    public List<Sample> createAll(List<Sample> samples) {
+        List<Sample> duplicates = database.getSampleList(); // import
+        List<Sample> results = new ArrayList<>();
+        List<Sample> entities = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement(CREATE_ALL_SQL, Statement.RETURN_GENERATED_KEYS)) {
+
+            LOGGER.info(SAMPLES_START + PLEASE_WAIT);
+            Integer foundId = null;
+            for (Sample item : samples) {
+                results.add(item);
+
+                preparedStatement.setString(1, item.getText());
+                int rowsAffected = preparedStatement.executeUpdate();
+                ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
+                entities.add(item);
+
+                if ((resultSet.next()) && (rowsAffected == 1)) {
+                    foundId = resultSet.getInt(1);
+                    if (((foundId - 1) % 100 == 0) || (foundId == samples.size())) {
+                        displayProgressBar(foundId, samples.size());
+                    }
+                }
+                resultSet.close();
+            }
+            LOGGER.info(SAMPLES_FINAL, foundId);
+            results = SampleSimDatabase.generateIdAll(results, lastInsertId);
+
+            lastInsertId += samples.size();
+            LOGGER.info(SAMPLES_SAVED, samples.size());
+            if (!foundId.equals(lastInsertId)) {
+                LOGGER.warn(LAST_INSERT, lastInsertId, foundId);
+            }
+
+            duplicates.addAll(results);
+            database.setSampleList(duplicates); // export
+        } catch (SQLException exception) {
+            LOGGER.error(CREATE_ERROR);
+        }
+
+        return entities; // entities if successfully
+    }
+
+    @Override
+    public Sample create(Sample sample) {
+        List<Sample> duplicates = database.getSampleList(); // import
+        Sample result;
+        Sample entity = new Sample();
+
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement(CREATE_SQL, Statement.RETURN_GENERATED_KEYS)) {
+
+            preparedStatement.setString(1, sample.getText());
+            result = SampleSimDatabase.generateIdOne(sample, lastInsertId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
+            Integer foundId = null;
+            String foundText;
+            if ((resultSet.next()) && (rowsAffected == 1)) {
+                foundId = resultSet.getInt(1);
+                foundText = resultSet.getString(2);
+                LOGGER.info(SAMPLE_SAVED, foundId);
+                entity.setText(foundText);
+                entity.setId(foundId);
+                lastInsertId++;
+            }
+            resultSet.close();
+
+            if (!foundId.equals(lastInsertId)) {
+                LOGGER.warn(LAST_INSERT, lastInsertId, foundId);
+            }
+            duplicates.add(result);
+            database.setSampleList(duplicates); // export
+        } catch (SQLException exception) {
+            LOGGER.error(CREATE_ERROR);
+            entity = null;
+        }
+
+        return entity; // entity if successfully
+    }
+
+    @Override
+    public List<Sample> findAll() {
+        List<Sample> results = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_SQL)) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Integer foundId = resultSet.getInt("id");
+                String foundText = resultSet.getString("text");
+                Sample foundSample = new Sample(foundId, foundText);
+                results.add(foundSample);
+            }
+            resultSet.close();
+
+            if (results.isEmpty()) {
+                LOGGER.warn(SAMPLES_NOT_FOUND, 0, "all");
+            } else {
+                LOGGER.info(SAMPLES_FOUND, results.size(), "all");
+            }
+        } catch (SQLException exception) {
+            LOGGER.error(SEARCH_ERROR);
+        }
+
+        return results;
+    }
+
+    @Override
+    public List<Sample> findByText(String text) {
+        List<Sample> results = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_TEXT_SQL)) {
+
+            preparedStatement.setString(1, text);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Integer foundId = resultSet.getInt("id");
+                String foundText = resultSet.getString("text");
+                Sample foundSample = new Sample(foundId, foundText);
+                results.add(foundSample);
+            }
+            resultSet.close();
+
+            if (results.isEmpty()) {
+                LOGGER.warn(SAMPLES_NOT_FOUND, 0, text);
+            } else {
+                LOGGER.info(SAMPLES_FOUND, results.size(), text);
+            }
+        } catch (SQLException exception) {
+            LOGGER.error(SEARCH_ERROR);
+        }
+
+        return results;
+    }
+
+    @Override
+    public Optional<Sample> find(Integer id) {
+        Sample foundSample = null;
+
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_SQL)) {
+
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Integer foundId = resultSet.getInt("id");
+                String foundText = resultSet.getString("text");
+                foundSample = new Sample(foundId, foundText);
+            }
+            resultSet.close();
+
+            if (foundSample == null) {
+                LOGGER.warn(SAMPLE_NOT_FOUND, id);
+            } else {
+                LOGGER.info(SAMPLE_FOUND, foundSample.getId());
+            }
+        } catch (SQLException exception) {
+            LOGGER.error(SEARCH_ERROR);
+        }
+
+        return Optional.ofNullable(foundSample);
+    }
+
+    @Override
+    public Optional<Sample> update(Integer id, Sample data) {
+        List<Sample> duplicates = database.getSampleList(); // import
+        Sample updatedSample = null;
+
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
+
+            preparedStatement.setString(1, data.getText());
+            preparedStatement.setInt(2, id);
+            int result = preparedStatement.executeUpdate();
+
+            if (result == 1) {
+                updatedSample = new Sample(id, data.getText());
+                LOGGER.info(SAMPLE_UPDATED, id);
+            } else {
+                LOGGER.warn(SAMPLE_NOT_UPDATED + SAMPLE_NOT_FOUND, id);
+            }
+
+            Integer index = null;
+            for (int k = 0; k < duplicates.size(); k++) {
+                if (duplicates.get(k).getId().equals(id)) {
+                    index = k;
+                }
+            }
+            if (index != null) {
+                duplicates.get(index).setText(data.getText());
+                database.setSampleList(duplicates); // export
+            }
+        } catch (SQLException exception) {
+            LOGGER.error(UPDATE_ERROR);
+        }
+
+        return Optional.ofNullable(updatedSample);
+    }
+
+    @Override
+    public Optional<Sample> delete(Integer id) {
+        List<Sample> duplicates = database.getSampleList(); // import
+        Sample deletedSample = null;
+
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement1 = connection.prepareStatement(FIND_SQL);
+             PreparedStatement preparedStatement2 = connection.prepareStatement(DELETE_SQL)) {
+
+            preparedStatement1.setInt(1, id);
+            ResultSet resultSet = preparedStatement1.executeQuery();
+
+            if (resultSet.next()) {
+                Integer deletedId = resultSet.getInt("id");
+                String deletedText = resultSet.getString("text");
+                deletedSample = new Sample(deletedId, deletedText);
+            }
+            resultSet.close();
+
+            preparedStatement2.setInt(1, id);
+            int rowsAffected = preparedStatement2.executeUpdate();
+
+            if (rowsAffected == 1) {
+                LOGGER.info(SAMPLE_DELETED, id);
+            } else {
+                LOGGER.warn(SAMPLE_NOT_DELETED + SAMPLE_NOT_FOUND, id);
+            }
+
+            Integer index = null;
+            for (int k = 0; k < duplicates.size(); k++) {
+                if (duplicates.get(k).getId().equals(id)) {
+                    index = k;
+                }
+            }
+            if (index != null) {
+                duplicates.remove((int) index);
+                database.setSampleList(duplicates); // export
+            }
+        } catch (SQLException exception) {
+            LOGGER.error(DELETE_ERROR);
+        }
+
+        return Optional.ofNullable(deletedSample);
+    }
+
+    public boolean createTable() {
+        String samplesTableHeader = "Column names from samples table are ";
+        StringBuilder tableColumnNames = new StringBuilder(samplesTableHeader);
+
+        boolean isSamplesTableCreated = false;
+
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement1 = connection.prepareStatement(CREATE_TABLE_SQL);
+             PreparedStatement preparedStatement2 = connection.prepareStatement(SELECT_FROM_TABLE_SQL)) {
+
+            LOGGER.warn("Creating samples table named anysample...");
+
+            preparedStatement1.executeUpdate();
+            ResultSet resultSet = preparedStatement2.executeQuery();
+
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int numberOfColumns = resultSetMetaData.getColumnCount();
+
+            for (int i = 1; i < numberOfColumns + 1; i++) {
+                String columnName = resultSetMetaData.getColumnName(i);
+                tableColumnNames.append(columnName).append(" / ");
+            }
+            LOGGER.info(String.valueOf(tableColumnNames));
+            isSamplesTableCreated = true;
+            resultSet.close();
+        } catch (SQLException exception) {
+            LOGGER.error("Samples table is not created!");
+        }
+
+        return isSamplesTableCreated;
+    }
+
+    public boolean deleteTable() {
+        boolean isSamplesTableDeleted = true;
+
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(DROP_TABLE_SQL)) {
+
+            LOGGER.warn("Deleting samples table named anysample...");
+
+            preparedStatement.executeUpdate();
+
+            ResultSet resultSet = connection.getMetaData()
+                    .getTables(null, null, SAMPLES_TABLE_NAME, null);
+
+            if (resultSet.next()) {
+                String foundTableName = resultSet.getString("TABLE_NAME");
+                if (foundTableName != null && foundTableName.equals(SAMPLES_TABLE_NAME)) {
+                    isSamplesTableDeleted = false;
+                }
+            }
+
+            if (isSamplesTableDeleted) {
+                LOGGER.info("Samples table successfully deleted!");
+            } else {
+                LOGGER.warn("Samples table is not deleted!");
+            }
+            resultSet.close();
+        } catch (SQLException exception) {
+            LOGGER.error("Deleting samples table unfortunately failed!");
+        }
+
+        return isSamplesTableDeleted;
+    }
+
+    private void displayProgressBar(int lastLoadedId, int resourceListSize) {
+        int allUnits = 10; // 10 units for 100%
+        int remainingUnits = ((100 * lastLoadedId) / (resourceListSize * allUnits));
+        char emptyUnit = '-';
+        String fullUnit = "*";
+        String bar = new String(new char[allUnits]).replace('\0', emptyUnit);
+        StringBuilder fullBar = new StringBuilder();
+        fullBar.append("[");
+        for (int i = 0; i < remainingUnits; i++) {
+            fullBar.append(fullUnit);
+        }
+        fullBar.append("]");
+        String emptyBar = bar.substring(remainingUnits);
+        System.out.print("\r" + fullBar + emptyBar + " " + remainingUnits * 10 + "%");
+        if (lastLoadedId == resourceListSize) {
+            System.out.print(" Done!\n");
+        }
+    }
+}

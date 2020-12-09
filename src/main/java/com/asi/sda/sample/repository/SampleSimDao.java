@@ -23,9 +23,9 @@ public class SampleSimDao implements SampleRepository {
     @Override
     public List<Sample> createAll(List<Sample> samples) {
         List<Sample> entities = database.getSampleList(); // import
-        boolean isReady = true; // database scenario
-
         List<Sample> results = new ArrayList<>();
+
+        boolean isReady = true; // database scenario
 
         if (isReady) {
             results = SampleSimDatabase.generateIdAll(samples, lastInsertId);
@@ -46,9 +46,9 @@ public class SampleSimDao implements SampleRepository {
     @Override
     public Sample create(Sample sample) {
         List<Sample> entities = database.getSampleList(); // import
-        boolean isReady = true; // database scenario
-
         Sample result = new Sample();
+
+        boolean isReady = true; // database scenario
 
         if (isReady) {
             result = SampleSimDatabase.generateIdOne(sample, lastInsertId);

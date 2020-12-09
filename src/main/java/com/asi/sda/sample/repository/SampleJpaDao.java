@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.asi.sda.sample.constant.CommonMessages.LAST_INSERT;
-import static com.asi.sda.sample.constant.CommonMessages.PLEASE_WAIT;
+import static com.asi.sda.sample.constant.CommonMessages.*;
 import static com.asi.sda.sample.constant.SampleMessages.*;
 
 
@@ -32,6 +31,8 @@ public class SampleJpaDao implements SampleRepository {
     @Override
     public List<Sample> createAll(List<Sample> samples) {
         List<Sample> duplicates = database.getSampleList(); // import
+        List<Sample> results = new ArrayList<>();
+        List<Sample> entities = new ArrayList<>();
 
         try {
             LOGGER.info(SAMPLES_START + PLEASE_WAIT);
@@ -39,10 +40,12 @@ public class SampleJpaDao implements SampleRepository {
             Integer foundId = null;
             for (Sample item : samples) {
                 entityManager.persist(item);
+                entities.add(item);
                 foundId = item.getId();
             }
             entityManager.getTransaction().commit();
             LOGGER.info(SAMPLES_FINAL, foundId);
+            results = SampleSimDatabase.generateIdAll(results, lastInsertId);
 
             lastInsertId += samples.size();
             LOGGER.info(SAMPLES_SAVED, samples.size());
@@ -50,7 +53,7 @@ public class SampleJpaDao implements SampleRepository {
                 LOGGER.warn(LAST_INSERT, lastInsertId, foundId);
             }
 
-            duplicates.addAll(samples);
+            duplicates.addAll(results);
             database.setSampleList(duplicates); // export
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {
@@ -58,17 +61,21 @@ public class SampleJpaDao implements SampleRepository {
             }
         }
 
-        return samples; // entity if successfully
+        return entities; // entities if successfully
     }
 
     @Override
     public Sample create(Sample sample) {
         List<Sample> duplicates = database.getSampleList(); // import
+        Sample result;
+        Sample entity;
 
         try {
+            result = SampleSimDatabase.generateIdOne(sample, lastInsertId);
             entityManager.getTransaction().begin();
             entityManager.persist(sample);
             entityManager.getTransaction().commit();
+            entity = sample;
 
             lastInsertId++;
             Integer foundId = sample.getId();
@@ -77,15 +84,16 @@ public class SampleJpaDao implements SampleRepository {
                 LOGGER.warn(LAST_INSERT, lastInsertId, foundId);
             }
 
-            duplicates.add(sample);
+            duplicates.add(result);
             database.setSampleList(duplicates); // export
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
+            entity = null;
         }
 
-        return sample; // entity if successfully
+        return entity; // entity if successfully
     }
 
     @Override
@@ -159,9 +167,9 @@ public class SampleJpaDao implements SampleRepository {
             }
 
             Integer index = null;
-            for (Sample item : duplicates) {
-                if (item.getId().equals(id)) {
-                    index = duplicates.indexOf(item);
+            for (int k = 0; k < duplicates.size(); k++) {
+                if (duplicates.get(k).getId().equals(id)) {
+                    index = k;
                 }
             }
             if (index != null) {
@@ -197,9 +205,9 @@ public class SampleJpaDao implements SampleRepository {
             }
 
             Integer index = null;
-            for (Sample item : duplicates) {
-                if (item.getId().equals(id)) {
-                    index = duplicates.indexOf(item);
+            for (int k = 0; k < duplicates.size(); k++) {
+                if (duplicates.get(k).getId().equals(id)) {
+                    index = k;
                 }
             }
             if (index != null) {

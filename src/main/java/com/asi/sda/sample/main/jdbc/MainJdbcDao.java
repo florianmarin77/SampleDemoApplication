@@ -1,4 +1,4 @@
-package com.asi.sda.sample.main.jpa;
+package com.asi.sda.sample.main.jdbc;
 
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.database.SampleSimDatabase;
@@ -6,29 +6,26 @@ import com.asi.sda.sample.loader.SampleLineLoader;
 import com.asi.sda.sample.loader.SampleLoader;
 import com.asi.sda.sample.loader.SampleSplitLoader;
 import com.asi.sda.sample.repository.SampleJdbcDao;
-import com.asi.sda.sample.repository.SampleJpaDao;
 import com.asi.sda.sample.repository.SampleRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
-public class MainJpaDao {
+public class MainJdbcDao {
     private static final SampleSimDatabase database = SampleSimDatabase.getInstance();
 
     private static final boolean JOKER = true; // loader scenario
 
     public static void main(String[] args) throws URISyntaxException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MacroMedia");
-        EntityManager em = emf.createEntityManager();
-
-        SampleRepository dao = new SampleJpaDao(em);
+        SampleRepository dao = new SampleJdbcDao();
         SampleJdbcDao jdbcDao = new SampleJdbcDao();
+
+        // create sample table
+        System.out.println("Table created: " + jdbcDao.createTable());
+        database.displayTable(database.getSampleList());
 
         // populate database by loader scenario
         if (JOKER) {
@@ -73,11 +70,7 @@ public class MainJpaDao {
         System.out.println(optional);
         database.displayTable(database.getSampleList());
 
-        // drop sample table
+        // delete sample table
         System.out.println("Table deleted: " + jdbcDao.deleteTable());
-
-        // close resources
-        em.close();
-        emf.close();
     }
 }
