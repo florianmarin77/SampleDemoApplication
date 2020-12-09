@@ -1,4 +1,4 @@
-package com.asi.sda.sample.main;
+package com.asi.sda.sample.main.sim;
 
 import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.SampleMapper;
