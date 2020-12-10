@@ -40,6 +40,7 @@ public class SampleSimDao implements SampleRepository {
             }
         }
 
+        database.displayTable(results);
         return results;
     }
 
@@ -69,10 +70,13 @@ public class SampleSimDao implements SampleRepository {
     @Override
     public List<Sample> findAll() {
         List<Sample> entities = database.getSampleList(); // import
+        List<Sample> results = new ArrayList<>();
+
         boolean isReady = true; // database scenario
 
         if (isReady) {
-            System.out.println(SOURCE + "FIND=TRUE/SIZE=" + entities.size() + "/all");
+            results = entities;
+            System.out.println(SOURCE + "FIND=TRUE/SIZE=" + results.size() + "/all");
         } else {
             System.out.println(SOURCE + "FIND=FALSE/SIZE=" + 0 + "/all");
             if (isActive) {
@@ -80,15 +84,16 @@ public class SampleSimDao implements SampleRepository {
             }
         }
 
-        return entities;
+        database.displayTable(results);
+        return results;
     }
 
     @Override
     public List<Sample> findByText(String text) {
         List<Sample> entities = database.getSampleList(); // import
-        boolean isReady = true; // database scenario
-
         List<Sample> results = new ArrayList<>();
+
+        boolean isReady = true; // database scenario
 
         if (isReady) {
             for (Sample item : entities) {
@@ -104,15 +109,17 @@ public class SampleSimDao implements SampleRepository {
             }
         }
 
+        database.displayTable(results);
         return results;
     }
 
     @Override
     public Optional<Sample> find(Integer id) {
         List<Sample> entities = database.getSampleList(); // import
-        boolean isReady = true; // database scenario
+        List<Sample> results = new ArrayList<>();
+        Sample result = null;
 
-        Sample entity = new Sample();
+        boolean isReady = true; // database scenario
 
         if (isReady) {
             Integer index = null;
@@ -122,27 +129,30 @@ public class SampleSimDao implements SampleRepository {
                 }
             }
             if (index != null) {
-                entity = entities.get(index);
+                result = entities.get(index);
                 System.out.println(SOURCE + "FIND=TRUE/ID=" + id);
             } else {
-                entity = null;
                 System.out.println(SOURCE + "FIND=FALSE/ID=" + id);
             }
+            results.add(result);
         } else {
             if (isActive) {
                 throw new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR);
             }
         }
 
-        return Optional.ofNullable(entity);
+        database.displayTable(results);
+        return Optional.ofNullable(result);
     }
 
     @Override
     public Optional<Sample> update(Integer id, Sample data) {
         List<Sample> entities = database.getSampleList(); // import
+        List<Sample> results = new ArrayList<>();
+        Sample result = null;
+
         boolean isReady = true; // database scenario
 
-        Sample result = new Sample();
         if (isReady) {
             Integer index = null;
             for (int k = 0; k < entities.size(); k++) {
@@ -156,23 +166,27 @@ public class SampleSimDao implements SampleRepository {
                 database.setSampleList(entities); // export
                 System.out.println(SOURCE + "UPDATE=TRUE/ID=" + id);
             } else {
-                result = null;
                 System.out.println(SOURCE + "UPDATE=FALSE/ID=" + id);
             }
+            results.add(result);
         } else {
             if (isActive) {
                 throw new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR);
             }
         }
+
+        database.displayTable(results);
         return Optional.ofNullable(result);
     }
 
     @Override
     public Optional<Sample> delete(Integer id) {
         List<Sample> entities = database.getSampleList(); // import
+        List<Sample> results = new ArrayList<>();
+        Sample result = null;
+
         boolean isReady = true; // database scenario
 
-        Sample result = new Sample();
         if (isReady) {
             Integer index = null;
             for (int k = 0; k < entities.size(); k++) {
@@ -186,14 +200,16 @@ public class SampleSimDao implements SampleRepository {
                 database.setSampleList(entities); // export
                 System.out.println(SOURCE + "DELETE=TRUE/ID=" + id);
             } else {
-                result = null;
                 System.out.println(SOURCE + "DELETE=FALSE/ID=" + id);
             }
+            results.add(result);
         } else {
             if (isActive) {
                 throw new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR);
             }
         }
+
+        database.displayTable(results);
         return Optional.ofNullable(result);
     }
 }

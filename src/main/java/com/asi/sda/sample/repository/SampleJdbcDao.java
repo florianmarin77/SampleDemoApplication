@@ -31,7 +31,7 @@ public class SampleJdbcDao implements SampleRepository {
     public List<Sample> createAll(List<Sample> samples) {
         List<Sample> duplicates = database.getSampleList(); // import
         List<Sample> results = new ArrayList<>();
-        List<Sample> entities = new ArrayList<>();
+        List<Sample> clones = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = connection
@@ -40,13 +40,9 @@ public class SampleJdbcDao implements SampleRepository {
             LOGGER.info(SAMPLES_START + PLEASE_WAIT);
             Integer foundId = null;
             for (Sample item : samples) {
-                results.add(item);
-
                 preparedStatement.setString(1, item.getText());
                 int rowsAffected = preparedStatement.executeUpdate();
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
-
-                entities.add(item);
 
                 if ((resultSet.next()) && (rowsAffected == 1)) {
                     foundId = resultSet.getInt(1);
@@ -54,10 +50,12 @@ public class SampleJdbcDao implements SampleRepository {
                         displayProgressBar(foundId, samples.size());
                     }
                 }
+                clones.add(item);
+                results.add(item);
                 resultSet.close();
             }
             LOGGER.info(SAMPLES_FINAL, foundId);
-            results = SampleSimDatabase.generateIdAll(results, lastInsertId);
+            clones = SampleSimDatabase.generateIdAll(clones, lastInsertId);
 
             lastInsertId += samples.size();
             LOGGER.info(SAMPLES_SAVED, samples.size());
@@ -65,27 +63,27 @@ public class SampleJdbcDao implements SampleRepository {
                 LOGGER.warn(LAST_INSERT, lastInsertId, foundId);
             }
 
-            duplicates.addAll(results);
+            duplicates.addAll(clones);
             database.setSampleList(duplicates); // export
         } catch (SQLException exception) {
             LOGGER.error(CREATE_ERROR);
         }
 
-        return entities; // entities if successfully
+        database.displayTable(clones);
+        return results;
     }
 
     @Override
     public Sample create(Sample sample) {
         List<Sample> duplicates = database.getSampleList(); // import
-        Sample result;
-        Sample entity = new Sample();
+        List<Sample> clones = new ArrayList<>();
+        Sample result = new Sample();
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = connection
                      .prepareStatement(CREATE_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, sample.getText());
-            result = SampleSimDatabase.generateIdOne(sample, lastInsertId);
             int rowsAffected = preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
 
@@ -95,8 +93,8 @@ public class SampleJdbcDao implements SampleRepository {
                 foundId = resultSet.getInt(1);
                 foundText = resultSet.getString(2);
                 LOGGER.info(SAMPLE_SAVED, foundId);
-                entity.setText(foundText);
-                entity.setId(foundId);
+                result.setText(foundText);
+                result.setId(foundId);
                 lastInsertId++;
             }
             resultSet.close();
@@ -104,19 +102,22 @@ public class SampleJdbcDao implements SampleRepository {
             if (!foundId.equals(lastInsertId)) {
                 LOGGER.warn(LAST_INSERT, lastInsertId, foundId);
             }
-            duplicates.add(result);
+
+            duplicates.add(SampleSimDatabase.generateIdOne(sample, lastInsertId));
             database.setSampleList(duplicates); // export
         } catch (SQLException exception) {
             LOGGER.error(CREATE_ERROR);
-            entity = null;
+            result = null;
         }
 
-        return entity; // entity if successfully
+        return result;
     }
 
     @Override
     public List<Sample> findAll() {
+        List<Sample> duplicates = database.getSampleList(); // import
         List<Sample> results = new ArrayList<>();
+        List<Sample> clones = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_SQL)) {
@@ -126,8 +127,7 @@ public class SampleJdbcDao implements SampleRepository {
             while (resultSet.next()) {
                 Integer foundId = resultSet.getInt("id");
                 String foundText = resultSet.getString("text");
-                Sample foundSample = new Sample(foundId, foundText);
-                results.add(foundSample);
+                results.add(new Sample(foundId, foundText));
             }
             resultSet.close();
 
@@ -136,16 +136,21 @@ public class SampleJdbcDao implements SampleRepository {
             } else {
                 LOGGER.info(SAMPLES_FOUND, results.size(), "all");
             }
+
+            clones = duplicates;
         } catch (SQLException exception) {
             LOGGER.error(SEARCH_ERROR);
         }
 
+        database.displayTable(clones);
         return results;
     }
 
     @Override
     public List<Sample> findByText(String text) {
+        List<Sample> duplicates = database.getSampleList(); // import
         List<Sample> results = new ArrayList<>();
+        List<Sample> clones = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_TEXT_SQL)) {
@@ -156,8 +161,7 @@ public class SampleJdbcDao implements SampleRepository {
             while (resultSet.next()) {
                 Integer foundId = resultSet.getInt("id");
                 String foundText = resultSet.getString("text");
-                Sample foundSample = new Sample(foundId, foundText);
-                results.add(foundSample);
+                results.add(new Sample(foundId, foundText));
             }
             resultSet.close();
 
@@ -166,16 +170,25 @@ public class SampleJdbcDao implements SampleRepository {
             } else {
                 LOGGER.info(SAMPLES_FOUND, results.size(), text);
             }
+
+            for (Sample item : duplicates) {
+                if (item.getText().equals(text)) {
+                    clones.add(item);
+                }
+            }
         } catch (SQLException exception) {
             LOGGER.error(SEARCH_ERROR);
         }
 
+        database.displayTable(clones);
         return results;
     }
 
     @Override
     public Optional<Sample> find(Integer id) {
-        Sample foundSample = null;
+        List<Sample> duplicates = database.getSampleList(); // import
+        List<Sample> clones = new ArrayList<>();
+        Sample result = null;
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_SQL)) {
@@ -186,36 +199,48 @@ public class SampleJdbcDao implements SampleRepository {
             if (resultSet.next()) {
                 Integer foundId = resultSet.getInt("id");
                 String foundText = resultSet.getString("text");
-                foundSample = new Sample(foundId, foundText);
+                result = new Sample(foundId, foundText);
             }
             resultSet.close();
 
-            if (foundSample == null) {
+            if (result == null) {
                 LOGGER.warn(SAMPLE_NOT_FOUND, id);
             } else {
-                LOGGER.info(SAMPLE_FOUND, foundSample.getId());
+                LOGGER.info(SAMPLE_FOUND, result.getId());
+            }
+
+            Integer index = null;
+            for (int k = 0; k < duplicates.size(); k++) {
+                if (duplicates.get(k).getId().equals(id)) {
+                    index = k;
+                }
+            }
+            if (index != null) {
+                clones.add(duplicates.get(index));
             }
         } catch (SQLException exception) {
             LOGGER.error(SEARCH_ERROR);
         }
 
-        return Optional.ofNullable(foundSample);
+        database.displayTable(clones);
+        return Optional.ofNullable(result);
     }
 
     @Override
     public Optional<Sample> update(Integer id, Sample data) {
         List<Sample> duplicates = database.getSampleList(); // import
-        Sample updatedSample = null;
+        List<Sample> clones = new ArrayList<>();
+        Sample result = null;
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
 
             preparedStatement.setString(1, data.getText());
             preparedStatement.setInt(2, id);
-            int result = preparedStatement.executeUpdate();
+            int rowsAffected = preparedStatement.executeUpdate();
 
-            if (result == 1) {
-                updatedSample = new Sample(id, data.getText());
+            if (rowsAffected == 1) {
+                result = new Sample(id, data.getText());
                 LOGGER.info(SAMPLE_UPDATED, id);
             } else {
                 LOGGER.warn(SAMPLE_NOT_UPDATED + SAMPLE_NOT_FOUND, id);
@@ -230,18 +255,21 @@ public class SampleJdbcDao implements SampleRepository {
             if (index != null) {
                 duplicates.get(index).setText(data.getText());
                 database.setSampleList(duplicates); // export
+                clones.add(duplicates.get(index));
             }
         } catch (SQLException exception) {
             LOGGER.error(UPDATE_ERROR);
         }
 
-        return Optional.ofNullable(updatedSample);
+        database.displayTable(clones);
+        return Optional.ofNullable(result);
     }
 
     @Override
     public Optional<Sample> delete(Integer id) {
         List<Sample> duplicates = database.getSampleList(); // import
-        Sample deletedSample = null;
+        List<Sample> clones = new ArrayList<>();
+        Sample result = null;
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement1 = connection.prepareStatement(FIND_SQL);
@@ -253,7 +281,7 @@ public class SampleJdbcDao implements SampleRepository {
             if (resultSet.next()) {
                 Integer deletedId = resultSet.getInt("id");
                 String deletedText = resultSet.getString("text");
-                deletedSample = new Sample(deletedId, deletedText);
+                result = new Sample(deletedId, deletedText);
             }
             resultSet.close();
 
@@ -273,6 +301,7 @@ public class SampleJdbcDao implements SampleRepository {
                 }
             }
             if (index != null) {
+                clones.add(duplicates.get(index));
                 duplicates.remove((int) index);
                 database.setSampleList(duplicates); // export
             }
@@ -280,7 +309,8 @@ public class SampleJdbcDao implements SampleRepository {
             LOGGER.error(DELETE_ERROR);
         }
 
-        return Optional.ofNullable(deletedSample);
+        database.displayTable(clones);
+        return Optional.ofNullable(result);
     }
 
     public boolean createTable() {
