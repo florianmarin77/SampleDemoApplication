@@ -7,31 +7,27 @@ import com.asi.sda.sample.loader.SampleLineLoader;
 import com.asi.sda.sample.loader.SampleLoader;
 import com.asi.sda.sample.loader.SampleSplitLoader;
 import com.asi.sda.sample.repository.SampleJdbcDao;
-import com.asi.sda.sample.repository.SampleJpaDao;
 import com.asi.sda.sample.repository.SampleRepository;
-import com.asi.sda.sample.service.SampleJpaService;
+import com.asi.sda.sample.service.SampleJdbcService;
 import com.asi.sda.sample.service.SampleService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class ConsoleJpaMenu {
+public class ConsoleJdbcMenu {
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final SampleSimDatabase database = SampleSimDatabase.getInstance();
     private static final boolean JOKER = true; // loader scenario
 
     public static void main(String[] args) throws URISyntaxException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MacroMedia");
-        EntityManager em = emf.createEntityManager();
-
-        SampleRepository dao = new SampleJpaDao(em);
-        SampleService service = new SampleJpaService(dao);
+        SampleRepository dao = new SampleJdbcDao();
+        SampleService service = new SampleJdbcService(dao);
         SampleJdbcDao jdbcDao = new SampleJdbcDao();
+
+        System.out.println("Table created: " + jdbcDao.createTable());
+        database.displayTable(database.getSampleList());
 
         if (JOKER) {
             System.out.println("Welcome to Sample Demo Application with database populated by split loader!");
@@ -143,3 +139,4 @@ public class ConsoleJpaMenu {
         System.out.println("Make your choice:");
     }
 }
+
