@@ -32,6 +32,7 @@ public class SampleJdbcDao implements SampleRepository {
         List<Sample> duplicates = database.getSampleList(); // import
         List<Sample> results = new ArrayList<>();
         List<Sample> clones = new ArrayList<>();
+        Sample result = new Sample();
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = connection
@@ -44,14 +45,18 @@ public class SampleJdbcDao implements SampleRepository {
                 int rowsAffected = preparedStatement.executeUpdate();
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
 
+                clones.add(item);
+
                 if ((resultSet.next()) && (rowsAffected == 1)) {
                     foundId = resultSet.getInt(1);
+                    result.setText(item.getText());
+                    result.setId(foundId);
+                    results.add(item);
+
                     if (((foundId - 1) % 100 == 0) || (foundId == samples.size())) {
                         displayProgressBar(foundId, samples.size());
                     }
                 }
-                clones.add(item);
-                results.add(item);
                 resultSet.close();
             }
             LOGGER.info(SAMPLES_FINAL, foundId);
@@ -87,13 +92,13 @@ public class SampleJdbcDao implements SampleRepository {
             int rowsAffected = preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
 
+            clones.add(SampleSimDatabase.generateIdOne(sample, lastInsertId));
+
             Integer foundId = null;
-            String foundText;
             if ((resultSet.next()) && (rowsAffected == 1)) {
                 foundId = resultSet.getInt(1);
-                foundText = resultSet.getString(2);
                 LOGGER.info(SAMPLE_SAVED, foundId);
-                result.setText(foundText);
+                result.setText(sample.getText());
                 result.setId(foundId);
                 lastInsertId++;
             }
@@ -103,13 +108,13 @@ public class SampleJdbcDao implements SampleRepository {
                 LOGGER.warn(LAST_INSERT, lastInsertId, foundId);
             }
 
-            duplicates.add(SampleSimDatabase.generateIdOne(sample, lastInsertId));
+            duplicates.addAll(clones);
             database.setSampleList(duplicates); // export
         } catch (SQLException exception) {
             LOGGER.error(CREATE_ERROR);
-            result = null;
         }
 
+        database.displayTable(clones);
         return result;
     }
 

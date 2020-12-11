@@ -32,20 +32,21 @@ public class SampleJpaDao implements SampleRepository {
     public List<Sample> createAll(List<Sample> samples) {
         List<Sample> duplicates = database.getSampleList(); // import
         List<Sample> results = new ArrayList<>();
-        List<Sample> entities = new ArrayList<>();
+        List<Sample> clones = new ArrayList<>();
 
         try {
             LOGGER.info(SAMPLES_START + PLEASE_WAIT);
             entityManager.getTransaction().begin();
             Integer foundId = null;
             for (Sample item : samples) {
+                clones.add(item);
                 entityManager.persist(item);
-                entities.add(item);
+                results.add(item);
                 foundId = item.getId();
             }
             entityManager.getTransaction().commit();
             LOGGER.info(SAMPLES_FINAL, foundId);
-            results = SampleSimDatabase.generateIdAll(results, lastInsertId);
+            clones = SampleSimDatabase.generateIdAll(clones, lastInsertId);
 
             lastInsertId += samples.size();
             LOGGER.info(SAMPLES_SAVED, samples.size());
@@ -53,7 +54,7 @@ public class SampleJpaDao implements SampleRepository {
                 LOGGER.warn(LAST_INSERT, lastInsertId, foundId);
             }
 
-            duplicates.addAll(results);
+            duplicates.addAll(clones);
             database.setSampleList(duplicates); // export
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {
@@ -61,21 +62,22 @@ public class SampleJpaDao implements SampleRepository {
             }
         }
 
-        return entities; // entities if successfully
+        database.displayTable(clones);
+        return results;
     }
 
     @Override
     public Sample create(Sample sample) {
         List<Sample> duplicates = database.getSampleList(); // import
-        Sample result;
-        Sample entity;
+        List<Sample> clones = new ArrayList<>();
+        Sample result = new Sample();
 
         try {
-            result = SampleSimDatabase.generateIdOne(sample, lastInsertId);
+            clones.add(SampleSimDatabase.generateIdOne(sample, lastInsertId));
             entityManager.getTransaction().begin();
             entityManager.persist(sample);
             entityManager.getTransaction().commit();
-            entity = sample;
+            result = sample;
 
             lastInsertId++;
             Integer foundId = sample.getId();
@@ -84,16 +86,16 @@ public class SampleJpaDao implements SampleRepository {
                 LOGGER.warn(LAST_INSERT, lastInsertId, foundId);
             }
 
-            duplicates.add(result);
+            duplicates.addAll(clones);
             database.setSampleList(duplicates); // export
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
-            entity = null;
         }
 
-        return entity; // entity if successfully
+        database.displayTable(clones);
+        return result;
     }
 
     @Override
