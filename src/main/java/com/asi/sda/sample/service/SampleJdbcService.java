@@ -7,6 +7,7 @@ import com.asi.sda.sample.SampleResponseDto;
 import com.asi.sda.sample.exception.OutOfRangeException;
 import com.asi.sda.sample.exception.SampleNotFoundException;
 import com.asi.sda.sample.exception.SampleNotSavedException;
+import com.asi.sda.sample.repository.SampleJdbcDao;
 import com.asi.sda.sample.repository.SampleJpaDao;
 import com.asi.sda.sample.repository.SampleRepository;
 import org.apache.logging.log4j.LogManager;
@@ -143,8 +144,8 @@ public class SampleJdbcService implements SampleService {
             LOGGER.warn("ID NUMBER TOO BIG!"); // maximum integer value 2,147,483,647
             return false;
         }
-        if (id > SampleJpaDao.lastInsertId) {
-            LOGGER.warn(SAMPLE_OUT_OF_RANGE, id, SampleJpaDao.lastInsertId);
+        if (id > SampleJdbcDao.lastInsertId) {
+            LOGGER.warn(SAMPLE_OUT_OF_RANGE, id, SampleJdbcDao.lastInsertId);
         } else {
             validId = true;
         }
