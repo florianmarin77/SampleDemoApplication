@@ -170,6 +170,15 @@ public class SampleJdbcDao implements SampleRepository {
             }
             resultSet.close();
 
+            // sql search is case insensitive by default
+            List<Sample> entities = new ArrayList<>();
+            for (Sample item : results) {
+                if (item.getText().equals(text)) {
+                    entities.add(item);
+                }
+            }
+            results = entities;
+
             if (results.isEmpty()) {
                 LOGGER.warn(SAMPLES_NOT_FOUND, 0, text);
             } else {
