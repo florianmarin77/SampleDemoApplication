@@ -20,6 +20,7 @@ import static com.asi.sda.sample.constant.SampleMessages.*;
 
 public class SampleJpaService implements SampleService {
     private static final Logger LOGGER = LogManager.getLogger(SampleJpaService.class);
+    private static final String SOURCE = "SERVICE => "; // level signature
 
     private final SampleRepository sampleRepository;
 
@@ -29,6 +30,8 @@ public class SampleJpaService implements SampleService {
 
     @Override
     public List<SampleResponseDto> createAll(List<SampleRequestDto> requests) {
+        System.out.println(SOURCE + "CREATE/all");
+
         List<Sample> entities = sampleRepository.createAll(SampleMapper.toEntities(requests));
 
         if (entities.get(0).getId() == null) {
@@ -40,6 +43,8 @@ public class SampleJpaService implements SampleService {
 
     @Override
     public SampleResponseDto create(SampleRequestDto request) {
+        System.out.println(SOURCE + "CREATE");
+
         Sample entity = sampleRepository.create(SampleMapper.toEntity(request));
 
         if (entity.getId() == null) {
@@ -51,6 +56,8 @@ public class SampleJpaService implements SampleService {
 
     @Override
     public List<SampleResponseDto> findAll() {
+        System.out.println(SOURCE + "READ/all");
+
         List<Sample> entities = sampleRepository.findAll();
 
         return SampleMapper.toResponseDtos(entities);
@@ -58,6 +65,8 @@ public class SampleJpaService implements SampleService {
 
     @Override
     public List<SampleResponseDto> findByText(String text) {
+        System.out.println(SOURCE + "READ/byText");
+
         List<Sample> entities = sampleRepository.findByText(text);
 
         return SampleMapper.toResponseDtos(entities);
@@ -65,6 +74,8 @@ public class SampleJpaService implements SampleService {
 
     @Override
     public SampleResponseDto find(Integer id) {
+        System.out.println(SOURCE + "READ");
+
         if (hasValidId(id)) {
             Optional<Sample> optional = sampleRepository.find(id);
 
@@ -82,6 +93,8 @@ public class SampleJpaService implements SampleService {
 
     @Override
     public SampleResponseDto update(Integer id, Sample data) {
+        System.out.println(SOURCE + "UPDATE");
+
         Sample result;
         if (hasValidId(id)) {
             Optional<Sample> optional = sampleRepository.find(id);
@@ -101,6 +114,8 @@ public class SampleJpaService implements SampleService {
 
     @Override
     public SampleResponseDto delete(Integer id) {
+        System.out.println(SOURCE + "DELETE");
+
         Sample result;
         if (hasValidId(id)) {
             Optional<Sample> optional = sampleRepository.find(id);

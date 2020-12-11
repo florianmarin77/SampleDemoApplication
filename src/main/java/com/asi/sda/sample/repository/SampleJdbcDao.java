@@ -32,7 +32,6 @@ public class SampleJdbcDao implements SampleRepository {
         List<Sample> duplicates = database.getSampleList(); // import
         List<Sample> results = new ArrayList<>();
         List<Sample> clones = new ArrayList<>();
-        Sample result = new Sample();
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = connection
@@ -49,9 +48,10 @@ public class SampleJdbcDao implements SampleRepository {
 
                 if ((resultSet.next()) && (rowsAffected == 1)) {
                     foundId = resultSet.getInt(1);
+                    Sample result = new Sample();
                     result.setText(item.getText());
                     result.setId(foundId);
-                    results.add(item);
+                    results.add(result);
 
                     if (((foundId - 1) % 100 == 0) || (foundId == samples.size())) {
                         displayProgressBar(foundId, samples.size());

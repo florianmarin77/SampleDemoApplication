@@ -152,20 +152,21 @@ public class SampleJpaDao implements SampleRepository {
     @Override
     public Optional<Sample> update(Integer id, Sample data) {
         List<Sample> duplicates = database.getSampleList(); // import
-        Sample entity = null;
+        List<Sample> clones = new ArrayList<>();
+        Sample result = null;
 
         try {
-            Sample result = entityManager.find(Sample.class, id);
+            Sample entity = entityManager.find(Sample.class, id);
 
-            if (result == null) {
+            if (entity == null) {
                 LOGGER.warn(SAMPLE_NOT_UPDATED + SAMPLE_NOT_FOUND, id);
             } else {
-                result.setText(data.getText());
-                entity = result;
+                entity.setText(data.getText());
+                result = entity;
                 entityManager.getTransaction().begin();
-                entityManager.merge(result);
+                entityManager.merge(entity);
                 entityManager.getTransaction().commit();
-                LOGGER.info(SAMPLE_UPDATED, result.getId());
+                LOGGER.info(SAMPLE_UPDATED, entity.getId());
             }
 
             Integer index = null;
@@ -177,6 +178,7 @@ public class SampleJpaDao implements SampleRepository {
             if (index != null) {
                 duplicates.get(index).setText(data.getText());
                 database.setSampleList(duplicates); // export
+                clones.add(duplicates.get(index));
             }
         } catch (Exception exception) {
             if (entityManager.getTransaction().isActive()) {
@@ -184,23 +186,25 @@ public class SampleJpaDao implements SampleRepository {
             }
         }
 
-        return Optional.ofNullable(entity);
+        database.displayTable(clones);
+        return Optional.ofNullable(result);
     }
 
     @Override
     public Optional<Sample> delete(Integer id) {
         List<Sample> duplicates = database.getSampleList(); // import
-        Sample entity = null;
+        List<Sample> clones = new ArrayList<>();
+        Sample result = null;
 
         try {
-            Sample result = entityManager.find(Sample.class, id);
+            Sample entity = entityManager.find(Sample.class, id);
 
-            if (result == null) {
+            if (entity == null) {
                 LOGGER.warn(SAMPLE_NOT_DELETED + SAMPLE_NOT_FOUND, id);
             } else {
-                entity = result;
+                result = entity;
                 entityManager.getTransaction().begin();
-                entityManager.remove(result);
+                entityManager.remove(entity);
                 entityManager.getTransaction().commit();
 
                 LOGGER.info(SAMPLE_DELETED, id);
@@ -213,6 +217,7 @@ public class SampleJpaDao implements SampleRepository {
                 }
             }
             if (index != null) {
+                clones.add(duplicates.get(index));
                 duplicates.remove((int) index);
                 database.setSampleList(duplicates); // export
             }
@@ -222,6 +227,7 @@ public class SampleJpaDao implements SampleRepository {
             }
         }
 
-        return Optional.ofNullable(entity);
+        database.displayTable(clones);
+        return Optional.ofNullable(result);
     }
 }

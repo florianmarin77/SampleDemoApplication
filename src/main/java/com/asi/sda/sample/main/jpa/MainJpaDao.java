@@ -34,12 +34,12 @@ public class MainJpaDao {
         if (JOKER) {
             SampleLoader loader = new SampleSplitLoader(); // database resources => sampleList.csv
             Path path = Paths.get(ClassLoader.getSystemResource("data/sample/sampleList.csv").toURI());
-            dao.createAll(loader.loadData(Paths.get(String.valueOf(path))));
+            System.out.println(dao.createAll(loader.loadData(Paths.get(String.valueOf(path)))));
             database.displayTable(database.getSampleList());
         } else {
             SampleLoader loader = new SampleLineLoader(); // database resources => sampleList.txt
             Path path = Paths.get(ClassLoader.getSystemResource("data/sample/sampleList.txt").toURI());
-            dao.createAll(loader.loadData(Paths.get(String.valueOf(path))));
+            System.out.println(dao.createAll(loader.loadData(Paths.get(String.valueOf(path)))));
             database.displayTable(database.getSampleList());
         }
 
