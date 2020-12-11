@@ -8,7 +8,6 @@ import com.asi.sda.sample.exception.OutOfRangeException;
 import com.asi.sda.sample.exception.SampleNotFoundException;
 import com.asi.sda.sample.exception.SampleNotSavedException;
 import com.asi.sda.sample.repository.SampleJdbcDao;
-import com.asi.sda.sample.repository.SampleJpaDao;
 import com.asi.sda.sample.repository.SampleRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

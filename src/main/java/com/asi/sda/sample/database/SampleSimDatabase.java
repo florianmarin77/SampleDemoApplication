@@ -13,7 +13,7 @@ public class SampleSimDatabase {
         // prevent instantiation
     }
 
-    // Thread Safe Lazy Sampleton
+    // Thread Safe Lazy Singleton
     public static synchronized SampleSimDatabase getInstance() {
         if (sampleSimDatabase == null) {
             sampleSimDatabase = new SampleSimDatabase();

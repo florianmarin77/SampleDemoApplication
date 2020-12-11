@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.asi.sda.sample.constant.CommonMessages.*;
+import static com.asi.sda.sample.constant.CommonMessages.LAST_INSERT;
+import static com.asi.sda.sample.constant.CommonMessages.PLEASE_WAIT;
 import static com.asi.sda.sample.constant.SampleMessages.*;
 
 
