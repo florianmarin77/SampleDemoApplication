@@ -47,6 +47,7 @@ public class SampleSimDao implements SampleRepository {
     @Override
     public Sample create(Sample sample) {
         List<Sample> entities = database.getSampleList(); // import
+        List<Sample> results = new ArrayList<>();
         Sample result = new Sample();
 
         boolean isReady = true; // database scenario
@@ -55,6 +56,7 @@ public class SampleSimDao implements SampleRepository {
             result = SampleSimDatabase.generateIdOne(sample, lastInsertId);
             lastInsertId++;
             entities.add(result);
+            results.add(result);
             database.setSampleList(entities); // export
             System.out.println(SOURCE + "CREATE=TRUE/ID=" + result.getId());
         } else {
@@ -64,6 +66,7 @@ public class SampleSimDao implements SampleRepository {
             }
         }
 
+        database.displayTable(results);
         return result;
     }
 
