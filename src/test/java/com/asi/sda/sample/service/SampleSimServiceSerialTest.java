@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SampleSimServiceSerialTest {
-
     private static final SampleRepository dao = new SampleSimDao();
     private static final SampleService service = new SampleSimService(dao);
     private static final SampleSimDatabase database = SampleSimDatabase.getInstance();
@@ -77,7 +76,6 @@ class SampleSimServiceSerialTest {
         SampleResponseDto result = service.find(3);
 
         assertThat(result.getText()).isEqualTo("abcdefghijklmnopqrstuvwxyz");
-
         database.displayTable(database.getSampleList());
     }
 
