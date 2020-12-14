@@ -1,6 +1,7 @@
 package com.asi.sda.sample.repository;
 
 import com.asi.sda.sample.Sample;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
@@ -16,6 +17,13 @@ class SampleJpaDaoTest {
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("MacroMedia");
     private static final EntityManager em = emf.createEntityManager();
     private static final SampleRepository dao = new SampleJpaDao(em);
+
+    private static final SampleJdbcDao jdbcDao = new SampleJdbcDao(); // drop table
+
+    @AfterAll
+    static void tearDown() {
+        jdbcDao.deleteTable();
+    }
 
     @Test
     void createAll() {

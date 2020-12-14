@@ -4,9 +4,6 @@ import com.asi.sda.sample.Sample;
 import com.asi.sda.sample.exception.SampleNotFoundException;
 import org.junit.jupiter.api.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +11,8 @@ import static com.asi.sda.sample.constant.SampleMessages.SAMPLE_NOT_FOUND_ERROR;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class SampleJpaDaoSerialTest {
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("MacroMedia");
-    private static final EntityManager em = emf.createEntityManager();
-    private static final SampleRepository dao = new SampleJpaDao(em);
+class SampleHibernateDaoSerialTest {
+    private static final SampleRepository dao = new SampleHibernateDao();
 
     private static final SampleJdbcDao jdbcDao = new SampleJdbcDao(); // drop table
 

@@ -2,7 +2,6 @@ package com.asi.sda.sample.repository;
 
 import com.asi.sda.sample.Sample;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,15 +10,10 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SampleJdbcDaoTest {
-    private static final SampleRepository dao = new SampleJdbcDao();
+class SampleHibernateDaoTest {
+    private static final SampleRepository dao = new SampleHibernateDao();
 
-    private static final SampleJdbcDao jdbcDao = new SampleJdbcDao(); // create-drop table
-
-    @BeforeAll
-    static void setUp() {
-        jdbcDao.createTable();
-    }
+    private static final SampleJdbcDao jdbcDao = new SampleJdbcDao(); // drop table
 
     @AfterAll
     static void tearDown() {
