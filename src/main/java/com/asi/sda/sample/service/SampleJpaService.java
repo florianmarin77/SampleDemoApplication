@@ -95,33 +95,33 @@ public class SampleJpaService implements SampleService {
     public SampleResponseDto update(Integer id, Sample data) {
         System.out.println(SOURCE + "UPDATE");
 
-        Sample result;
+        Sample entity;
         if (hasValidId(id)) {
             Optional<Sample> optional = sampleRepository.find(id);
 
             if (optional.isPresent()) {
                 sampleRepository.update(id, data);
-                result = optional.get();
-                result.setText(data.getText());
+                entity = optional.get();
+                entity.setText(data.getText());
             } else {
                 throw new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR);
             }
         } else {
             throw new OutOfRangeException(OUT_OF_RANGE_ERROR);
         }
-        return SampleMapper.toResponseDto(result);
+        return SampleMapper.toResponseDto(entity);
     }
 
     @Override
     public SampleResponseDto delete(Integer id) {
         System.out.println(SOURCE + "DELETE");
 
-        Sample result;
+        Sample entity;
         if (hasValidId(id)) {
             Optional<Sample> optional = sampleRepository.find(id);
 
             if (optional.isPresent()) {
-                result = optional.get();
+                entity = optional.get();
                 sampleRepository.delete(id);
             } else {
                 throw new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR);
@@ -129,7 +129,7 @@ public class SampleJpaService implements SampleService {
         } else {
             throw new OutOfRangeException(OUT_OF_RANGE_ERROR);
         }
-        return SampleMapper.toResponseDto(result);
+        return SampleMapper.toResponseDto(entity);
     }
 
     private boolean hasValidId(Integer id) {

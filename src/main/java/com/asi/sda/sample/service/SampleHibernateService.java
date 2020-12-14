@@ -7,7 +7,8 @@ import com.asi.sda.sample.SampleResponseDto;
 import com.asi.sda.sample.exception.OutOfRangeException;
 import com.asi.sda.sample.exception.SampleNotFoundException;
 import com.asi.sda.sample.exception.SampleNotSavedException;
-import com.asi.sda.sample.repository.SampleJdbcDao;
+import com.asi.sda.sample.repository.SampleHibernateDao;
+import com.asi.sda.sample.repository.SampleJpaDao;
 import com.asi.sda.sample.repository.SampleRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,13 +19,13 @@ import java.util.Optional;
 import static com.asi.sda.sample.constant.CommonMessages.OUT_OF_RANGE_ERROR;
 import static com.asi.sda.sample.constant.SampleMessages.*;
 
-public class SampleJdbcService implements SampleService {
-    private static final Logger LOGGER = LogManager.getLogger(SampleJdbcService.class);
+public class SampleHibernateService implements SampleService {
+    private static final Logger LOGGER = LogManager.getLogger(SampleHibernateService.class);
     private static final String SOURCE = "SERVICE => "; // level signature
 
     private final SampleRepository sampleRepository;
 
-    public SampleJdbcService(SampleRepository sampleRepository) {
+    public SampleHibernateService(SampleRepository sampleRepository) {
         this.sampleRepository = sampleRepository;
     }
 
@@ -143,8 +144,8 @@ public class SampleJdbcService implements SampleService {
             LOGGER.warn("ID NUMBER TOO BIG!"); // maximum integer value 2,147,483,647
             return false;
         }
-        if (id > SampleJdbcDao.lastInsertId) {
-            LOGGER.warn(SAMPLE_OUT_OF_RANGE, id, SampleJdbcDao.lastInsertId);
+        if (id > SampleJpaDao.lastInsertId) {
+            LOGGER.warn(SAMPLE_OUT_OF_RANGE, id, SampleHibernateDao.lastInsertId);
         } else {
             validId = true;
         }

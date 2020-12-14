@@ -53,14 +53,18 @@ public class SampleSimService implements SampleService {
     public List<SampleResponseDto> findAll() {
         System.out.println(SOURCE + "READ/all");
 
-        return SampleMapper.toResponseDto(sampleRepository.findAll());
+        List<Sample> entities = sampleRepository.findAll();
+
+        return SampleMapper.toResponseDto(entities);
     }
 
     @Override
     public List<SampleResponseDto> findByText(String text) {
         System.out.println(SOURCE + "READ/byText");
 
-        return SampleMapper.toResponseDto(sampleRepository.findByText(text));
+        List<Sample> entities = sampleRepository.findByText(text);
+
+        return SampleMapper.toResponseDto(entities);
     }
 
     @Override
@@ -77,19 +81,19 @@ public class SampleSimService implements SampleService {
     public SampleResponseDto update(Integer id, Sample data) {
         System.out.println(SOURCE + "UPDATE");
 
-        Sample result = sampleRepository.update(id, data)
+        Sample entity = sampleRepository.update(id, data)
                 .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
-        return SampleMapper.toResponseDto(result);
+        return SampleMapper.toResponseDto(entity);
     }
 
     @Override
     public SampleResponseDto delete(Integer id) {
         System.out.println(SOURCE + "DELETE");
 
-        Sample result = sampleRepository.delete(id)
+        Sample entity = sampleRepository.delete(id)
                 .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
-        return SampleMapper.toResponseDto(result);
+        return SampleMapper.toResponseDto(entity);
     }
 }
