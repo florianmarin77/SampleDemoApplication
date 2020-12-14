@@ -144,7 +144,7 @@ public class SampleHibernateService implements SampleService {
             LOGGER.warn("ID NUMBER TOO BIG!"); // maximum integer value 2,147,483,647
             return false;
         }
-        if (id > SampleJpaDao.lastInsertId) {
+        if (id > SampleHibernateDao.lastInsertId) {
             LOGGER.warn(SAMPLE_OUT_OF_RANGE, id, SampleHibernateDao.lastInsertId);
         } else {
             validId = true;
