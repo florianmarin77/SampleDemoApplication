@@ -122,7 +122,6 @@ public class SampleJdbcDao implements SampleRepository {
     public List<Sample> findAll() {
         List<Sample> duplicates = database.getSampleList(); // import
         List<Sample> results = new ArrayList<>();
-        List<Sample> clones = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_SQL)) {
@@ -141,13 +140,11 @@ public class SampleJdbcDao implements SampleRepository {
             } else {
                 LOGGER.info(SAMPLES_FOUND, results.size(), "all");
             }
-
-            clones = duplicates;
         } catch (SQLException exception) {
             LOGGER.error(SEARCH_ERROR);
         }
 
-        database.displayTable(clones);
+        database.displayTable(duplicates);
         return results;
     }
 
@@ -163,21 +160,20 @@ public class SampleJdbcDao implements SampleRepository {
             preparedStatement.setString(1, text);
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            List<Sample> entities = new ArrayList<>();
             while (resultSet.next()) {
                 Integer foundId = resultSet.getInt("id");
                 String foundText = resultSet.getString("text");
-                results.add(new Sample(foundId, foundText));
+                entities.add(new Sample(foundId, foundText));
             }
             resultSet.close();
 
             // sql search is case insensitive by default
-            List<Sample> entities = new ArrayList<>();
-            for (Sample item : results) {
+            for (Sample item : entities) {
                 if (item.getText().equals(text)) {
-                    entities.add(item);
+                    results.add(item);
                 }
             }
-            results = entities;
 
             if (results.isEmpty()) {
                 LOGGER.warn(SAMPLES_NOT_FOUND, 0, text);
