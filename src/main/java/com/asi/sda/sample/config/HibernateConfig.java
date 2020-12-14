@@ -10,7 +10,11 @@ import org.hibernate.service.ServiceRegistry;
 import java.util.Properties;
 
 public class HibernateConfig {
-    private static SessionFactory sessionFactory = buildSessionFactory();
+    private static final SessionFactory sessionFactory = buildSessionFactory();
+
+    private HibernateConfig() {
+        // private constructor by default
+    }
 
     public static SessionFactory getSessionFactory() {
         return sessionFactory;

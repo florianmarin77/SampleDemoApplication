@@ -205,6 +205,7 @@ public class SampleHibernateDao implements SampleRepository {
             if (entity == null) {
                 LOGGER.warn(SAMPLE_NOT_UPDATED + SAMPLE_NOT_FOUND, id);
             } else {
+                LOGGER.info(SAMPLE_FOUND, entity.getId());
                 entity.setText(data.getText());
                 result = entity;
                 session.update(entity);

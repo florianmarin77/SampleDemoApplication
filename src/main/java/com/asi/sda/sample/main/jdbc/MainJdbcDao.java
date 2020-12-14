@@ -21,7 +21,8 @@ public class MainJdbcDao {
 
     public static void main(String[] args) throws URISyntaxException {
         SampleRepository dao = new SampleJdbcDao();
-        SampleJdbcDao jdbcDao = new SampleJdbcDao();
+
+        SampleJdbcDao jdbcDao = new SampleJdbcDao(); // create-drop table
 
         // create sample table
         System.out.println("Table created: " + jdbcDao.createTable());

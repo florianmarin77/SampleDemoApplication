@@ -28,7 +28,8 @@ public class MainJpaDao {
         EntityManager em = emf.createEntityManager();
 
         SampleRepository dao = new SampleJpaDao(em);
-        SampleJdbcDao jdbcDao = new SampleJdbcDao();
+
+        SampleJdbcDao jdbcDao = new SampleJdbcDao(); // drop table
 
         // populate database by loader scenario
         if (JOKER) {

@@ -187,6 +187,7 @@ public class SampleJpaDao implements SampleRepository {
             if (entity == null) {
                 LOGGER.warn(SAMPLE_NOT_UPDATED + SAMPLE_NOT_FOUND, id);
             } else {
+                LOGGER.info(SAMPLE_FOUND, entity.getId());
                 entity.setText(data.getText());
                 result = entity;
                 entityManager.getTransaction().begin();
@@ -228,6 +229,7 @@ public class SampleJpaDao implements SampleRepository {
             if (entity == null) {
                 LOGGER.warn(SAMPLE_NOT_DELETED + SAMPLE_NOT_FOUND, id);
             } else {
+                LOGGER.info(SAMPLE_FOUND, entity.getId());
                 result = entity;
                 entityManager.getTransaction().begin();
                 entityManager.remove(entity);
