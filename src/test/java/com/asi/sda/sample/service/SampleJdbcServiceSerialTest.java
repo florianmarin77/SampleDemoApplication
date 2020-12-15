@@ -14,9 +14,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SampleJdbcServiceSerialTest {
-    private static final SampleJdbcDao jdbcDao = new SampleJdbcDao();
     private static final SampleRepository dao = new SampleJdbcDao();
     private static final SampleService service = new SampleJdbcService(dao);
+
+    private static final SampleJdbcDao jdbcDao = new SampleJdbcDao(); // create-drop table
 
     @BeforeAll
     static void setUp() {

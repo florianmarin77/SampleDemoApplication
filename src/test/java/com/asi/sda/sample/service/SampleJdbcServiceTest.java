@@ -15,9 +15,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SampleJdbcServiceTest {
-    private static final SampleJdbcDao jdbcDao = new SampleJdbcDao();
     private static final SampleRepository dao = new SampleJdbcDao();
     private static final SampleService service = new SampleJdbcService(dao);
+
+    private static final SampleJdbcDao jdbcDao = new SampleJdbcDao(); // create-drop table
 
     @BeforeAll
     static void setUp() {
