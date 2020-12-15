@@ -21,8 +21,8 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class ConsoleJpaMenu {
-    private static final Scanner SCANNER = new Scanner(System.in);
     private static final SampleSimDatabase database = SampleSimDatabase.getInstance();
+    private static final Scanner SCANNER = new Scanner(System.in);
     private static final boolean JOKER = true; // loader scenario
 
     public static void main(String[] args) throws URISyntaxException {
@@ -31,7 +31,8 @@ public class ConsoleJpaMenu {
 
         SampleRepository dao = new SampleJpaDao(em);
         SampleService service = new SampleJpaService(dao);
-        SampleJdbcDao jdbcDao = new SampleJdbcDao();
+
+        SampleJdbcDao jdbcDao = new SampleJdbcDao(); // drop table
 
         if (JOKER) {
             System.out.println("Welcome to Sample Demo Application with database populated by split loader!");

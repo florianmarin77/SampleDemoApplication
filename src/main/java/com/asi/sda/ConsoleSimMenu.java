@@ -11,8 +11,8 @@ import com.asi.sda.sample.service.SampleSimService;
 import java.util.Scanner;
 
 public class ConsoleSimMenu {
-    private static final Scanner SCANNER = new Scanner(System.in);
     private static final SampleSimDatabase database = SampleSimDatabase.getInstance();
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     private static final SampleSimDao dao = new SampleSimDao();
     private static final SampleService service = new SampleSimService(dao);
