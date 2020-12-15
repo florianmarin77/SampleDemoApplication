@@ -92,7 +92,7 @@ public class SampleJdbcService implements SampleService {
     }
 
     @Override
-    public SampleResponseDto update(Integer id, Sample data) {
+    public SampleResponseDto update(Integer id, SampleRequestDto data) {
         System.out.println(SOURCE + "UPDATE");
 
         Sample entity;
@@ -100,7 +100,7 @@ public class SampleJdbcService implements SampleService {
             Optional<Sample> optional = sampleRepository.find(id);
 
             if (optional.isPresent()) {
-                sampleRepository.update(id, data);
+                sampleRepository.update(id, SampleMapper.toEntity(data));
                 entity = optional.get();
                 entity.setText(data.getText());
             } else {

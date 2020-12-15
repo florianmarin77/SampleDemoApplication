@@ -78,10 +78,10 @@ public class SampleSimService implements SampleService {
     }
 
     @Override
-    public SampleResponseDto update(Integer id, Sample data) {
+    public SampleResponseDto update(Integer id, SampleRequestDto data) {
         System.out.println(SOURCE + "UPDATE");
 
-        Sample entity = sampleRepository.update(id, data)
+        Sample entity = sampleRepository.update(id, SampleMapper.toEntity(data))
                 .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
         return SampleMapper.toResponseDto(entity);

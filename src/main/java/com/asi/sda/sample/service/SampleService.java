@@ -54,7 +54,7 @@ public interface SampleService {
      * @param data the object data to update
      * @return the found sample as data transfer object
      */
-    SampleResponseDto update(Integer id, Sample data);
+    SampleResponseDto update(Integer id, SampleRequestDto data);
 
     /**
      * Deletes a specific sample from the database.
