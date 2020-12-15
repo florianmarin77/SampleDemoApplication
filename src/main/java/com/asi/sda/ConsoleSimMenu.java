@@ -24,11 +24,9 @@ public class ConsoleSimMenu {
         if (joker) {
             System.out.println("Welcome to Sample Demo Application with database populated by loader!");
             controller.saveAllByLoader();
-            database.displayTable(database.getSampleList());
         } else {
             System.out.println("Welcome to Sample Demo Application with database populated by faker!");
             controller.saveAllByFaker();
-            database.displayTable(database.getSampleList());
         }
 
         boolean exitMainMenu = false;

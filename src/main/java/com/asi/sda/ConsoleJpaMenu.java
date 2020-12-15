@@ -39,13 +39,11 @@ public class ConsoleJpaMenu {
             SampleLoader loader = new SampleSplitLoader(); // database resources => sampleList.csv
             Path path = Paths.get(ClassLoader.getSystemResource("data/sample/sampleList.csv").toURI());
             service.createAll(SampleMapper.toRequestDtos(loader.loadData(Paths.get(String.valueOf(path)))));
-            database.displayTable(database.getSampleList());
         } else {
             System.out.println("Welcome to Sample Demo Application with database populated by line loader!");
             SampleLoader loader = new SampleLineLoader(); // database resources => sampleList.txt
             Path path = Paths.get(ClassLoader.getSystemResource("data/sample/sampleList.txt").toURI());
             service.createAll(SampleMapper.toRequestDtos(loader.loadData(Paths.get(String.valueOf(path)))));
-            database.displayTable(database.getSampleList());
         }
 
         boolean exitMainMenu = false;
