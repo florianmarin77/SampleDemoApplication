@@ -1,30 +1,36 @@
-package com.asi.sda;
+package com.asi.sda.console;
 
-import com.asi.sda.sample.Sample;
-import com.asi.sda.sample.SampleMapper;
+import com.asi.sda.sample.model.Sample;
+import com.asi.sda.sample.model.SampleMapper;
 import com.asi.sda.sample.database.SampleSimDatabase;
 import com.asi.sda.sample.loader.SampleLineLoader;
 import com.asi.sda.sample.loader.SampleLoader;
 import com.asi.sda.sample.loader.SampleSplitLoader;
-import com.asi.sda.sample.repository.SampleHibernateDao;
 import com.asi.sda.sample.repository.SampleJdbcDao;
+import com.asi.sda.sample.repository.SampleJpaDao;
 import com.asi.sda.sample.repository.SampleRepository;
-import com.asi.sda.sample.service.SampleHibernateService;
+import com.asi.sda.sample.service.SampleJpaService;
 import com.asi.sda.sample.service.SampleService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class ConsoleHibernateMenu {
+public class JpaConsoleMenu {
     private static final SampleSimDatabase database = SampleSimDatabase.getInstance();
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final boolean JOKER = true; // loader scenario
 
     public static void main(String[] args) throws URISyntaxException {
-        SampleRepository dao = new SampleHibernateDao();
-        SampleService service = new SampleHibernateService(dao);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MacroMedia");
+        EntityManager em = emf.createEntityManager();
+
+        SampleRepository dao = new SampleJpaDao(em);
+        SampleService service = new SampleJpaService(dao);
 
         SampleJdbcDao jdbcDao = new SampleJdbcDao(); // drop table
 

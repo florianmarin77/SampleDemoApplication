@@ -1,8 +1,8 @@
 package com.asi.sda.sample.service;
 
-import com.asi.sda.sample.Sample;
-import com.asi.sda.sample.SampleRequestDto;
-import com.asi.sda.sample.SampleResponseDto;
+import com.asi.sda.sample.model.Sample;
+import com.asi.sda.sample.model.SampleRequestDto;
+import com.asi.sda.sample.model.SampleResponseDto;
 
 import java.util.List;
 

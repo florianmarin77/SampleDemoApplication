@@ -1,7 +1,7 @@
 package com.asi.sda.sample.main.sim;
 
-import com.asi.sda.sample.Sample;
-import com.asi.sda.sample.SampleMapper;
+import com.asi.sda.sample.model.Sample;
+import com.asi.sda.sample.model.SampleMapper;
 import com.asi.sda.sample.controller.SampleSimController;
 import com.asi.sda.sample.database.SampleSimDatabase;
 import com.asi.sda.sample.repository.SampleRepository;

@@ -1,8 +1,8 @@
 package com.asi.sda.sample.controller;
 
-import com.asi.sda.sample.Sample;
-import com.asi.sda.sample.SampleRequestDto;
-import com.asi.sda.sample.SampleResponseDto;
+import com.asi.sda.sample.model.Sample;
+import com.asi.sda.sample.model.SampleRequestDto;
+import com.asi.sda.sample.model.SampleResponseDto;
 import com.asi.sda.sample.faker.SampleSimFaker;
 import com.asi.sda.sample.loader.SampleSimLoader;
 import com.asi.sda.sample.service.SampleService;

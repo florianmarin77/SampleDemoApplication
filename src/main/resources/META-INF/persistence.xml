@@ -7,7 +7,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- entities registration-->
-        <class>com.asi.sda.sample.Sample</class>
+        <class>com.asi.sda.sample.model.Sample</class>
 
         <!-- database properties-->
         <properties>

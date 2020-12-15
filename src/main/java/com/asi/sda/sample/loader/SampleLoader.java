@@ -1,6 +1,6 @@
 package com.asi.sda.sample.loader;
 
-import com.asi.sda.sample.Sample;
+import com.asi.sda.sample.model.Sample;
 
 import java.nio.file.Path;
 import java.util.List;

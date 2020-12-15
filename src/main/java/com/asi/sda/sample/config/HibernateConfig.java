@@ -1,6 +1,6 @@
 package com.asi.sda.sample.config;
 
-import com.asi.sda.sample.Sample;
+import com.asi.sda.sample.model.Sample;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;

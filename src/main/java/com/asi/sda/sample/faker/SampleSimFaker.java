@@ -1,6 +1,6 @@
 package com.asi.sda.sample.faker;
 
-import com.asi.sda.sample.SampleRequestDto;
+import com.asi.sda.sample.model.SampleRequestDto;
 import net.bytebuddy.utility.RandomString;
 
 import java.util.ArrayList;

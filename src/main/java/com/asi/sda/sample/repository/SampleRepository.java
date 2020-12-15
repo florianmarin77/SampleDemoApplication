@@ -1,6 +1,6 @@
 package com.asi.sda.sample.repository;
 
-import com.asi.sda.sample.Sample;
+import com.asi.sda.sample.model.Sample;
 
 import java.util.List;
 import java.util.Optional;

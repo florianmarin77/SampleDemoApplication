@@ -1,14 +1,15 @@
-package com.asi.sda;
+package com.asi.sda.console;
 
-import com.asi.sda.sample.Sample;
-import com.asi.sda.sample.SampleMapper;
+import com.asi.sda.sample.model.Sample;
+import com.asi.sda.sample.model.SampleMapper;
 import com.asi.sda.sample.database.SampleSimDatabase;
 import com.asi.sda.sample.loader.SampleLineLoader;
 import com.asi.sda.sample.loader.SampleLoader;
 import com.asi.sda.sample.loader.SampleSplitLoader;
+import com.asi.sda.sample.repository.SampleHibernateDao;
 import com.asi.sda.sample.repository.SampleJdbcDao;
 import com.asi.sda.sample.repository.SampleRepository;
-import com.asi.sda.sample.service.SampleJdbcService;
+import com.asi.sda.sample.service.SampleHibernateService;
 import com.asi.sda.sample.service.SampleService;
 
 import java.net.URISyntaxException;
@@ -16,19 +17,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class ConsoleJdbcMenu {
+public class HibernateConsoleMenu {
     private static final SampleSimDatabase database = SampleSimDatabase.getInstance();
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final boolean JOKER = true; // loader scenario
 
     public static void main(String[] args) throws URISyntaxException {
-        SampleRepository dao = new SampleJdbcDao();
-        SampleService service = new SampleJdbcService(dao);
+        SampleRepository dao = new SampleHibernateDao();
+        SampleService service = new SampleHibernateService(dao);
 
-        SampleJdbcDao jdbcDao = new SampleJdbcDao(); // create-drop table
-
-        System.out.println("Table created: " + jdbcDao.createTable());
-        database.displayTable(database.getSampleList());
+        SampleJdbcDao jdbcDao = new SampleJdbcDao(); // drop table
 
         if (JOKER) {
             System.out.println("Welcome to Sample Demo Application with database populated by split loader!");
@@ -138,4 +136,3 @@ public class ConsoleJdbcMenu {
         System.out.println("Make your choice:");
     }
 }
-

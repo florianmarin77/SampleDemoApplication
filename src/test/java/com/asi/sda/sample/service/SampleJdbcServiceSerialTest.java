@@ -1,8 +1,8 @@
 package com.asi.sda.sample.service;
 
-import com.asi.sda.sample.Sample;
-import com.asi.sda.sample.SampleMapper;
-import com.asi.sda.sample.SampleResponseDto;
+import com.asi.sda.sample.model.Sample;
+import com.asi.sda.sample.model.SampleMapper;
+import com.asi.sda.sample.model.SampleResponseDto;
 import com.asi.sda.sample.repository.SampleJdbcDao;
 import com.asi.sda.sample.repository.SampleRepository;
 import org.junit.jupiter.api.*;

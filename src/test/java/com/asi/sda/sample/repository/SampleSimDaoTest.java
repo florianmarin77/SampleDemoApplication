@@ -1,6 +1,6 @@
 package com.asi.sda.sample.repository;
 
-import com.asi.sda.sample.Sample;
+import com.asi.sda.sample.model.Sample;
 import com.asi.sda.sample.database.SampleSimDatabase;
 import org.junit.jupiter.api.Test;
 

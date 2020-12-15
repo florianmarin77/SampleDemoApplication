@@ -1,6 +1,6 @@
 package com.asi.sda.sample.faker;
 
-import com.asi.sda.sample.SampleRequestDto;
+import com.asi.sda.sample.model.SampleRequestDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

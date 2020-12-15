@@ -1,32 +1,45 @@
-package com.asi.sda;
+package com.asi.sda.console;
 
-import com.asi.sda.sample.Sample;
-import com.asi.sda.sample.SampleMapper;
-import com.asi.sda.sample.controller.SampleSimController;
+import com.asi.sda.sample.model.Sample;
+import com.asi.sda.sample.model.SampleMapper;
 import com.asi.sda.sample.database.SampleSimDatabase;
-import com.asi.sda.sample.repository.SampleSimDao;
+import com.asi.sda.sample.loader.SampleLineLoader;
+import com.asi.sda.sample.loader.SampleLoader;
+import com.asi.sda.sample.loader.SampleSplitLoader;
+import com.asi.sda.sample.repository.SampleJdbcDao;
+import com.asi.sda.sample.repository.SampleRepository;
+import com.asi.sda.sample.service.SampleJdbcService;
 import com.asi.sda.sample.service.SampleService;
-import com.asi.sda.sample.service.SampleSimService;
 
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class ConsoleSimMenu {
+public class JdbcConsoleMenu {
     private static final SampleSimDatabase database = SampleSimDatabase.getInstance();
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static final boolean JOKER = true; // loader scenario
 
-    private static final SampleSimDao dao = new SampleSimDao();
-    private static final SampleService service = new SampleSimService(dao);
-    private static final SampleSimController controller = new SampleSimController(service);
+    public static void main(String[] args) throws URISyntaxException {
+        SampleRepository dao = new SampleJdbcDao();
+        SampleService service = new SampleJdbcService(dao);
 
-    public static void main(String[] args) {
-        boolean joker = false; // populate scenario
+        SampleJdbcDao jdbcDao = new SampleJdbcDao(); // create-drop table
 
-        if (joker) {
-            System.out.println("Welcome to Sample Demo Application with database populated by loader!");
-            controller.saveAllByLoader();
+        System.out.println("Table created: " + jdbcDao.createTable());
+        database.displayTable(database.getSampleList());
+
+        if (JOKER) {
+            System.out.println("Welcome to Sample Demo Application with database populated by split loader!");
+            SampleLoader loader = new SampleSplitLoader(); // database resources => sampleList.csv
+            Path path = Paths.get(ClassLoader.getSystemResource("data/sample/sampleList.csv").toURI());
+            service.createAll(SampleMapper.toRequestDtos(loader.loadData(Paths.get(String.valueOf(path)))));
         } else {
-            System.out.println("Welcome to Sample Demo Application with database populated by faker!");
-            controller.saveAllByFaker();
+            System.out.println("Welcome to Sample Demo Application with database populated by line loader!");
+            SampleLoader loader = new SampleLineLoader(); // database resources => sampleList.txt
+            Path path = Paths.get(ClassLoader.getSystemResource("data/sample/sampleList.txt").toURI());
+            service.createAll(SampleMapper.toRequestDtos(loader.loadData(Paths.get(String.valueOf(path)))));
         }
 
         boolean exitMainMenu = false;
@@ -54,7 +67,7 @@ public class ConsoleSimMenu {
                                 System.out.println("CREATE => Please enter DATA (text string): ");
                                 Sample sample = new Sample(scanner.nextLine());
 
-                                controller.save(SampleMapper.toRequestDto(sample));
+                                service.create(SampleMapper.toRequestDto(sample));
                                 database.displayTable(database.getSampleList());
                             }
                             break;
@@ -63,7 +76,7 @@ public class ConsoleSimMenu {
                                 System.out.println("READ => Please enter ID (integer number): ");
                                 int id = scanner.nextInt();
 
-                                controller.getById(id);
+                                service.find(id);
                                 database.displayTable(database.getSampleList());
                             }
                             break;
@@ -75,7 +88,7 @@ public class ConsoleSimMenu {
                                 System.out.println("UPDATE => Please enter DATA (text string): ");
                                 String data = scanner1.nextLine();
 
-                                controller.updateById(id, new Sample(data));
+                                service.update(id, new Sample(data));
                                 database.displayTable(database.getSampleList());
                             }
                             break;
@@ -84,7 +97,7 @@ public class ConsoleSimMenu {
                                 System.out.println("DELETE => Please enter ID (integer number): ");
                                 int id = scanner.nextInt();
 
-                                controller.deleteById(id);
+                                service.delete(id);
                                 database.displayTable(database.getSampleList());
                             }
                             break;
@@ -103,6 +116,7 @@ public class ConsoleSimMenu {
             }
         } while (!exitMainMenu);
         System.out.println("Thank you!");
+        System.out.println("Table deleted: " + jdbcDao.deleteTable());
     }
 
     private static void displaySampleMenu() {
@@ -124,3 +138,4 @@ public class ConsoleSimMenu {
         System.out.println("Make your choice:");
     }
 }
+

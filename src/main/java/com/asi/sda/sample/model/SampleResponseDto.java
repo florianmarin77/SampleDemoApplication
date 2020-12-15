@@ -1,4 +1,4 @@
-package com.asi.sda.sample;
+package com.asi.sda.sample.model;
 
 import java.util.Objects;
 
