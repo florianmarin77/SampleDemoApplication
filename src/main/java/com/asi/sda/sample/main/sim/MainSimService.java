@@ -46,7 +46,7 @@ public class MainSimService {
         database.displayTable(database.getSampleList());
 
         // update
-        System.out.println(service.update(2, new Sample("macarena")));
+        System.out.println(service.update(2, SampleMapper.toRequestDto(new Sample("macarena"))));
         System.out.println();
         database.displayTable(database.getSampleList());
 

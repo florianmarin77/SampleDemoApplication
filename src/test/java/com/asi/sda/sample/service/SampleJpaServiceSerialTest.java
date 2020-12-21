@@ -88,7 +88,7 @@ class SampleJpaServiceSerialTest {
     void update() {
         Sample data = new Sample("abcdefghijklmnopqrstuvwxyz");
 
-        SampleResponseDto result = service.update(2, data);
+        SampleResponseDto result = service.update(2, SampleMapper.toRequestDto(data));
 
         assertThat(result.getText()).isEqualTo("abcdefghijklmnopqrstuvwxyz");
     }

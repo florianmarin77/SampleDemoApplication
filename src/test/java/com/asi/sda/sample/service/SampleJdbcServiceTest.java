@@ -93,7 +93,7 @@ class SampleJdbcServiceTest {
         Sample data = new Sample("abcdefghijklmnopqrstuvwxyz");
         SampleResponseDto entity = service.create(SampleMapper.toRequestDto(sample));
 
-        SampleResponseDto result = service.update(entity.getId(), data);
+        SampleResponseDto result = service.update(entity.getId(), SampleMapper.toRequestDto(data));
 
         assertThat(result.getText()).isEqualTo(data.getText());
     }

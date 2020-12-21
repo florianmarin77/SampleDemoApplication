@@ -92,7 +92,7 @@ public class JpaConsoleMenu {
                                 System.out.println("UPDATE => Please enter DATA (text string): ");
                                 String data = scanner1.nextLine();
 
-                                service.update(id, new Sample(data));
+                                service.update(id, SampleMapper.toRequestDto(new Sample(data)));
                                 database.displayTable(database.getSampleList());
                             }
                             break;

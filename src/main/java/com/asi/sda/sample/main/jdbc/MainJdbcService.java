@@ -65,7 +65,7 @@ public class MainJdbcService {
         database.displayTable(database.getSampleList());
 
         // integral sample update id = 27
-        response = service.update(27, new Sample("abcdefghijklmnopqrstuvwxyz"));
+        response = service.update(27, SampleMapper.toRequestDto(new Sample("abcdefghijklmnopqrstuvwxyz")));
         System.out.println(response);
         database.displayTable(database.getSampleList());
 

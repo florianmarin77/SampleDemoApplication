@@ -1,6 +1,7 @@
 package com.asi.sda.sample.controller;
 
 import com.asi.sda.sample.model.Sample;
+import com.asi.sda.sample.model.SampleMapper;
 import com.asi.sda.sample.model.SampleRequestDto;
 import com.asi.sda.sample.model.SampleResponseDto;
 import com.asi.sda.sample.faker.SampleSimFaker;
@@ -63,9 +64,9 @@ public class SampleSimController {
     }
 
     // PUT => "samples/id"
-    public SampleResponseDto updateById(Integer id, Sample sampleData) {
+    public SampleResponseDto updateById(Integer id, Sample data) {
         System.out.println(SOURCE + "PUT/samples/id");
-        return service.update(id, sampleData);
+        return service.update(id, SampleMapper.toRequestDto(data));
     }
 
     // DELETE => "samples/id"

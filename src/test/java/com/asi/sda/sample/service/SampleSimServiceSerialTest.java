@@ -2,6 +2,7 @@ package com.asi.sda.sample.service;
 
 import com.asi.sda.sample.model.Sample;
 import com.asi.sda.sample.model.SampleMapper;
+import com.asi.sda.sample.model.SampleRequestDto;
 import com.asi.sda.sample.model.SampleResponseDto;
 import com.asi.sda.sample.database.SampleSimDatabase;
 import com.asi.sda.sample.repository.SampleRepository;
@@ -84,7 +85,7 @@ class SampleSimServiceSerialTest {
     void update() {
         Sample data = new Sample("abcdefghijklmnopqrstuvwxyz");
 
-        SampleResponseDto result = service.update(2, data);
+        SampleResponseDto result = service.update(2, SampleMapper.toRequestDto(data));
 
         assertThat(result.getText()).isEqualTo("abcdefghijklmnopqrstuvwxyz");
         database.displayTable(database.getSampleList());
