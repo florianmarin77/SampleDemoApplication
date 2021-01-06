@@ -38,6 +38,8 @@ public class SampleSpringService implements SampleService {
 
     @Override
     public SampleResponseDto create(SampleRequestDto request) {
+        LOGGER.debug("Saving sample: {}", request);
+
         Sample sample = SampleMapper.toEntity(request);
 
         Sample entity = springRepository.save(sample);
@@ -47,6 +49,8 @@ public class SampleSpringService implements SampleService {
 
     @Override
     public List<SampleResponseDto> findAll() {
+        LOGGER.debug("Finding all samples...");
+
         List<Sample> entities = (List<Sample>) springRepository.findAll();
 
         return SampleMapper.toResponseDtos(entities);
@@ -54,6 +58,8 @@ public class SampleSpringService implements SampleService {
 
     @Override
     public List<SampleResponseDto> findByText(String text) {
+        LOGGER.debug("Finding samples by text: {}", text);
+
         List<Sample> samples = (List<Sample>) springRepository.findAll();
 
         List<Sample> entities = new ArrayList<>();
@@ -68,6 +74,8 @@ public class SampleSpringService implements SampleService {
 
     @Override
     public SampleResponseDto find(Integer id) {
+        LOGGER.debug("Finding sample by id: {}", id);
+
         Sample entity = springRepository.findById(id)
                 .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
@@ -76,6 +84,8 @@ public class SampleSpringService implements SampleService {
 
     @Override
     public SampleResponseDto update(Integer id, SampleRequestDto data) {
+        LOGGER.debug("Updating sample with id: {} and body: {}", id, data);
+
         Sample entity = springRepository.findById(id)
                 .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
@@ -87,6 +97,8 @@ public class SampleSpringService implements SampleService {
 
     @Override
     public SampleResponseDto delete(Integer id) {
+        LOGGER.debug("Deleting sample with id: {}", id);
+
         Sample entity = springRepository.findById(id)
                 .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
