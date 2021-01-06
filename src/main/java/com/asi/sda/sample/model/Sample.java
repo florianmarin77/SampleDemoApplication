@@ -1,6 +1,7 @@
 package com.asi.sda.sample.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 @Entity(name = "Sample")
@@ -12,6 +13,7 @@ public class Sample {
     @Column(name = "id")
     private Integer id;
 
+    @NotEmpty
     @Column(name = "text")
     private String text;
 
