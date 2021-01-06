@@ -23,7 +23,7 @@ public class SampleSpringRestController {
         this.sampleService = sampleService;
     }
 
-    @PostMapping("/Load")
+    @PostMapping("/load")
     public ResponseEntity<List<SampleResponseDto>> loadAll() {
         return new ResponseEntity<>(sampleService.createAll(SampleSimLoader.generateItemList()), HttpStatus.OK);
     }
