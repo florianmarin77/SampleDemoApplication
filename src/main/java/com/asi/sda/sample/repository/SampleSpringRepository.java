@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SampleSpringRepository extends CrudRepository<Sample, Integer> {
-    // empty interface by default
+    Sample findByText(String text);
 }
