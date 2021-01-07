@@ -29,6 +29,8 @@ public class SampleSpringService implements SampleService {
 
     @Override
     public List<SampleResponseDto> createAll(List<SampleRequestDto> requests) {
+        LOGGER.debug("Saving multiple samples: {}", requests);
+
         List<Sample> samples = SampleMapper.toEntities(requests);
 
         List<Sample> entities = (List<Sample>) springRepository.saveAll(samples);
@@ -38,7 +40,7 @@ public class SampleSpringService implements SampleService {
 
     @Override
     public SampleResponseDto create(SampleRequestDto request) {
-        LOGGER.debug("Saving sample: {}", request);
+        LOGGER.debug("Saving single sample: {}", request);
 
         Sample sample = SampleMapper.toEntity(request);
 
