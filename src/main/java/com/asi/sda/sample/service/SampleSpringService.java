@@ -60,7 +60,7 @@ public class SampleSpringService implements SampleService {
 
     @Override
     public List<SampleResponseDto> findByText(String text) {
-        LOGGER.debug("Finding samples by text: {}", text);
+        LOGGER.debug("Finding all samples by text: {}", text);
 
         List<Sample> samples = (List<Sample>) springRepository.findAll();
 
