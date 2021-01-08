@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Sample Manager</title>
+</head>
+<body>
+<div align="center">
+    <h1>Sample List</h1>
+    <a href="/new">Create New Sample</a>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Sample ID</th>
+            <th>Text</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sample : ${samples}">
+            <td th:text="${sample.id}">Sample ID</td>
+            <td th:text="${sample.text}">Text</td>
+            <td>
+                <a th:href="@{/edit/{id}(id=${sample.id})}">Edit</a>
+                &nbsp;&nbsp;&nbsp;
+                <a th:href="@{/delete/{id}(id=${sample.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

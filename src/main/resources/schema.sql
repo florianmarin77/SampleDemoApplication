@@ -1,8 +1,8 @@
-CREATE DATABASE macromedia;
+CREATE SCHEMA macromedia;
 
 CREATE TABLE `macromedia`.`sample` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `text` VARCHAR(30) NULL,
+  `text` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`id`));
 
 USE macromedia;
