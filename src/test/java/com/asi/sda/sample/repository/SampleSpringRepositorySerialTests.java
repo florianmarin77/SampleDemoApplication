@@ -45,7 +45,7 @@ class SampleSpringRepositorySerialTests {
     void listAllSamples() {
         List<Sample> samples = (List<Sample>) repository.findAll();
 
-        assertThat(samples).size().isPositive();
+        assertThat(samples.size()).isPositive();
     }
 
     @Test
