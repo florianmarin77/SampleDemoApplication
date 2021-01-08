@@ -51,7 +51,7 @@ public class SampleThymeleafController {
     public String saveSample(@ModelAttribute("sample") @Valid SampleRequestDto sample) {
         LOGGER.info("Save new sample...");
         service.create(sample);
-        return "redirect:/samples";
+        return "redirect:/sample";
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
@@ -65,6 +65,6 @@ public class SampleThymeleafController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteSample(@PathVariable(name = "id") Integer id) {
         service.delete(id);
-        return "redirect:/samples";
+        return "redirect:/sample";
     }
 }
