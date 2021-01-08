@@ -65,10 +65,10 @@ class SampleSpringRepositorySerialTests {
     @Rollback(false)
     @Order(5)
     void deleteSample() {
-        Sample sample = repository.findByText("ninonino");
+        Sample sample = repository.findByText("trilulilu");
         repository.deleteById(sample.getId());
 
-        Sample deletedSample = repository.findByText("ninonino");
+        Sample deletedSample = repository.findByText("trilulilu");
         assertThat(deletedSample).isNull();
     }
 }
