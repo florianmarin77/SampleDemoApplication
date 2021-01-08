@@ -35,6 +35,7 @@ public class SampleThymeleafController {
 
         List<SampleResponseDto> samples = service.findAll();
         model.addAttribute("samples", samples);
+
         return "index";
     }
 
@@ -44,6 +45,7 @@ public class SampleThymeleafController {
 
         Sample sample = new Sample();
         model.addAttribute("sample", sample);
+
         return "new_sample";
     }
 
@@ -51,6 +53,7 @@ public class SampleThymeleafController {
     public String saveSample(@ModelAttribute("sample") @Valid SampleRequestDto sample) {
         LOGGER.info("Save new sample...");
         service.create(sample);
+
         return "redirect:/sample";
     }
 
@@ -59,12 +62,14 @@ public class SampleThymeleafController {
         ModelAndView modelAndView = new ModelAndView("edit_sample");
         SampleResponseDto sample = service.find(id);
         modelAndView.addObject("sample", sample);
+
         return modelAndView;
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteSample(@PathVariable(name = "id") Integer id) {
         service.delete(id);
+
         return "redirect:/sample";
     }
 }
