@@ -29,7 +29,7 @@ public class SampleThymeleafController {
         this.service = service;
     }
 
-    @RequestMapping(value = "/samples", method = RequestMethod.GET)
+    @RequestMapping(value = "/sample", method = RequestMethod.GET)
     public String viewSamplesPage(Model model) {
         LOGGER.info("List all samples...");
 
