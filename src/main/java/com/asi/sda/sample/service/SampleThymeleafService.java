@@ -5,40 +5,41 @@ import com.asi.sda.sample.model.Sample;
 import com.asi.sda.sample.model.SampleMapper;
 import com.asi.sda.sample.model.SampleRequestDto;
 import com.asi.sda.sample.model.SampleResponseDto;
-import com.asi.sda.sample.repository.SampleSpringRepository;
+import com.asi.sda.sample.repository.SampleThymeleafRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.asi.sda.sample.constant.SampleMessages.SAMPLE_NOT_FOUND_ERROR;
 
 @Service
-public class SampleSpringService implements SampleService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SampleSpringService.class);
+public class SampleThymeleafService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SampleThymeleafService.class);
 
-    private final SampleSpringRepository repository;
+    private final SampleThymeleafRepository repository;
 
     @Autowired
-    public SampleSpringService(SampleSpringRepository repository) {
+    SampleThymeleafService(SampleThymeleafRepository repository) {
         this.repository = repository;
     }
 
-    @Override
+    @Transactional
     public List<SampleResponseDto> createAll(List<SampleRequestDto> requests) {
         LOGGER.debug("Saving multiple samples: {}", requests);
 
         List<Sample> samples = SampleMapper.toEntities(requests);
 
-        List<Sample> entities = (List<Sample>) repository.saveAll(samples);
+        List<Sample> entities = repository.saveAll(samples);
 
         return SampleMapper.toResponseDtos(entities);
     }
 
-    @Override
+    @Transactional
     public SampleResponseDto create(SampleRequestDto request) {
         LOGGER.debug("Saving single sample: {}", request);
 
@@ -49,20 +50,18 @@ public class SampleSpringService implements SampleService {
         return SampleMapper.toResponseDto(entity);
     }
 
-    @Override
     public List<SampleResponseDto> findAll() {
         LOGGER.debug("Finding all samples...");
 
-        List<Sample> entities = (List<Sample>) repository.findAll();
+        List<Sample> entities = repository.findAll();
 
         return SampleMapper.toResponseDtos(entities);
     }
 
-    @Override
     public List<SampleResponseDto> findByText(String text) {
         LOGGER.debug("Finding all samples by text: {}", text);
 
-        List<Sample> samples = (List<Sample>) repository.findAll();
+        List<Sample> samples = repository.findAll();
 
         List<Sample> entities = new ArrayList<>();
         for (Sample item : samples) {
@@ -74,7 +73,6 @@ public class SampleSpringService implements SampleService {
         return SampleMapper.toResponseDtos(entities);
     }
 
-    @Override
     public SampleResponseDto find(Integer id) {
         LOGGER.debug("Finding sample by id: {}", id);
 
@@ -84,7 +82,8 @@ public class SampleSpringService implements SampleService {
         return SampleMapper.toResponseDto(entity);
     }
 
-    @Override
+
+    @Transactional
     public SampleResponseDto update(Integer id, SampleRequestDto data) {
         LOGGER.debug("Updating sample by id: {} and data: {}", id, data);
 
@@ -97,7 +96,7 @@ public class SampleSpringService implements SampleService {
         return SampleMapper.toResponseDto(entity);
     }
 
-    @Override
+    @Transactional
     public SampleResponseDto delete(Integer id) {
         LOGGER.debug("Deleting sample by id: {}", id);
 
