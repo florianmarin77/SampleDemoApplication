@@ -4,9 +4,18 @@ import java.util.Objects;
 
 public class SampleRequestDto {
 
+    private Integer id;
     private String text;
 
     // getters & setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getText() {
         return text;

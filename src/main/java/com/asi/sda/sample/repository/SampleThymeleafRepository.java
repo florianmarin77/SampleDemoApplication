@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SampleThymeleafRepository extends JpaRepository<Sample, Integer> {
     // no custom methods by default
+
+    Sample findByText(String text);
 }
