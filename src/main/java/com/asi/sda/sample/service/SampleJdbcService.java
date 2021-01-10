@@ -1,12 +1,12 @@
 package com.asi.sda.sample.service;
 
+import com.asi.sda.sample.exception.OutOfRangeException;
+import com.asi.sda.sample.exception.SampleNotFoundException;
+import com.asi.sda.sample.exception.SampleNotSavedException;
 import com.asi.sda.sample.model.Sample;
 import com.asi.sda.sample.model.SampleMapper;
 import com.asi.sda.sample.model.SampleRequestDto;
 import com.asi.sda.sample.model.SampleResponseDto;
-import com.asi.sda.sample.exception.OutOfRangeException;
-import com.asi.sda.sample.exception.SampleNotFoundException;
-import com.asi.sda.sample.exception.SampleNotSavedException;
 import com.asi.sda.sample.repository.SampleJdbcDao;
 import com.asi.sda.sample.repository.SampleRepository;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +16,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.asi.sda.sample.constant.CommonMessages.OUT_OF_RANGE_ERROR;
-import static com.asi.sda.sample.constant.SampleMessages.*;
+import static com.asi.sda.sample.constant.SampleMessages.SAMPLES_NOT_SAVED_ERROR;
+import static com.asi.sda.sample.constant.SampleMessages.SAMPLE_NOT_FOUND_ERROR;
+import static com.asi.sda.sample.constant.SampleMessages.SAMPLE_NOT_SAVED_ERROR;
+import static com.asi.sda.sample.constant.SampleMessages.SAMPLE_OUT_OF_RANGE;
 
 public class SampleJdbcService implements SampleService {
     private static final Logger LOGGER = LogManager.getLogger(SampleJdbcService.class);
@@ -89,6 +92,22 @@ public class SampleJdbcService implements SampleService {
         } else {
             throw new OutOfRangeException(OUT_OF_RANGE_ERROR);
         }
+    }
+
+    // TODO: practice clean code and optional
+    // invert if else statement and fail early
+    // the value from an optional can be converted to dto,
+    // and if not found, an exception can be thrown
+    public SampleResponseDto findImproved(Integer id) {
+        System.out.println(SOURCE + "READ");
+
+        if (!hasValidId(id)) {
+            throw new OutOfRangeException(OUT_OF_RANGE_ERROR);
+        }
+
+        return sampleRepository.find(id)
+            .map(SampleMapper::toResponseDto)
+            .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
     }
 
     @Override

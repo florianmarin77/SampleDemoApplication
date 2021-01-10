@@ -13,6 +13,8 @@ class SampleSimFakerTest {
     void createDummyList() {
         List<SampleRequestDto> dummies = SampleSimFaker.createDummyList();
 
+        // TODO: add a parameter to createDummyList
+        // avoid magic numbers like 26. how do you explain that number in code?
         assertThat(dummies.size()).isEqualTo(26);
     }
 }

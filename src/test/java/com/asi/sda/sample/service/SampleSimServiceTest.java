@@ -1,9 +1,9 @@
 package com.asi.sda.sample.service;
 
+import com.asi.sda.sample.database.SampleSimDatabase;
 import com.asi.sda.sample.model.Sample;
 import com.asi.sda.sample.model.SampleMapper;
 import com.asi.sda.sample.model.SampleResponseDto;
-import com.asi.sda.sample.database.SampleSimDatabase;
 import com.asi.sda.sample.repository.SampleRepository;
 import com.asi.sda.sample.repository.SampleSimDao;
 import org.junit.jupiter.api.Test;
@@ -74,7 +74,7 @@ class SampleSimServiceTest {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         SampleResponseDto entity = service.create(SampleMapper.toRequestDto(sample));
 
-        SampleResponseDto result = service.find(entity.getId());
+        SampleResponseDto result = service.find(2);
 
         assertThat(result.getId()).isEqualTo(entity.getId());
         database.displayTable(database.getSampleList());

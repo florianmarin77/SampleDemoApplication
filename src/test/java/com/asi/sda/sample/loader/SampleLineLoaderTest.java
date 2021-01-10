@@ -18,6 +18,8 @@ class SampleLineLoaderTest {
         SampleLoader loader = new SampleLineLoader();
         List<Sample> samples = new ArrayList<>();
 
+        // TODO: remove try catch from tests
+        // tests should never handle exceptions
         try {
             Path path = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.txt").toURI());
             samples = loader.loadData(Paths.get(String.valueOf(path)));

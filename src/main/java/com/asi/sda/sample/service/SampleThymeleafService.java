@@ -76,10 +76,9 @@ public class SampleThymeleafService {
     public SampleResponseDto find(Integer id) {
         LOGGER.debug("Finding sample by id: {}", id);
 
-        Sample entity = repository.findById(id)
-                .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
-
-        return SampleMapper.toResponseDto(entity);
+        return repository.findById(id)
+            .map(SampleMapper::toResponseDto)
+            .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
     }
 
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.asi.sda.sample.constant.SampleMessages.SAMPLE_NOT_FOUND_ERROR;
 
@@ -74,12 +75,24 @@ public class SampleSpringService implements SampleService {
         return SampleMapper.toResponseDtos(entities);
     }
 
+    // TODO: practice lambda
+    // the method can be simplified like this
+    public List<SampleResponseDto> findByTextSimplified(String text) {
+        LOGGER.debug("Finding all samples by text: {}", text);
+
+        List<Sample> samples = (List<Sample>) repository.findAll();
+        return samples.stream()
+            .filter(sample -> sample.getText().equals(text))
+            .map(SampleMapper::toResponseDto)
+            .collect(Collectors.toList());
+    }
+
     @Override
     public SampleResponseDto find(Integer id) {
         LOGGER.debug("Finding sample by id: {}", id);
 
         Sample entity = repository.findById(id)
-                .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
+            .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
         return SampleMapper.toResponseDto(entity);
     }
