@@ -8,12 +8,11 @@ import java.util.List;
 public class SampleSimLoader {
     public static List<SampleRequestDto> generateItemList() {
         List<SampleRequestDto> items = new ArrayList<>();
-        String numText = "0123456789";
+        String numericText = "0123456789";
 
-        // TODO: replace k with a clear name
-        for (char k = 'A'; k <= 'Z'; k++) {
+        for (char letterCounter = 'A'; letterCounter <= 'Z'; letterCounter++) {
             SampleRequestDto item = new SampleRequestDto();
-            item.setText(k + numText);
+            item.setText(letterCounter + numericText);
             items.add(item);
         }
         return items;

@@ -74,7 +74,7 @@ class SampleSimServiceTest {
         Sample sample = new Sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         SampleResponseDto entity = service.create(SampleMapper.toRequestDto(sample));
 
-        SampleResponseDto result = service.find(2);
+        SampleResponseDto result = service.find(entity.getId());
 
         assertThat(result.getId()).isEqualTo(entity.getId());
         database.displayTable(database.getSampleList());
