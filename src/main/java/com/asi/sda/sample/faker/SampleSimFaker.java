@@ -10,9 +10,10 @@ public class SampleSimFaker {
     public static List<SampleRequestDto> createDummyList() {
         List<SampleRequestDto> dummies = new ArrayList<>();
         RandomString random = new RandomString();
-        for (char k = 'A'; k <= 'Z'; k++) {
+
+        for (char prefixLetter = 'A'; prefixLetter <= 'Z'; prefixLetter++) {
             SampleRequestDto dummy = new SampleRequestDto();
-            dummy.setText(k + random.nextString());
+            dummy.setText(prefixLetter + random.nextString());
             dummies.add(dummy);
         }
         return dummies;
