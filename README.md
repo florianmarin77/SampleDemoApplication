@@ -16,24 +16,38 @@ The purpose of the project is to illustrate *multiple implementations* on the sa
 
 ## Technologies
 ***
-* Tech 1 - version 1.0
-* Tech 2 - version 2.0
-* Tech 3 - version 3.0
+* JDBC
+* JPA
+* Hibernate
+* Spring
+* Thymeleaf
+* Java (Sim)
 
 ## Setup
 ***
-Describe how to install / setup your local environement / add link to demo version
+For **JDBC**, **JPA**, **Hibernate** and **Simulator**, please run the special dedicated console menu
+from the console package **src/main/java/com.asi.sda/console**
+* JdbcConsoleMenu
+* JpaConsoleMenu
+* HibernateConsoleMenu
+* SimConsoleMenu
+
+For **Spring** and **Thymeleaf**, please run **SampleDemoApplication**. Please consider you may need to use **Postman** for **Spring** requests and a browser on localhost server port 8080 for **Thymeleaf**. A database called **macromedia** is also needed to be created in **MySQL** before running any application.
 
 ## Features
-List of features ready and TODOs for future development
-* Awesome feature 1
-* Awesome feature 2
-* Awesome feature 3
+Every technology has its own fully operational feature based on the single entity called **Sample**, including a custom **Mapper**, **RequestDto** and **ResponseDto**.
+* **JDBC** => dao / service + console + main + testing
+* **JPA** => dao / service + console + main + testing
+* **Hibernate** => dao / service + console + main + testing
+* **Spring** => repository / service / rest-controller + testing
+* **Thymeleaf** => repository / service / controller
+* **Simulator** (Java) => dao / service / controller + main + testing
 
 To-do list:
-* Wow improvement to be done 1
-* Wow improvement to be done 2
+* Replace the **Sample** entity by any desired entity.
+* Replicate the **Sample** entity as many as needed.
+* Establish all the required relations between entities.
 
 ## Status
 ***
-Project is: _in progress_, _finished_, _no longer continue_ and why?
+Project is finished.

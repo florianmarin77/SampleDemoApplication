@@ -101,7 +101,6 @@ public class SampleThymeleafService {
             .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
     }
 
-
     @Transactional
     public SampleResponseDto update(Integer id, SampleRequestDto data) {
         LOGGER.debug("Updating sample by id: {} and data: {}", id, data);
