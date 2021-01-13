@@ -14,18 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class SampleLineLoaderTest {
 
     @Test
-    void loadData() {
+    void loadData() throws URISyntaxException {
         SampleLoader loader = new SampleLineLoader();
-        List<Sample> samples = new ArrayList<>();
+        List<Sample> samples;
 
-        // TODO: remove try catch from tests
-        // tests should never handle exceptions
-        try {
-            Path path = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.txt").toURI());
-            samples = loader.loadData(Paths.get(String.valueOf(path)));
-        } catch (URISyntaxException exception) {
-            exception.printStackTrace();
-        }
+        Path path = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.txt").toURI());
+        samples = loader.loadData(Paths.get(String.valueOf(path)));
 
         assertThat(samples.get(0).getText()).isEqualTo("Az0123456789");
         assertThat(samples.get(1).getText()).isEqualTo("Za9876543210");

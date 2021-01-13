@@ -14,16 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class SampleSplitLoaderTest {
 
     @Test
-    void loadData() {
+    void loadData() throws URISyntaxException {
         SampleLoader loader = new SampleSplitLoader();
-        List<Sample> samples = new ArrayList<>();
+        List<Sample> samples;
 
-        try {
-            Path path = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.csv").toURI());
-            samples = loader.loadData(Paths.get(String.valueOf(path)));
-        } catch (URISyntaxException exception) {
-            exception.printStackTrace();
-        }
+        Path path = Paths.get(ClassLoader.getSystemResource("sample/sampleListTest.csv").toURI());
+        samples = loader.loadData(Paths.get(String.valueOf(path)));
 
         assertThat(samples.get(0).getText()).isEqualTo("Az0123456789");
         assertThat(samples.get(1).getText()).isEqualTo("Za9876543210");
