@@ -94,11 +94,7 @@ public class SampleJdbcService implements SampleService {
         }
     }
 
-    // TODO: practice clean code and optional
-    // invert if else statement and fail early
-    // the value from an optional can be converted to dto,
-    // and if not found, an exception can be thrown
-    public SampleResponseDto findImproved(Integer id) {
+    public SampleResponseDto findLambda(Integer id) {
         System.out.println(SOURCE + "READ");
 
         if (!hasValidId(id)) {

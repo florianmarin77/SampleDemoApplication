@@ -91,6 +91,18 @@ public class SampleJpaService implements SampleService {
         }
     }
 
+    public SampleResponseDto findLambda(Integer id) {
+        System.out.println(SOURCE + "READ");
+
+        if (!hasValidId(id)) {
+            throw new OutOfRangeException(OUT_OF_RANGE_ERROR);
+        }
+
+        return sampleRepository.find(id)
+                .map(SampleMapper::toResponseDto)
+                .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
+    }
+
     @Override
     public SampleResponseDto update(Integer id, SampleRequestDto data) {
         System.out.println(SOURCE + "UPDATE");
