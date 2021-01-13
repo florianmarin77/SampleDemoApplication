@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.asi.sda.sample.constant.SampleMessages.SAMPLE_NOT_FOUND_ERROR;
 
@@ -73,7 +74,26 @@ public class SampleThymeleafService {
         return SampleMapper.toResponseDtos(entities);
     }
 
+    public List<SampleResponseDto> findByTextLambda(String text) {
+        LOGGER.debug("Finding all samples by text: {}", text);
+
+        List<Sample> samples = repository.findAll();
+        return samples.stream()
+                .filter(sample -> sample.getText().equals(text))
+                .map(SampleMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
     public SampleResponseDto find(Integer id) {
+        LOGGER.debug("Finding sample by id: {}", id);
+
+        Sample entity = repository.findById(id)
+                .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
+
+        return SampleMapper.toResponseDto(entity);
+    }
+
+    public SampleResponseDto findLambda(Integer id) {
         LOGGER.debug("Finding sample by id: {}", id);
 
         return repository.findById(id)

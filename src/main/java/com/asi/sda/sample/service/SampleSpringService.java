@@ -75,9 +75,7 @@ public class SampleSpringService implements SampleService {
         return SampleMapper.toResponseDtos(entities);
     }
 
-    // TODO: practice lambda
-    // the method can be simplified like this
-    public List<SampleResponseDto> findByTextSimplified(String text) {
+    public List<SampleResponseDto> findByTextLambda(String text) {
         LOGGER.debug("Finding all samples by text: {}", text);
 
         List<Sample> samples = (List<Sample>) repository.findAll();
@@ -95,6 +93,14 @@ public class SampleSpringService implements SampleService {
             .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
 
         return SampleMapper.toResponseDto(entity);
+    }
+
+    public SampleResponseDto findLambda(Integer id) {
+        LOGGER.debug("Finding sample by id: {}", id);
+
+        return repository.findById(id)
+                .map(SampleMapper::toResponseDto)
+                .orElseThrow(() -> new SampleNotFoundException(SAMPLE_NOT_FOUND_ERROR));
     }
 
     @Override
